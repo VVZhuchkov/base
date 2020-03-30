@@ -2,29 +2,35 @@ package com.github.vvzhuchkov.model;
 
 public class AuthUser {
     private int id;
+    private String password;
     private String name;
     private String surname;
     private Department department;
     private Position position;
     private Sphere sphere;
 
-    public AuthUser(int id, String name, String surname, Department department) {
+    public AuthUser(int id, String password, String name, String surname, Department department) {
         this.id = id;
+        this.password = password;
         this.name = name;
         this.surname = surname;
         this.department = department;
     }
 
-    public AuthUser(int id, String name, String surname, Department department, Position position) {
+    public AuthUser(int id, String password, String name, String surname, Department department, Position position) {
         this.id = id;
+        this.password = password;
         this.name = name;
         this.surname = surname;
         this.department = department;
         this.position = position;
     }
 
-    public AuthUser(int id, String name, String surname, Department department, Position position, Sphere sphere) {
+
+
+    public AuthUser(int id, String password, String name, String surname, Department department, Position position, Sphere sphere) {
         this.id = id;
+        this.password = password;
         this.name = name;
         this.surname = surname;
         this.department = department;
@@ -34,6 +40,10 @@ public class AuthUser {
 
     public int getId() {
         return id;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public String getName() {
@@ -60,6 +70,7 @@ public class AuthUser {
     public String toString() {
         return "AuthUser{" +
                 "id=" + id +
+                ", password='" + password + '\'' +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", department=" + department +
