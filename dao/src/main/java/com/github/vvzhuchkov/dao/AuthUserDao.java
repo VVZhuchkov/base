@@ -2,8 +2,11 @@ package com.github.vvzhuchkov.dao;
 
 import com.github.vvzhuchkov.model.AuthUser;
 
+import java.util.List;
+import java.util.Map;
+
 public interface AuthUserDao {
 
-    AuthUser getById(int id);
+   Map<Integer, AuthUser> getEmployees();
 
 }

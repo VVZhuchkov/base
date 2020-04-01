@@ -15,19 +15,19 @@ public class DefaultAuthUserDao implements AuthUserDao {
 
     public DefaultAuthUserDao(){
         this.userById=new HashMap<Integer, AuthUser>();
-        this.userById.putIfAbsent(5200005, new AuthUser(5200005, "12345","Vladimir", "Zhuchkov", Department.OITS, Position.HEAD));
-        this.userById.putIfAbsent(52000030, new AuthUser(5200030, "12345","Alexander", "Surovyev", Department.ALL));
-        this.userById.putIfAbsent(5200005, new AuthUser(5200015, "12345","Alexey", "Lopatin", Department.OITS, Position.ENGINEER, Sphere.DUMPER));
-        this.userById.putIfAbsent(5200005, new AuthUser(5200020, "12345","Boris", "Ketov", Department.OMIA, Position.ENGINEER, Sphere.CARGOPASS));
-        }
+        this.userById.putIfAbsent(5200005, new AuthUser(5200005, "5","Vladimir", "Zhuchkov", Department.OITS, Position.HEAD, Sphere.ALL));
+        this.userById.putIfAbsent(5200030, new AuthUser(5200030, "30","Alexander", "Surovyev", Department.OMIA, Position.HEAD, Sphere.ALL));
+        this.userById.putIfAbsent(5200015, new AuthUser(5200015, "15","Alexey", "Lopatin", Department.OITS, Position.ENGINEER, Sphere.DUMPER));
+        this.userById.putIfAbsent(5200010, new AuthUser(5200010, "10","Boris", "Ketov", Department.OMIA, Position.ENGINEER, Sphere.CARGOPASS));
+    }
 
     public static AuthUserDao getInstance() {
         AuthUserDao localInstance = instance;
         if (localInstance == null) {
-            synchronized (AuthUserDao.class) {
-                localInstance = instance;
-                if (localInstance == null) {
-                    instance = localInstance = new DefaultAuthUserDao();
+                        synchronized (AuthUserDao.class) {
+                            localInstance = instance;
+                            if (localInstance == null) {
+                                instance = localInstance = new DefaultAuthUserDao();
                 }
             }
         }
@@ -35,8 +35,7 @@ public class DefaultAuthUserDao implements AuthUserDao {
     }
 
         @Override
-        public AuthUser getById(int id){
-        return userById.get(id);
+        public Map<Integer, AuthUser> getEmployees(){
+        return userById;
     }
-
 }
