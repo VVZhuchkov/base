@@ -9,25 +9,6 @@ public class AuthUser {
     private Position position;
     private Sphere sphere;
 
-    public AuthUser(int id, String password, String name, String surname, Department department) {
-        this.id = id;
-        this.password = password;
-        this.name = name;
-        this.surname = surname;
-        this.department = department;
-    }
-
-    public AuthUser(int id, String password, String name, String surname, Department department, Position position) {
-        this.id = id;
-        this.password = password;
-        this.name = name;
-        this.surname = surname;
-        this.department = department;
-        this.position = position;
-    }
-
-
-
     public AuthUser(int id, String password, String name, String surname, Department department, Position position, Sphere sphere) {
         this.id = id;
         this.password = password;
