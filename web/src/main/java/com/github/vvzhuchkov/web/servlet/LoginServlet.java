@@ -37,14 +37,17 @@ public class LoginServlet extends HttpServlet {
         int id = Integer.parseInt(request.getParameter("id"));
         String password = request.getParameter("password");
         AuthUser user = securityService.login(id, password);
+
         if (user == null) {
             request.setAttribute("error", "login or password invalid");
             WebUtils.forward("login", request, response);
+            logIn.info("Employee{} unsuccessfully attempted to log in at {}", id, LocalDateTime.now());
         }
         request.getSession().setAttribute("authUser", user);
-        logIn.info("Employee{} logged in at {}", id, LocalDateTime.now());
+
         try {
             response.sendRedirect(request.getContextPath() +"/employee");
+            logIn.info("Employee {} logged in at {}", id, LocalDateTime.now());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
