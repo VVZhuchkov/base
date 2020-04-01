@@ -14,7 +14,7 @@
         TD, TH {
             padding: 4px; /* Поля вокруг содержимого таблицы */
             border: 2px solid maroon; /* Параметры рамки */
-            text-align: center; /* Выравнивание по левому краю */
+            text-align: left; /* Выравнивание по левому краю */
         }
     </style>
     <table>
@@ -33,7 +33,7 @@
         </tr>
         <tr>
             <td colspan="2">
-                <input type="submit" value="Ok">
+                <input type="submit" value="Sign In">
             </td>
         </tr>
         </tbody>
