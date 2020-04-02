@@ -14,7 +14,6 @@ public class LogoutServlet extends HttpServlet {
     private static final Logger logOut = LoggerFactory.getLogger(LogoutServlet.class);
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
-        Object user = request.getSession().getAttribute("id");
         logOut.info("Current employee logged out at {}", LocalDateTime.now());
         request.getSession().removeAttribute("authUser");
         request.getSession().invalidate();
