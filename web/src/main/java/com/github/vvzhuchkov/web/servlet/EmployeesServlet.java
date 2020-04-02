@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @WebServlet("/employee")
 public class EmployeesServlet extends HttpServlet {
@@ -18,15 +17,14 @@ public class EmployeesServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
-        List<AuthUser> employees = new ArrayList<>();
-        for(Map.Entry<Integer,AuthUser> map : securityService.getEmployees().entrySet()){
-        employees.add(map.getValue());}
+        List<AuthUser> employees = new ArrayList<>(securityService.getEmployees().values());
         request.setAttribute("employees", employees);
         WebUtils.forward("employee", request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
+
 
         }
     }

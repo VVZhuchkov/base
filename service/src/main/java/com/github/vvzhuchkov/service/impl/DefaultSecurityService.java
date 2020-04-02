@@ -5,6 +5,7 @@ import com.github.vvzhuchkov.model.AuthUser;
 import com.github.vvzhuchkov.service.SecurityService;
 import com.github.vvzhuchkov.dao.impl.DefaultAuthUserDao;
 
+import java.util.List;
 import java.util.Map;
 
 public class DefaultSecurityService implements SecurityService {

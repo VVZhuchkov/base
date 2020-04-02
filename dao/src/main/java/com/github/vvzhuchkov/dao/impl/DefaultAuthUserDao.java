@@ -6,7 +6,9 @@ import com.github.vvzhuchkov.model.Department;
 import com.github.vvzhuchkov.model.Position;
 import com.github.vvzhuchkov.model.Sphere;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class DefaultAuthUserDao implements AuthUserDao {
