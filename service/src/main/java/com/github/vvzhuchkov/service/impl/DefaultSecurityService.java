@@ -41,9 +41,4 @@ public class DefaultSecurityService implements SecurityService {
     public Map<Integer, AuthUser> getEmployees() {
         return authUserDao.getEmployees();
     }
-
-    @Override
-    public List<AuthUser> getAuthUsers(){
-        return authUserDao.getAuthUsers();
-    }
 }

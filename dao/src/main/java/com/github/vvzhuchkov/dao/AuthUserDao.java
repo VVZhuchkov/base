@@ -8,6 +8,4 @@ import java.util.Map;
 public interface AuthUserDao {
 
    Map<Integer, AuthUser> getEmployees();
-
-   List<AuthUser> getAuthUsers();
 }
