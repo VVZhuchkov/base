@@ -9,4 +9,6 @@ public interface SecurityService {
     AuthUser login (int id, String password);
 
   Map<Integer, AuthUser> getEmployees();
+
+  List<AuthUser> getAuthUsers();
 }

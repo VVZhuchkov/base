@@ -41,7 +41,7 @@ public class LoginServlet extends HttpServlet {
         if (user == null) {
             request.setAttribute("error", "login or password invalid");
             WebUtils.forward("login", request, response);
-            logIn.info("Employee{} unsuccessfully attempted to log in at {}", id, LocalDateTime.now());
+            logIn.info("Employee {} unsuccessfully attempted to log in at {}", id, LocalDateTime.now());
         }
         request.getSession().setAttribute("authUser", user);
 

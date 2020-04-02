@@ -18,9 +18,7 @@ public class EmployeesServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
-        List<AuthUser> employees = new ArrayList<>();
-        for(Map.Entry<Integer,AuthUser> map : securityService.getEmployees().entrySet()){
-        employees.add(map.getValue());}
+        List<AuthUser> employees= securityService.getAuthUsers();
         request.setAttribute("employees", employees);
         WebUtils.forward("employee", request, response);
     }

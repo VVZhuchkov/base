@@ -6,12 +6,15 @@ import com.github.vvzhuchkov.model.Department;
 import com.github.vvzhuchkov.model.Position;
 import com.github.vvzhuchkov.model.Sphere;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class DefaultAuthUserDao implements AuthUserDao {
     private Map<Integer, AuthUser> userById;
     public static volatile AuthUserDao instance;
+    private List<AuthUser> employees = new ArrayList<>();
 
     public DefaultAuthUserDao(){
         this.userById=new HashMap<Integer, AuthUser>();
@@ -37,5 +40,13 @@ public class DefaultAuthUserDao implements AuthUserDao {
         @Override
         public Map<Integer, AuthUser> getEmployees(){
         return userById;
+    }
+
+    @Override
+    public List<AuthUser> getAuthUsers(){
+        for(Map.Entry<Integer,AuthUser> entry : userById.entrySet()){
+            employees.add(entry.getValue());}
+        return employees;
+
     }
 }
