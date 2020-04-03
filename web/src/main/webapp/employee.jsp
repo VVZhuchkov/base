@@ -41,11 +41,12 @@
             </tr>
         </c:forEach>
     </table>
+    <%= request.getAttribute("employees")%>
 </c:if>
 <c:if test="${employees != null&&authUser.position=='ENGINEER'}">
     <style type="text/css">
         BODY {
-            background: mintcream; /* Цвет фона веб-страницы */
+            background: bisque; /* Цвет фона веб-страницы */
         }
         TABLE {
             width: 300px; /* Ширина таблицы */
@@ -78,4 +79,3 @@
             </tr>
     </table>
 </c:if>
-<%= request.getAttribute("employees")%>

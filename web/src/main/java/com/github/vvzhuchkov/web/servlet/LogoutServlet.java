@@ -1,5 +1,6 @@
 package com.github.vvzhuchkov.web.servlet;
 
+import com.github.vvzhuchkov.model.AuthUser;
 import com.github.vvzhuchkov.web.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +15,8 @@ public class LogoutServlet extends HttpServlet {
     private static final Logger logOut = LoggerFactory.getLogger(LogoutServlet.class);
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
-        logOut.info("Current employee logged out at {}", LocalDateTime.now());
+        AuthUser authUser = (AuthUser)request.getSession().getAttribute("authUser");
+                logOut.info("Employee {} logged out at {}", authUser.getId(), LocalDateTime.now());
         request.getSession().removeAttribute("authUser");
         request.getSession().invalidate();
         WebUtils.forward("login", request, response);

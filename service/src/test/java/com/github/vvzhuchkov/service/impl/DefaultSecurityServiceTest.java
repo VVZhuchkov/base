@@ -18,7 +18,7 @@ public class DefaultSecurityServiceTest {
     }
 
     @Test
-    public static void getInstance(){
+    public void getInstance(){
         SecurityService securityService = DefaultSecurityService.getInstance();
         SecurityService securityService2 = DefaultSecurityService.getInstance();
         assertEquals(securityService,securityService2);
