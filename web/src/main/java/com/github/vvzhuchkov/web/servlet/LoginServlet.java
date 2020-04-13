@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
-@WebServlet (urlPatterns = {"/login", "/"})
+@WebServlet (urlPatterns = {"/login"})
 public class LoginServlet extends HttpServlet {
     private SecurityService securityService = DefaultSecurityService.getInstance();
     private static final Logger logIn = LoggerFactory.getLogger(LoginServlet.class);
