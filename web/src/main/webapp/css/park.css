@@ -1,5 +1,4 @@
 body {
-    overflow: hidden;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -54,7 +53,7 @@ body {
 
     width: 100%;
     background-image: linear-gradient(to top, #fbfbfb, #ececec);
-    height: 100vh;
+    height: 200%;
     background-position: center;
     background-size: cover;
     margin-bottom: 10px;

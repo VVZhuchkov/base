@@ -10,16 +10,16 @@
 <body>
     <div class="form-wrap">
         <div class="tabs">
-            <h3 class="signup-tab"><a class="active" href="#signup-tab-content">Sign Up</a></h3>
-            <h3 class="login-tab"><a href="#login-tab-content">Login</a></h3>
+            <h3 class="signup-tab"><a  href="#signup-tab-content">Sign Up</a></h3>
+            <h3 class="login-tab"><a class="active" href="#login-tab-content">Sign In</a></h3>
         </div>
 
         <div class="tabs-content" align="center">
-            <div id="signup-tab-content" class="active">
-                <form class="signup-form" action="" method="post" >
-                    <input type="email" class="input" id="user_email" autocomplete="off" placeholder="Email">
-                    <input type="text" class="input" id="user_name" autocomplete="off" placeholder="Username">
-                    <input type="password" class="input" id="user_pass" autocomplete="off" placeholder="Password">
+            <div id="signup-tab-content">
+                <form class="signup-form" action="${pageContext.request.contextPath}/registration" method="post" >
+                    <input type="text" class="input" name="login" autocomplete="off" placeholder="Login">
+                    <input type="password" class="input" name="password" autocomplete="off" placeholder="Password">
+                    <input type="email" class="input" name="email" autocomplete="off" placeholder="Email">
                     <br><br>
                     <input type="submit" class="button" value="Sign Up">
                 </form>
@@ -29,13 +29,13 @@
                 </div>
             </div>
 
-            <div id="login-tab-content">
+            <div id="login-tab-content" class="active">
                 <form class="login-form" action="${pageContext.request.contextPath}/login" method="post">
-                    <input type="text" class="input" name="id" autocomplete="off" placeholder="Id">
+                    <input type="text" class="input" name="login" autocomplete="off" placeholder="Login">
                     <input type="password" class="input" name="password" autocomplete="off" placeholder="Password">
                     <input type="checkbox" class="checkbox" id="remember_me">
                     <label for="remember_me">Remember me</label>
-                    <input type="submit" class="button" value="Login">
+                    <input type="submit" class="button" value="Sign In">
                 </form><!--.login-form-->
                 <div class="help-text">
                     <p><a href="#">Forget your password?</a></p>
