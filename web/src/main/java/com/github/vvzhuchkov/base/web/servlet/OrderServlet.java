@@ -2,9 +2,7 @@ package com.github.vvzhuchkov.base.web.servlet;
 
 import com.github.vvzhuchkov.base.model.AuthUser;
 import com.github.vvzhuchkov.base.model.Car;
-import com.github.vvzhuchkov.base.service.CarService;
 import com.github.vvzhuchkov.base.service.OrderService;
-import com.github.vvzhuchkov.base.service.impl.DefaultCarService;
 import com.github.vvzhuchkov.base.service.impl.DefaultOrderService;
 import com.github.vvzhuchkov.base.web.WebUtils;
 
@@ -18,7 +16,6 @@ import java.util.List;
 
 @WebServlet("/order")
 public class OrderServlet extends HttpServlet {
-    private CarService carService = DefaultCarService.getInstance();
     private OrderService orderService = DefaultOrderService.getInstance();
 
     @Override
@@ -26,6 +23,10 @@ public class OrderServlet extends HttpServlet {
         AuthUser authUser = (AuthUser)request.getSession().getAttribute("authUser");
         List<Car> listOfOrdersByLogin = orderService.getAllOrdersByLogin(authUser.getLogin());
         request.setAttribute("orders", listOfOrdersByLogin);
+        if (listOfOrdersByLogin.size() == 0) {
+            request.setAttribute("orderError", "You haven't done any order yet!");
+            WebUtils.forward("order", request, response);
+        }
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDateTime timeNow = LocalDateTime.now();
         LocalDateTime timeTomorrow = timeNow.plusDays(1);
@@ -38,8 +39,12 @@ public class OrderServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
         String id = request.getParameter("id");
         AuthUser authUser = (AuthUser)request.getSession().getAttribute("authUser");
-        Car car = carService.getById(Long.parseLong(id));
-        orderService.saveOrder(authUser.getLogin(), car);
+        if(id!=null) {
+        orderService.saveOrder(authUser.getLogin(), Long.parseLong(id));}
+        String delId = request.getParameter("delId");
+        if(delId!=null){
+            orderService.deleteOrder(Long.parseLong(delId));
+        }
         WebUtils.redirect("/order", request, response);
     }
 }

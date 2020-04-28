@@ -2,7 +2,6 @@ package com.github.vvzhuchkov.base.dao.impl;
 
 import com.github.vvzhuchkov.base.dao.DataSource;
 import com.github.vvzhuchkov.base.dao.OrderDao;
-import com.github.vvzhuchkov.base.model.Car;
 import com.github.vvzhuchkov.base.model.Order;
 
 import java.sql.*;
@@ -26,12 +25,26 @@ public class DefaultOrderDao implements OrderDao {
     }
 
     @Override
-    public void saveOrder(String login, Car car) {
+    public void saveOrder(String login, Long id) {
         final String sql = "insert into base.order(login, id) values(?,?)";
         try (Connection connection = DataSource.getInstance().getConnection();
              PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, login);
-            ps.setLong(2, car.getId());
+            ps.setLong(2, id);
+            ps.executeUpdate();
+            try (ResultSet keys = ps.getGeneratedKeys()) {
+                keys.next();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void deleteOrder(Order order){
+        final String sql = "delete from base.order where id=?";
+        try (Connection connection = DataSource.getInstance().getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            ps.setLong(1, order.getId());
             ps.executeUpdate();
             try (ResultSet keys = ps.getGeneratedKeys()) {
                 keys.next();

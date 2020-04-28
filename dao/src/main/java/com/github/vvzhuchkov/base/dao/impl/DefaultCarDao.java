@@ -30,9 +30,9 @@ public class DefaultCarDao implements CarDao {
     @Override
     public Car getById(Long id) {
         try (Connection connection = DataSource.getInstance().getConnection();
-             PreparedStatement ps = connection.prepareStatement("select base.car.*, " +
-                     "base.offer.location, base.offer.price,base.offer.availability " +
-                     "FROM base.car, base.offer left join car c on offer.id = c.id  where base.car.id=?")) {
+             PreparedStatement ps = connection.prepareStatement("select base.car.*, base.offer.price, " +
+                     "base.offer.location, base.offer.availability from base.car " +
+                     "join base.offer on car.id = offer.id where base.car.id=?")) {
             ps.setLong(1, id);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
@@ -58,9 +58,9 @@ public class DefaultCarDao implements CarDao {
     @Override
     public List<Car> getAllCars() {
         try (Connection connection = DataSource.getInstance().getConnection();
-             PreparedStatement ps = connection.prepareStatement("select base.car.*, " +
-                     "base.offer.location, base.offer.price,base.offer.availability " +
-                             "FROM base.car, base.offer left join car c on offer.id = c.id where base.car.id = base.offer.id");
+             PreparedStatement ps = connection.prepareStatement("select base.car.*, base.offer.price, " +
+                     "base.offer.location, base.offer.availability from base.car join base.offer on car.id = offer.id " +
+                     "order by base.offer.location asc");
              ResultSet rs = ps.executeQuery()) {
             final ArrayList<Car> listOfCars = new ArrayList<>();
             while (rs.next()) {

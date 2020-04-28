@@ -7,7 +7,9 @@ import java.util.List;
 
 public interface OrderDao {
 
-    void saveOrder(String login, Car car);
+    void saveOrder(String login, Long id);
+
+    void deleteOrder(Order order);
 
     List<Order> getAllOrders();
 

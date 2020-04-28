@@ -32,12 +32,18 @@ public class DefaultOrderService implements OrderService{
     }
 
     @Override
-    public void saveOrder(String login, Car car) {
-        Order order = orderDao.getOrderById(car.getId());
+    public void saveOrder(String login, Long id) {
+        Order order = orderDao.getOrderById(id);
         if ((order == null) || (order != null && !order.getLogin().equals(login))) {
-            orderDao.saveOrder(login, car);
+            orderDao.saveOrder(login, id);
         }
     }
+
+    @Override
+    public void deleteOrder(Long id) {
+        Order order = orderDao.getOrderById(id);
+        orderDao.deleteOrder(order);
+        }
 
             @Override
             public List<Car> getAllOrdersByLogin (String login){

@@ -2,9 +2,7 @@ package com.github.vvzhuchkov.base.web.servlet;
 
 import com.github.vvzhuchkov.base.model.Car;
 import com.github.vvzhuchkov.base.service.CarService;
-import com.github.vvzhuchkov.base.service.OrderService;
 import com.github.vvzhuchkov.base.service.impl.DefaultCarService;
-import com.github.vvzhuchkov.base.service.impl.DefaultOrderService;
 import com.github.vvzhuchkov.base.web.WebUtils;
 
 import javax.servlet.annotation.WebServlet;
