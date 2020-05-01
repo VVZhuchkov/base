@@ -13,6 +13,7 @@
         <jsp:include page="main_menu.jsp" />
         <c:choose>
         <c:when test="${orders.size()!=0}">
+
         <h3 align="center">Check your order:</h3>
             <jsp:include page="main_tabstl.jsp" />
             <table align="center">
@@ -26,32 +27,32 @@
                     <th>Drop-off date</th>
                 </tr>
                 <c:forEach items="${orders}" var="order">
+                <form action="${pageContext.request.contextPath}/order"  method="get">
                     <tr>
                         <td> <img src="${order.photo}" height="202" width="300"></td>
                         <td>${order.brand} ${order.model} <br><br> ${order.year} <br> ${order.engine}</td>
                         <td>${order.location}</td>
                         <td>${order.price}</td>
                         <td>${order.availability}</td>
-                        <td><input type="date" value="${timeNow}" min="${timeNow}" name="pickup"/></td>
-                        <td><input type="date" value="${timeTomorrow}" min="${timeTomorrow}" name="dropoff"/></td>
+                        <td>${order.pickup}</td>
+                        <td>${order.dropoff}</td>
                         <div class="buttons">
                             <div class="container">
-                                <form action="${pageContext.request.contextPath}/order"  method="post">
-                                    <td><button id="btnRent" type="submit" name="delId" value="${order.id}">Delete!</button></td>
-                                </form>
+                                    <td><button id="btnRent" type="submit" name="delNumber" value="${order.number}">Delete!</button></td>
                             </div>
                         </div>
                     </tr>
+                </form>
                 </c:forEach>
             </table>
             <br>
+        <form action="${pageContext.request.contextPath}/payment">
             <div class="buttons">
             <div class="container">
-                <form action="${pageContext.request.contextPath}/payment"  method="post">
-                    <button class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg" id="btnPayment" type="submit" name="payment" value="${car.id}">Agree</button>
-                </form>
+                    <button id="btnPayment">Agree</button>
             </div>
         </div>
+        </form>
         </c:when>
         <c:otherwise>
         <p style="color: #ff0000" align="center">${orderError}</p>

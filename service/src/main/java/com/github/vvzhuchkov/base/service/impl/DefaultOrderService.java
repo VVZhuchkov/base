@@ -1,20 +1,17 @@
 package com.github.vvzhuchkov.base.service.impl;
 
-import com.github.vvzhuchkov.base.dao.CarDao;
 import com.github.vvzhuchkov.base.dao.OrderDao;
-import com.github.vvzhuchkov.base.dao.impl.DefaultCarDao;
 import com.github.vvzhuchkov.base.dao.impl.DefaultOrderDao;
-import com.github.vvzhuchkov.base.model.Car;
 import com.github.vvzhuchkov.base.model.Order;
 import com.github.vvzhuchkov.base.service.OrderService;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DefaultOrderService implements OrderService{
 
     private OrderDao orderDao = DefaultOrderDao.getInstance();
-    private CarDao carDao = DefaultCarDao.getInstance();
 
     private static volatile OrderService instance;
 
@@ -32,28 +29,34 @@ public class DefaultOrderService implements OrderService{
     }
 
     @Override
-    public void saveOrder(String login, Long id) {
-        Order order = orderDao.getOrderById(id);
-        if ((order == null) || (order != null && !order.getLogin().equals(login))) {
-            orderDao.saveOrder(login, id);
+    public void saveOrder(Order order) {
+        List<Order> listOrdersByLogin = orderDao.getOrderByLogin(order.getLogin());
+        List<Long> listOfIdsByLogin = new ArrayList<>();
+        boolean isFlag=true;
+        for (Order existOrder : listOrdersByLogin) {
+            listOfIdsByLogin.add(existOrder.getId());
         }
+        if (listOfIdsByLogin.contains(order.getId())) {
+            for (Order existOrder : listOrdersByLogin) {
+                if ((existOrder.getId() == order.getId()) && (!(order.getDropoff().isBefore(existOrder.getPickup()) ||
+                        order.getPickup().isAfter(existOrder.getDropoff())))) {
+                    isFlag = false;
+                    break;
+                }
+            }
+        }
+        if (isFlag) {
+            orderDao.saveOrder(order);
     }
+        }
 
-    @Override
-    public void deleteOrder(Long id) {
-        Order order = orderDao.getOrderById(id);
-        orderDao.deleteOrder(order);
+        @Override
+        public void deleteOrder(Long delNumber){
+        orderDao.deleteOrder(delNumber);
         }
 
             @Override
-            public List<Car> getAllOrdersByLogin (String login){
-                List<Order> listOfOrders = orderDao.getAllOrders();
-                List<Car> listOfOrderedCarsByLogin = new ArrayList<>();
-                for (Order order : listOfOrders) {
-                    if (order.getLogin().equals(login)) {
-                        listOfOrderedCarsByLogin.add(carDao.getById(order.getId()));
-                    }
-                }
-                return listOfOrderedCarsByLogin;
+            public List<Order> getAllOrdersByLogin (String login){
+                return orderDao.getOrderByLogin(login);
             }
         }

@@ -2,6 +2,7 @@ package com.github.vvzhuchkov.base.dao.impl;
 
 import com.github.vvzhuchkov.base.dao.*;
 import com.github.vvzhuchkov.base.model.*;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;

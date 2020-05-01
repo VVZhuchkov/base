@@ -4,31 +4,31 @@
 
 
 #btnPayment{
-    background: #373737;
-    color: #e6e6e6;
-    border: 0;
-    z-index: 20;
-    text-transform: uppercase;
-    font-family: 'Exo 2 M';
-    height: 44px;
-    margin-bottom: 15px;
-    border-radius: 10px;
     width: 200px;
-    font-size: 17px;
-    margin: 0 auto;
-}
-
-#btnRent{
-    background: #373737;
-    color: #e6e6e6;
-    border: 0;
-    z-index: 20;
-    text-transform: uppercase;
-    font-family: 'Exo 2 M';
-    height: 25px;
-    margin-bottom: 15px;
-    border-radius: 10px;
-    width: 100px;
+    height: 40px;
+    padding: .8em 0 10px .8em;
+    background-color: #555555;
+    border: none;
+    color: #fff;
+    cursor: pointer;
     font-size: 14px;
-    margin: 0 auto;
+    font-family: 'Exo 2 M';
+    border-radius: 10px;
 }
+#btnPayment:hover {
+    background-color: #cdcdcd; }
+
+#btnRent {
+    width: 100px;
+    height: 40px;
+    padding: .8em 0 10px .8em;
+    background-color: #555555;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: 'Exo 2 M';
+    border-radius: 10px;
+}
+#btnRent:hover {
+    background-color: #cdcdcd; }

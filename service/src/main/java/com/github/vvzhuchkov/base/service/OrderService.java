@@ -1,14 +1,14 @@
 package com.github.vvzhuchkov.base.service;
 
-import com.github.vvzhuchkov.base.model.Car;
+import com.github.vvzhuchkov.base.model.Order;
 
 import java.util.List;
 
 public interface OrderService {
 
-    void saveOrder(String login, Long id);
+    void saveOrder(Order order);
 
-    void deleteOrder(Long id);
+    void deleteOrder(Long delNumber);
 
-    List<Car> getAllOrdersByLogin(String login);
+    List<Order> getAllOrdersByLogin(String login);
 }

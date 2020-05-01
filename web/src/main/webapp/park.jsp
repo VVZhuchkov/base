@@ -22,7 +22,6 @@
                     <th>Engine</th>
                     <th>Price, $</th>
                     <th>Location</th>
-                    <th>Availability</th>
                 </tr>
                 <c:forEach items="${allCars}" var="car">
                     <tr>
@@ -33,7 +32,6 @@
                         <td>${car.engine}</td>
                         <td>${car.price}</td>
                         <td>${car.location}</td>
-                        <td>${car.availability}</td>
                     </tr>
                 </c:forEach>
             </table>

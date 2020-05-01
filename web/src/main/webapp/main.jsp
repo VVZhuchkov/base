@@ -3,6 +3,7 @@
 
 <html>
 <head>
+    <link rel="stylesheet" href="css/buttons.css">
     <link rel="stylesheet" href="css/main_menu.css">
     <script src="js/main_menu.js" type="text/javascript"></script>
 </head>
@@ -10,25 +11,25 @@
 <div id="main">
     <div id="content">
         <jsp:include page="main_menu.jsp" />
-        <h2 align="center">Choose the city, where you want to rent a car:</h2>
-        <style type="text/css" sc>
-            TABLE {
-                width: 90%; /* Ширина таблицы */
-                border-collapse: collapse; /* Убираем двойные линии между ячейками */
-                margin: auto;
-            }
-            TD, TH {
-                padding: 4px; /* Поля вокруг содержимого таблицы */
-                text-align: center; /* Выравнивание по левому краю */
-            }
-        </style>
-            <table>
-                <tr>
-                    <th align="center"><a href=${pageContext.request.contextPath}/paris><img src="img/paris.jpg" height="300" width="300"><br>Paris</a></th>
-                    <th align="center"><a href=${pageContext.request.contextPath}/tokio><img src="img/tokio.jpeg" height="300" width="300"><br>Tokio</a></th>
-                    <th align="center"><a href=${pageContext.request.contextPath}/istanbul><img src="img/istanbul.jpg" height="300" width="300"><br>Istanbul</a></th>
-                </tr>
-            </table>
+        <form action="${pageContext.request.contextPath}/main"  method="post">
+            <fieldset style="border: solid; position: absolute; left: 45%" >
+                <legend align="center">Let's find a car</legend>
+                <br><select name="location" required>
+                <option>Tokio</option>
+                    <option>Istanbul</option>
+                    <option>Paris</option>
+                </select></br>
+                <br><label for="pickup">Pick-up date</label>
+                <br><input id="pickup" type="date" value="${timeNow}" min="${timeNow}" name="pickup"></br>
+                <br><label for="dropoff">Drop-off date</label>
+                <br><input id="dropoff" width="10%" type="date" value="${timeTomorrow}" min="${timeTomorrow}" name="dropoff"></br>
+                <div class="buttons">
+                    <div class="container">
+                <br><input id="btnRent" type="submit" value="Search">
+                    </div>
+                </div>
+            </fieldset>
+        </form>
     </div>
 </div>
 </body>

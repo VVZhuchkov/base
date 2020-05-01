@@ -1,6 +1,5 @@
 package com.github.vvzhuchkov.base.model;
 
-import java.time.LocalDate;
 import java.util.Date;
 
 public class Payment {

@@ -11,6 +11,18 @@ public class Car {
     private String location;
     private String availability;
 
+    public Car(Long id, String photo, String brand, String model, Long year, String engine, Long price, String location, String availability) {
+        this.id = id;
+        this.photo = photo;
+        this.brand = brand;
+        this.model = model;
+        this.year = year;
+        this.engine = engine;
+        this.price = price;
+        this.location = location;
+        this.availability = availability;
+    }
+
     public Long getId() {
         return id;
     }
@@ -45,17 +57,5 @@ public class Car {
 
     public String getAvailability() {
         return availability;
-    }
-
-    public Car(Long id, String photo, String brand, String model, Long year, String engine, Long price, String location, String availability) {
-        this.id = id;
-        this.photo = photo;
-        this.brand = brand;
-        this.model = model;
-        this.year = year;
-        this.engine = engine;
-        this.price = price;
-        this.location = location;
-        this.availability=availability;
     }
 }
