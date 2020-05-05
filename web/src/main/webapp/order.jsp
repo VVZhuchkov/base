@@ -13,11 +13,11 @@
         <jsp:include page="main_menu.jsp" />
         <c:choose>
         <c:when test="${orders.size()!=0}">
-
         <h3 align="center">Check your order:</h3>
             <jsp:include page="main_tabstl.jsp" />
             <table align="center">
                 <tr>
+                    <th>Order ID</th>
                     <th>Photo</th>
                     <th>Specification</th>
                     <th>Location</th>
@@ -29,6 +29,7 @@
                 <c:forEach items="${orders}" var="order">
                 <form action="${pageContext.request.contextPath}/order"  method="get">
                     <tr>
+                        <td>${order.number}</td>
                         <td> <img src="${order.photo}" height="202" width="300"></td>
                         <td>${order.brand} ${order.model} <br><br> ${order.year} <br> ${order.engine}</td>
                         <td>${order.location}</td>
@@ -46,13 +47,19 @@
                 </c:forEach>
             </table>
             <br>
-        <form action="${pageContext.request.contextPath}/payment">
-            <div class="buttons">
+            <form action="${pageContext.request.contextPath}/payment" method="get">
+            <div style="text-align: center">
+                <input type="text" name="name" placeholder="Name" style="text-transform: uppercase" pattern="[A-Za-z]{2,30}" required>
+                <input type="text" name="surname" placeholder="Surname" style="text-transform: uppercase" pattern="[A-Za-z]{2,30}" required>
+                <input type="text" name="passport" placeholder="Passport ID" required>
+            </div>
+                <br><br>
+                <div class="buttons">
             <div class="container">
-                    <button id="btnPayment">Agree</button>
+                    <button id="btnPayment" type="submit">Confirm</button>
             </div>
         </div>
-        </form>
+            </form>
         </c:when>
         <c:otherwise>
         <p style="color: #ff0000" align="center">${orderError}</p>

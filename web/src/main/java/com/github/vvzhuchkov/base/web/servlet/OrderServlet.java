@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @WebServlet("/order")
@@ -40,7 +42,10 @@ public class OrderServlet extends HttpServlet {
         String id = request.getParameter("id");
         AuthUser authUser = (AuthUser) request.getSession().getAttribute("authUser");
         Request mainReq = (Request) request.getSession().getAttribute("mainReq");
-        Order order = new Order(authUser.getLogin(), Long.parseLong(id), mainReq.getPickup(), mainReq.getDropoff());
+        LocalDate pickup= Date.valueOf(mainReq.getPickup()).toLocalDate();
+        LocalDate dropoff= Date.valueOf(mainReq.getDropoff()).toLocalDate();
+        long days = ChronoUnit.DAYS.between(pickup,dropoff);
+        Order order = new Order(authUser.getLogin(), Long.parseLong(id), mainReq.getPickup(), mainReq.getDropoff(), days);
         orderService.saveOrder(order);
         WebUtils.redirect("/order", request, response);
     }

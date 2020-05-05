@@ -1,17 +1,19 @@
 package com.github.vvzhuchkov.base.service.impl;
 
 import com.github.vvzhuchkov.base.dao.OrderDao;
+import com.github.vvzhuchkov.base.dao.PaymentDao;
 import com.github.vvzhuchkov.base.dao.impl.DefaultOrderDao;
+import com.github.vvzhuchkov.base.dao.impl.DefaultPaymentDao;
 import com.github.vvzhuchkov.base.model.Order;
 import com.github.vvzhuchkov.base.service.OrderService;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DefaultOrderService implements OrderService{
 
     private OrderDao orderDao = DefaultOrderDao.getInstance();
+    private PaymentDao paymentDao = DefaultPaymentDao.getInstance();
 
     private static volatile OrderService instance;
 
@@ -59,4 +61,4 @@ public class DefaultOrderService implements OrderService{
             public List<Order> getAllOrdersByLogin (String login){
                 return orderDao.getOrderByLogin(login);
             }
-        }
+}

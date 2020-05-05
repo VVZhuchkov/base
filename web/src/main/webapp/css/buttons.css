@@ -15,7 +15,39 @@
     font-family: 'Exo 2 M';
     border-radius: 10px;
 }
+
 #btnPayment:hover {
+    background-color: #cdcdcd; }
+
+#btnAdPayment {
+    width: 100px;
+    height: 40px;
+    padding: .8em 0 10px .8em;
+    background-color: #555555;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: 'Exo 2 M';
+    border-radius: 10px;
+}
+#btnAdPayment:hover {
+    background-color: #cdcdcd; }
+
+#btnUserPayment{
+    width: 200px;
+    height: 40px;
+    padding: .8em 0 10px .8em;
+    background-color: #555555;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: 'Exo 2 M';
+    border-radius: 10px;
+}
+
+#btnUserPayment:hover {
     background-color: #cdcdcd; }
 
 #btnRent {
@@ -31,4 +63,51 @@
     border-radius: 10px;
 }
 #btnRent:hover {
+    background-color: #cdcdcd; }
+
+#btnAdRent {
+    width: 100px;
+    height: 40px;
+    padding: .8em 0 10px .8em;
+    background-color: #555555;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: 'Exo 2 M';
+    border-radius: 10px;
+}
+#btnAdRent:hover {
+    background-color: #cdcdcd; }
+
+
+
+#btnAccept {
+    width: 100px;
+    height: 40px;
+    padding: .8em 0 10px .8em;
+    background-color: #555555;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: 'Exo 2 M';
+    border-radius: 10px;
+}
+#btnAccept:hover {
+    background-color: #cdcdcd; }
+
+#btnDecline {
+    width: 100px;
+    height: 40px;
+    padding: .8em 0 10px .8em;
+    background-color: #555555;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: 'Exo 2 M';
+    border-radius: 10px;
+}
+#btnDecline:hover {
     background-color: #cdcdcd; }

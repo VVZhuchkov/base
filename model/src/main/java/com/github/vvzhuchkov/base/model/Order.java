@@ -16,23 +16,17 @@ public class Order {
     private String availability;
     private LocalDate pickup;
     private LocalDate dropoff;
+    private Long days;
 
-    public Order(String login, Long id, LocalDate pickup, LocalDate dropoff) {
+    public Order(String login, Long id, LocalDate pickup, LocalDate dropoff, Long days) {
         this.login = login;
         this.id = id;
         this.pickup = pickup;
         this.dropoff = dropoff;
+        this.days = days;
     }
 
-    public Order(Long number, String login, Long id, LocalDate pickup, LocalDate dropoff) {
-        this.number = number;
-        this.login = login;
-        this.id = id;
-        this.pickup = pickup;
-        this.dropoff = dropoff;
-    }
-
-    public Order(Long number, String login, Long id, String photo, String brand, String model, Long year, String engine, Long price, String location, String availability, LocalDate pickup, LocalDate dropoff) {
+    public Order(Long number, String login, Long id, String photo, String brand, String model, Long year, String engine, Long price, String location, String availability, LocalDate pickup, LocalDate dropoff, Long days) {
         this.number = number;
         this.login = login;
         this.id = id;
@@ -46,6 +40,7 @@ public class Order {
         this.availability = availability;
         this.pickup = pickup;
         this.dropoff = dropoff;
+        this.days = days;
     }
 
     public Long getNumber() { return number; }
@@ -96,5 +91,8 @@ public class Order {
 
     public LocalDate getDropoff() {
         return dropoff;
+    }
+
+    public Long getDays() { return days;
     }
 }

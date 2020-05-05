@@ -2,9 +2,21 @@ package com.github.vvzhuchkov.base.dao;
 
 import com.github.vvzhuchkov.base.model.Payment;
 
+import java.util.List;
+
 public interface PaymentDao {
 
-    //void savePayment(String login, Long id);
+    List<Payment> getPaymentsByLogin(String login);
 
-    Payment getPaymentByLogin(String login);
+    List<Payment> getAllPayments();
+
+    Payment getPaymentByNumber(Long number);
+
+    void saveContPayment(Payment payment);
+
+    void deleteOrder(Long delNumber);
+
+    void updateComment(String newComment);
+
+    void updateApproval (String newApp);
 }

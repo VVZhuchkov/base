@@ -12,7 +12,7 @@ public interface OrderDao {
 
     List<Order> getAllOrders();
 
-    Order getOrderById(Long id);
-
     List<Order> getOrderByLogin(String login);
+
+    Order getOrderByNumber(Long number);
 }
