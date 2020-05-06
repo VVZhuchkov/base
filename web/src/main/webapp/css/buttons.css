@@ -1,0 +1,80 @@
+.buttons .container {
+    text-align: center;
+}
+
+#btnPayment{
+    width: 100px;
+    height: 40px;
+    padding: .8em 0 10px .8em;
+    background-color: #555555;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: 'Exo 2 M';
+    border-radius: 10px;
+}
+
+#btnPayment:hover {
+    background-color: #cdcdcd; }
+
+#btnDelete{
+    width: 100px;
+    height: 40px;
+    vertical-align: bottom;
+    background-color: #555555;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: 'Exo 2 M';
+    border-radius: 10px;
+}
+
+#btnDelete:hover {
+    background-color: #cdcdcd; }
+
+#btnRent {
+    width: 100px;
+    height: 40px;
+    padding: .8em 0 10px .8em;
+    background-color: #555555;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: 'Exo 2 M';
+    border-radius: 10px;
+}
+#btnRent:hover {
+    background-color: #cdcdcd; }
+
+#btnAccept {
+    width: 100px;
+    height: 40px;
+    padding: .8em 0 10px .8em;
+    background-color: #555555;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: 'Exo 2 M';
+    border-radius: 10px;
+}
+#btnAccept:hover {
+    background-color: #cdcdcd; }
+
+#btnDecline {
+    width: 100px;
+    height: 40px;
+    padding: .8em 0 10px .8em;
+    background-color: #555555;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: 'Exo 2 M';
+    border-radius: 10px;
+}
+#btnDecline:hover {
+    background-color: #cdcdcd; }
