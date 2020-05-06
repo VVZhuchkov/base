@@ -22,12 +22,13 @@
                 <br><label for="pickup">Pick-up date</label>
                 <br><input id="pickup" type="date" value="${timeNow}" min="${timeNow}" name="pickup"></br>
                 <br><label for="dropoff">Drop-off date</label>
-                <br><input id="dropoff" type="date" value="${timeTomorrow}" min="${timeTomorrow}" name="dropoff"></br>
+                <br><input id="dropoff" type="date" value="${timeNow}" min="${timeNow}" name="dropoff"></br>
                 <div class="buttons">
                     <div class="container">
                 <br><input id="btnRent" type="submit" value="Search!">
                     </div>
                 </div>
+                <p style="color: red" align="center">${datesError}</p>
             </fieldset>
         </form>
     </div>

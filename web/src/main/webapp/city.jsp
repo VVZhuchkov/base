@@ -16,23 +16,23 @@
             <jsp:include page="main_tabstl.jsp" />
             <table align="center">
                 <tr>
+                    <th>Car<br>ID</th>
                     <th>Photo</th>
                     <th>Brand</th>
                     <th>Model</th>
                     <th>Year</th>
                     <th>Engine</th>
-                    <th>Price, $</th>
-                    <th>Availability</th>
+                    <th>Price<br>per day,<br>€</th>
                 </tr>
                 <c:forEach items="${cars}" var="car">
                     <tr>
+                        <td>${car.id}</td>
                         <td> <img src="${car.photo}" height="101" width="150"></td>
                         <td>${car.brand}</td>
                         <td>${car.model}</td>
                         <td>${car.year}</td>
                         <td>${car.engine}</td>
                         <td>${car.price}</td>
-                        <td>${car.availability}</td>
                         <div class="buttons">
                             <div class="container">
                                 <form action="${pageContext.request.contextPath}/order"  method="post">

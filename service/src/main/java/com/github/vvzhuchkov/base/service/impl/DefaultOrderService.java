@@ -5,12 +5,13 @@ import com.github.vvzhuchkov.base.dao.PaymentDao;
 import com.github.vvzhuchkov.base.dao.impl.DefaultOrderDao;
 import com.github.vvzhuchkov.base.dao.impl.DefaultPaymentDao;
 import com.github.vvzhuchkov.base.model.Order;
+import com.github.vvzhuchkov.base.model.Payment;
 import com.github.vvzhuchkov.base.service.OrderService;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DefaultOrderService implements OrderService{
+public class DefaultOrderService implements OrderService {
 
     private OrderDao orderDao = DefaultOrderDao.getInstance();
     private PaymentDao paymentDao = DefaultPaymentDao.getInstance();
@@ -34,7 +35,7 @@ public class DefaultOrderService implements OrderService{
     public void saveOrder(Order order) {
         List<Order> listOrdersByLogin = orderDao.getOrderByLogin(order.getLogin());
         List<Long> listOfIdsByLogin = new ArrayList<>();
-        boolean isFlag=true;
+        boolean isFlag = true;
         for (Order existOrder : listOrdersByLogin) {
             listOfIdsByLogin.add(existOrder.getId());
         }
@@ -49,16 +50,17 @@ public class DefaultOrderService implements OrderService{
         }
         if (isFlag) {
             orderDao.saveOrder(order);
+        }
     }
-        }
 
-        @Override
-        public void deleteOrder(Long delNumber){
+    @Override
+    public void deleteOrder(Long delNumber) {
         orderDao.deleteOrder(delNumber);
-        }
+    }
 
-            @Override
-            public List<Order> getAllOrdersByLogin (String login){
-                return orderDao.getOrderByLogin(login);
-            }
+    @Override
+    public List<Order> getAllOrdersByLogin(String login) {
+        return orderDao.getOrderByLogin(login);
+    }
+
 }

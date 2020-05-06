@@ -2,6 +2,7 @@ package com.github.vvzhuchkov.base.service.impl;
 
 import com.github.vvzhuchkov.base.dao.PaymentDao;
 import com.github.vvzhuchkov.base.dao.impl.DefaultPaymentDao;
+import com.github.vvzhuchkov.base.model.ApprComm;
 import com.github.vvzhuchkov.base.model.Payment;
 import com.github.vvzhuchkov.base.service.PaymentService;
 
@@ -42,12 +43,9 @@ public class DefaultPaymentService implements PaymentService {
     }
 
     @Override
-   public void updateComment(String newComment){
-        paymentDao.updateComment(newComment);
-    }
-
-   public void updateApproval (String newApp){
-        paymentDao.updateApproval (newApp);
+    public void updApprComm(Long number, String approval, String comment){
+        ApprComm apprComm  = new ApprComm(number, approval, comment);
+        paymentDao.updApprComm(apprComm);
    }
 
     @Override

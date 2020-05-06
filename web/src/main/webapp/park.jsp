@@ -15,16 +15,19 @@
             <jsp:include page="main_tabstl.jsp" />
             <table align="center">
                 <tr>
+                    <th>Car<br>ID</th>
                     <th>Photo</th>
                     <th>Brand</th>
                     <th>Model</th>
                     <th>Year</th>
                     <th>Engine</th>
-                    <th>Price, $</th>
+                    <th>Price<br>per day,<br>€</th>
                     <th>Location</th>
                 </tr>
                 <c:forEach items="${allCars}" var="car">
                     <tr>
+                        <td><a name="${car.id}"
+                               href="${pageContext.request.contextPath}/payment#${car.id}">${car.id}</a></td>
                         <td> <img src="${car.photo}" height="152" width="225"></td>
                         <td>${car.brand}</td>
                         <td>${car.model}</td>

@@ -2,6 +2,7 @@ package com.github.vvzhuchkov.base.dao.impl;
 
 import com.github.vvzhuchkov.base.dao.DataSource;
 import com.github.vvzhuchkov.base.dao.PaymentDao;
+import com.github.vvzhuchkov.base.model.ApprComm;
 import com.github.vvzhuchkov.base.model.Payment;
 
 import java.sql.*;
@@ -134,6 +135,7 @@ public class DefaultPaymentDao implements PaymentDao {
         }
     }
 
+    @Override
     public void deleteOrder(Long number) {
         final String sql = "delete from base.payment where number=?";
         try (Connection connection = DataSource.getInstance().getConnection();
@@ -148,25 +150,14 @@ public class DefaultPaymentDao implements PaymentDao {
         }
     }
 
-    public void updateComment(String newComment) {
-        final String sql = "update base.payment SET comment=?";
+    @Override
+    public void updApprComm(ApprComm apprComm) {
+        final String sql = "update base.payment SET approval=?, comment=? where number = ?";
         try (Connection connection = DataSource.getInstance().getConnection();
              PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            ps.setString(1, newComment);
-            ps.executeUpdate();
-            try (ResultSet keys = ps.getGeneratedKeys()) {
-                keys.next();
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void updateApproval(String newApp) {
-        final String sql = "update base.payment SET approval=?";
-        try (Connection connection = DataSource.getInstance().getConnection();
-             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            ps.setString(1, newApp);
+            ps.setString(1, apprComm.getApproval());
+            ps.setString(2, apprComm.getComment());
+            ps.setLong(3, apprComm.getNumber());
             ps.executeUpdate();
             try (ResultSet keys = ps.getGeneratedKeys()) {
                 keys.next();

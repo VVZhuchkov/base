@@ -12,9 +12,7 @@ public interface PaymentService {
 
     void deleteOrder(Long delNumber);
 
-    void updateComment(String newComment);
-
-    void updateApproval (String newApp);
+    void updApprComm(Long number, String approval, String comment);
 
     Payment getPaymentByNumber (Long number);
 

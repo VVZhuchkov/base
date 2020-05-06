@@ -60,7 +60,7 @@ public class DefaultCarDao implements CarDao {
         try (Connection connection = DataSource.getInstance().getConnection();
              PreparedStatement ps = connection.prepareStatement("select base.car.*, base.offer.price, " +
                      "base.offer.location, base.offer.availability from base.car join base.offer on car.id = offer.id " +
-                     "order by base.offer.location asc");
+                     "order by base.car.id asc");
              ResultSet rs = ps.executeQuery()) {
             final ArrayList<Car> listOfCars = new ArrayList<>();
             while (rs.next()) {

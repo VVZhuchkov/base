@@ -11,5 +11,4 @@ public interface OrderService {
     void deleteOrder(Long delNumber);
 
     List<Order> getAllOrdersByLogin(String login);
-
 }
