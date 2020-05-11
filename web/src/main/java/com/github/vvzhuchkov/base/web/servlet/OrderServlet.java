@@ -35,12 +35,13 @@ public class OrderServlet extends HttpServlet {
             request.setAttribute("orderError", "You haven't done any order yet!");
         }
         String delNumber = request.getParameter("delNumber");
-        if (delNumber==null){
-        WebUtils.forward("order", request, response);}
-        else{
+        if (delNumber == null) {
+            WebUtils.forward("order", request, response);
+            return;
+        } else {
             orderService.deleteOrder(Long.parseLong(delNumber));
             WebUtils.redirect("/order", request, response);
-            }
+        }
     }
 
     @Override
@@ -48,9 +49,9 @@ public class OrderServlet extends HttpServlet {
         String id = request.getParameter("id");
         AuthUser authUser = (AuthUser) request.getSession().getAttribute("authUser");
         Request mainReq = (Request) request.getSession().getAttribute("mainReq");
-        LocalDate pickup= Date.valueOf(mainReq.getPickup()).toLocalDate();
-        LocalDate dropoff= Date.valueOf(mainReq.getDropoff()).toLocalDate();
-        long days = ChronoUnit.DAYS.between(pickup,dropoff)+1L;
+        LocalDate pickup = Date.valueOf(mainReq.getPickup()).toLocalDate();
+        LocalDate dropoff = Date.valueOf(mainReq.getDropoff()).toLocalDate();
+        long days = ChronoUnit.DAYS.between(pickup, dropoff) + 1L;
         Order order = new Order(authUser.getLogin(), Long.parseLong(id), mainReq.getPickup(), mainReq.getDropoff(), days);
         orderService.saveOrder(order);
         WebUtils.redirect("/order", request, response);

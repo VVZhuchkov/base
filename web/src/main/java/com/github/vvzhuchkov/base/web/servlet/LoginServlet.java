@@ -24,6 +24,7 @@ public class LoginServlet extends HttpServlet {
         Object authUser = request.getSession().getAttribute("authUser");
         if (authUser == null) {
             WebUtils.forward("login", request, response);
+            return;
         }
         try {
             response.sendRedirect(request.getContextPath() +"/main");
@@ -40,8 +41,8 @@ public class LoginServlet extends HttpServlet {
 
         if (user == null) {
             request.setAttribute("error", "Login or password invalid");
-            WebUtils.forward("login", request, response);
             logIn.info("Employee {} unsuccessfully attempted to log in at {}", login, LocalDateTime.now());
+            WebUtils.forward("login", request, response);
             return;
         }
         request.getSession().setAttribute("authUser", user);

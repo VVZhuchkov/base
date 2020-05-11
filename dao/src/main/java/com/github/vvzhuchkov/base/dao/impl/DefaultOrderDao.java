@@ -60,7 +60,7 @@ public class DefaultOrderDao implements OrderDao {
     @Override
     public List<Order> getAllOrders() {
         try (Connection connection = DataSource.getInstance().getConnection();
-             PreparedStatement ps = connection.prepareStatement("select base.order.*, base.car.*, base.offer.* from base.order join base.car on order.id = car.id join base.offer on car.id = offer.id;");
+             PreparedStatement ps = connection.prepareStatement("select base.order.*, base.car.* from base.order join base.car on order.id = car.id");
              ResultSet rs = ps.executeQuery()) {
             final ArrayList<Order> listOfOrders = new ArrayList<>();
             while (rs.next()) {
@@ -90,7 +90,7 @@ public class DefaultOrderDao implements OrderDao {
     @Override
     public List<Order> getOrderByLogin(String login) {
         try (Connection connection = DataSource.getInstance().getConnection();
-             PreparedStatement ps = connection.prepareStatement("select base.order.*, base.car.*, base.offer.* from base.order join base.car on order.id = car.id join base.offer on car.id = offer.id where login=?")) {
+             PreparedStatement ps = connection.prepareStatement("select base.order.*, base.car.* from base.order join base.car on order.id = car.id where login=?")) {
             ps.setString(1, login);
             try (ResultSet rs = ps.executeQuery()) {
                 final ArrayList listOfOrdersByLogin = new ArrayList();
@@ -122,7 +122,7 @@ public class DefaultOrderDao implements OrderDao {
     @Override
     public Order getOrderByNumber(Long number) {
         try (Connection connection = DataSource.getInstance().getConnection();
-             PreparedStatement ps = connection.prepareStatement("select base.order.*, base.car.*, base.offer.* from base.order join base.car on order.id = car.id join base.offer on car.id = offer.id where number=?")) {
+             PreparedStatement ps = connection.prepareStatement("select base.order.*, base.car.* from base.order join base.car on order.id = car.id where number=?")) {
             ps.setLong(1, number);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {

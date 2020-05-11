@@ -1,10 +1,10 @@
 package com.github.vvzhuchkov.base.web.servlet;
 
 import com.github.vvzhuchkov.base.model.AuthUser;
-import com.github.vvzhuchkov.base.model.Car;
-import com.github.vvzhuchkov.base.service.CarService;
+import com.github.vvzhuchkov.base.model.Payment;
+import com.github.vvzhuchkov.base.service.DealService;
 import com.github.vvzhuchkov.base.service.RoleUserService;
-import com.github.vvzhuchkov.base.service.impl.DefaultCarService;
+import com.github.vvzhuchkov.base.service.impl.DefaultDealService;
 import com.github.vvzhuchkov.base.service.impl.DefaultRoleUserService;
 import com.github.vvzhuchkov.base.web.WebUtils;
 
@@ -12,11 +12,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet("/park")
-public class ParkServlet extends HttpServlet {
-    private CarService carService = DefaultCarService.getInstance();
+@WebServlet("/deal")
+public class DealServlet extends HttpServlet {
+    private DealService dealService = DefaultDealService.getInstance();
     private RoleUserService roleUserService = DefaultRoleUserService.getInstance();
 
     @Override
@@ -24,12 +25,21 @@ public class ParkServlet extends HttpServlet {
         AuthUser authUser = (AuthUser) request.getSession().getAttribute("authUser");
         String role = roleUserService.getRoleUserByLogin(authUser.getLogin());
         request.setAttribute("role", role);
-        List<Car> allCars = carService.getAllCars();
-        request.setAttribute("allCars", allCars);
-        WebUtils.forward("park", request, response);
-    }
+        List<Payment> listOfDeals = new ArrayList<>();
+        if (role.equals("admin")) {
+            listOfDeals = dealService.getAllDeals();}
+            if (role.equals("user")) {
+                listOfDeals = dealService.getDealsByLogin(authUser.getLogin());
+            }
+            if (listOfDeals.size() == 0) {
+                request.setAttribute("dealError", "You haven't had any deals yet");
+            }
+            request.setAttribute("deals", listOfDeals);
+            WebUtils.forward("deal", request, response);
+        }
 
-    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
+        WebUtils.forward("/deal", request, response);
     }
 }
+

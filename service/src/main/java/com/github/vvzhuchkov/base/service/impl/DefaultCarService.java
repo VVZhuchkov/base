@@ -56,4 +56,9 @@ public class DefaultCarService implements CarService {
         List<Car> listOfCars= carDao.getAllCars();
         return listOfCars;
     }
+
+@Override
+    public void saveNewCar(Car car){
+        carDao.saveNewCar(car);
+    }
 }

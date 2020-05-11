@@ -1,9 +1,12 @@
 package com.github.vvzhuchkov.base.web.servlet;
 
+import com.github.vvzhuchkov.base.model.AuthUser;
 import com.github.vvzhuchkov.base.model.Car;
 import com.github.vvzhuchkov.base.model.Request;
 import com.github.vvzhuchkov.base.service.CarService;
+import com.github.vvzhuchkov.base.service.RoleUserService;
 import com.github.vvzhuchkov.base.service.impl.DefaultCarService;
+import com.github.vvzhuchkov.base.service.impl.DefaultRoleUserService;
 import com.github.vvzhuchkov.base.web.WebUtils;
 
 import javax.servlet.annotation.WebServlet;
@@ -13,11 +16,15 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @WebServlet("/city")
-public class CityCarsServlet extends HttpServlet {
+public class CityServlet extends HttpServlet {
     private CarService carService = DefaultCarService.getInstance();
+    private RoleUserService roleUserService = DefaultRoleUserService.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
+        AuthUser authUser = (AuthUser) request.getSession().getAttribute("authUser");
+        String role = roleUserService.getRoleUserByLogin(authUser.getLogin());
+        request.setAttribute("role", role);
         Request mainReq = (Request) request.getSession().getAttribute("mainReq");
         List<Car> cars = carService.getByLocation(mainReq.getLocation());
         request.setAttribute("cars", cars);

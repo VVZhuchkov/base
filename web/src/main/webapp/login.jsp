@@ -25,7 +25,7 @@
                 </form>
                 <div class="help-text">
                     <p>By signing up, you agree to our</p>
-                    <p><a href="#">Terms of service</a></p>
+                    <p><a href="${pageContext.request.contextPath}/terms.jsp">Terms of service</a></p>
                 </div>
             </div>
 
@@ -38,7 +38,7 @@
                     <input type="submit" class="button" value="Sign In">
                 </form><!--.login-form-->
                 <div class="help-text">
-                    <p><a href="#">Forget your password?</a></p>
+                    <p><a href="${pageContext.request.contextPath}/forgot.jsp">Forget your password?</a></p>
                 </div>
             </div>
         </div>

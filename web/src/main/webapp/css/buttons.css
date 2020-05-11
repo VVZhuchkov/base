@@ -5,7 +5,6 @@
 #btnPayment{
     width: 100px;
     height: 40px;
-    padding: .8em 0 10px .8em;
     background-color: #555555;
     border: none;
     color: #fff;
@@ -37,7 +36,6 @@
 #btnRent {
     width: 100px;
     height: 40px;
-    padding: .8em 0 10px .8em;
     background-color: #555555;
     border: none;
     color: #fff;
@@ -49,10 +47,23 @@
 #btnRent:hover {
     background-color: #cdcdcd; }
 
+#btnAdRent {
+    width: 100px;
+    height: 40px;
+    background-color: #555555;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: 'Exo 2 M';
+    border-radius: 10px;
+}
+#btnAdRent:hover {
+    background-color: #cdcdcd; }
+
 #btnAccept {
     width: 100px;
     height: 40px;
-    padding: .8em 0 10px .8em;
     background-color: #555555;
     border: none;
     color: #fff;
@@ -67,7 +78,6 @@
 #btnDecline {
     width: 100px;
     height: 40px;
-    padding: .8em 0 10px .8em;
     background-color: #555555;
     border: none;
     color: #fff;
@@ -77,4 +87,18 @@
     border-radius: 10px;
 }
 #btnDecline:hover {
+    background-color: #cdcdcd; }
+
+#btnReturn {
+    width: 100px;
+    height: 40px;
+    background-color: #555555;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: 'Exo 2 M';
+    border-radius: 10px;
+}
+#btnReturn:hover {
     background-color: #cdcdcd; }

@@ -23,6 +23,17 @@ public class Car {
         this.availability = availability;
     }
 
+    public Car(String photo, String brand, String model, Long year, String engine, Long price, String location, String availability) {
+        this.photo = photo;
+        this.brand = brand;
+        this.model = model;
+        this.year = year;
+        this.engine = engine;
+        this.price = price;
+        this.location = location;
+        this.availability = availability;
+    }
+
     public Long getId() {
         return id;
     }

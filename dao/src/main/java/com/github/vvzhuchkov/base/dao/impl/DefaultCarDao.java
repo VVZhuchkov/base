@@ -4,10 +4,7 @@ import com.github.vvzhuchkov.base.dao.CarDao;
 import com.github.vvzhuchkov.base.dao.DataSource;
 import com.github.vvzhuchkov.base.model.Car;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,9 +27,7 @@ public class DefaultCarDao implements CarDao {
     @Override
     public Car getById(Long id) {
         try (Connection connection = DataSource.getInstance().getConnection();
-             PreparedStatement ps = connection.prepareStatement("select base.car.*, base.offer.price, " +
-                     "base.offer.location, base.offer.availability from base.car " +
-                     "join base.offer on car.id = offer.id where base.car.id=?")) {
+             PreparedStatement ps = connection.prepareStatement("select * FROM base.car where base.car.id=?")) {
             ps.setLong(1, id);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
@@ -58,9 +53,7 @@ public class DefaultCarDao implements CarDao {
     @Override
     public List<Car> getAllCars() {
         try (Connection connection = DataSource.getInstance().getConnection();
-             PreparedStatement ps = connection.prepareStatement("select base.car.*, base.offer.price, " +
-                     "base.offer.location, base.offer.availability from base.car join base.offer on car.id = offer.id " +
-                     "order by base.car.id asc");
+             PreparedStatement ps = connection.prepareStatement("select * from base.car order by base.car.id asc");
              ResultSet rs = ps.executeQuery()) {
             final ArrayList<Car> listOfCars = new ArrayList<>();
             while (rs.next()) {
@@ -77,6 +70,27 @@ public class DefaultCarDao implements CarDao {
                 listOfCars.add(car);
             }
             return listOfCars;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void saveNewCar(Car car){
+        final String sql = "insert into base.car(photo, brand, model, year, engine, location, price, availability) values(?,?,?,?,?,?,?,?)";
+        try (Connection connection = DataSource.getInstance().getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            ps.setString(1, car.getPhoto());
+            ps.setString(2, car.getBrand());
+            ps.setString(3, car.getModel());
+            ps.setLong(4, car.getYear());
+            ps.setString(5, car.getEngine());
+            ps.setString(6, car.getLocation());
+            ps.setLong(7, car.getPrice());
+            ps.setString(8, car.getAvailability());
+            ps.executeUpdate();
+            try (ResultSet keys = ps.getGeneratedKeys()) {
+                keys.next();
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

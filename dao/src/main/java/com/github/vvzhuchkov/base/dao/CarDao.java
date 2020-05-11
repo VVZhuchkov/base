@@ -10,8 +10,5 @@ public interface CarDao {
 
     List<Car> getAllCars();
 
-    //void addNewCar();
-
-    //void deleteCar();
-
+    void saveNewCar(Car car);
 }

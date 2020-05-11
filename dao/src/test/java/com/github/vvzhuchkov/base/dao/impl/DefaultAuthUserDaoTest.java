@@ -1,6 +1,5 @@
 package com.github.vvzhuchkov.base.dao.impl;
 
-
 import com.github.vvzhuchkov.base.dao.AuthUserDao;
 import org.junit.Test;
 

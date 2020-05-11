@@ -10,7 +10,9 @@
 <body>
 <div id="main">
     <div id="content">
-        <jsp:include page="main_menu.jsp" />
+        <jsp:include page="main_menu.jsp">
+            <jsp:param name="role" value="${role}"/>
+        </jsp:include>
         <c:choose>
         <c:when test="${orders.size()!=0}">
         <h3 align="center">Check your order:</h3>
@@ -68,7 +70,7 @@
                         var count = div.textContent * 1 - 1;
                         div.textContent = count;
                         if (count <= 0) {
-                            window.location.replace("${pageContext.request.contextPath}/main");
+                            window.location.replace("${pageContext.request.contextPath}/request");
                         }
                     }, 1000);
                 </script>

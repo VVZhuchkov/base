@@ -10,7 +10,9 @@
 <body>
 <div id="main">
     <div id="content">
-        <jsp:include page="main_menu.jsp"/>
+        <jsp:include page="main_menu.jsp">
+            <jsp:param name="role" value="${role}"/>
+        </jsp:include>
         <c:choose>
             <c:when test="${payments.size()!=0}">
                 <h3 align="center">Check your order:</h3>
@@ -44,7 +46,7 @@
                                         <form action="${pageContext.request.contextPath}/payment"
                                               style="margin-block-end: 0px" method="post">
                                             <c:if test="${role=='user'}">
-                                                <c:if test="${payment.approval!='-'}">
+                                                <c:if test="${payment.approval=='Approved!'}">
                                                     <button id="btnPayment" type="submit" name="payNumber"
                                                             value="${payment.number}">Payment!
                                                     </button>
@@ -54,19 +56,34 @@
                                                 </button>
                                             </c:if>
                                             <c:if test="${role=='admin'}">
-                                            <button id="btnPayment" type="submit" name="accept"
-                                                    value="${payment.number}">Accept!
-                                            </button>
-                                            <button id="btnDelete" type="submit" name="decline"
-                                                             value="${payment.number}">Decline!
-                                        </button>
-                                            <br>
-                                            <textarea style="height: 75px;width: 100px" id="commentAccept"
-                                                      name="commentAccept"></textarea>
-                                            <textarea style="height: 75px;width: 100px" id="commentDecline"
-                                                      name="commentDecline"></textarea>
+                                                <c:if test="${payment.approval=='-'}">
+                                                    <button id="btnPayment" type="submit" name="accept"
+                                                            value="${payment.number}">Accept!
+                                                    </button>
+                                                    <button id="btnDelete" type="submit" name="decline"
+                                                            value="${payment.number}">Decline!
+                                                    </button>
+                                                    <br>
+                                                    <textarea style="height: 75px;width: 100px" id="commentAccept"
+                                                              name="commentAccept"></textarea>
+                                                    <textarea style="height: 75px;width: 100px" id="commentDecline"
+                                                              name="commentDecline"></textarea>
+                                                </c:if>
+                                                <c:if test="${payment.approval=='Approved!'}">
+                                                    <button id="btnPayment" type="submit" name="payNumber"
+                                                            value="${payment.number}">Payment!
+                                                    </button>
+                                                    <button id="btnDelete" type="submit" name="delNumber"
+                                                            value="${payment.number}">Delete!
+                                                    </button>
+                                                </c:if>
+                                                <c:if test="${payment.approval=='Rejected!'}">
+                                                    <button id="btnDelete" type="submit" name="delNumber"
+                                                            value="${payment.number}">Delete!
+                                                    </button>
+                                                </c:if>
+                                            </c:if>
                                         </form>
-                                        </c:if>
                                     </td>
                                 </div>
                             </div>
@@ -86,7 +103,7 @@
                         var count = div.textContent * 1 - 1;
                         div.textContent = count;
                         if (count <= 0) {
-                            window.location.replace("${pageContext.request.contextPath}/order");
+                            window.location.replace("${pageContext.request.contextPath}/request");
                         }
                     }, 1000);
                 </script>

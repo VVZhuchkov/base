@@ -58,7 +58,7 @@ body {
     width: 100%; }
 .form-wrap form .button {
     width: 100%;
-    padding: .8em 0 10px .8em;
+    padding: .8em 10px 10px .8em;
     background-color: #555555;
     border: none;
     color: #fff;

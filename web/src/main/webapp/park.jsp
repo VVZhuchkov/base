@@ -3,13 +3,16 @@
 
 <html>
 <head>
+    <link rel="stylesheet" href="css/buttons.css">
     <link rel="stylesheet" href="css/park.css">
     <script src="js/main_menu.js" type="text/javascript"></script>
 </head>
 <body>
 <div id="main">
-    <div id="content" >
-        <jsp:include page="main_menu.jsp" />
+    <div id="content">
+        <jsp:include page="main_menu.jsp">
+            <jsp:param name="role" value="${role}"/>
+        </jsp:include>
         <h3 align="center">Watch our autopark:</h3>
         <c:if test="${allCars != null}">
             <jsp:include page="main_tabstl.jsp" />

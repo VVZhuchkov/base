@@ -39,4 +39,21 @@ public class DefaultRoleUserDao implements RoleUserDao {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public Long getRatingUserByLogin(String login){
+        try (Connection connection = DataSource.getInstance().getConnection();
+             PreparedStatement ps = connection.prepareStatement("select base.role.rating FROM base.role where login=?")) {
+            ps.setString(1, login);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getLong("rating");
+                } else {
+                    return null;
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

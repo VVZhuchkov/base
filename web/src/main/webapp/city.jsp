@@ -10,7 +10,9 @@
 <body>
 <div id="main">
     <div id="content">
-        <jsp:include page="main_menu.jsp" />
+        <jsp:include page="main_menu.jsp">
+            <jsp:param name="role" value="${role}"/>
+        </jsp:include>
         <h3 align="center">Choose your rental car:</h3>
         <c:if test="${cars != null}">
             <jsp:include page="main_tabstl.jsp" />

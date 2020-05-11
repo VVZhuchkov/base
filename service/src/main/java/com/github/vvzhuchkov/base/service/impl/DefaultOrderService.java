@@ -5,7 +5,6 @@ import com.github.vvzhuchkov.base.dao.PaymentDao;
 import com.github.vvzhuchkov.base.dao.impl.DefaultOrderDao;
 import com.github.vvzhuchkov.base.dao.impl.DefaultPaymentDao;
 import com.github.vvzhuchkov.base.model.Order;
-import com.github.vvzhuchkov.base.model.Payment;
 import com.github.vvzhuchkov.base.service.OrderService;
 
 import java.util.ArrayList;
@@ -14,7 +13,6 @@ import java.util.List;
 public class DefaultOrderService implements OrderService {
 
     private OrderDao orderDao = DefaultOrderDao.getInstance();
-    private PaymentDao paymentDao = DefaultPaymentDao.getInstance();
 
     private static volatile OrderService instance;
 

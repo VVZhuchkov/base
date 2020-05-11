@@ -11,4 +11,6 @@ public interface CarService {
     List<Car> getByLocation(String location);
 
     List<Car> getAllCars();
+
+    void saveNewCar(Car car);
 }

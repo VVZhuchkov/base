@@ -25,4 +25,6 @@ public class DefaultRoleUserService implements RoleUserService {
     public String getRoleUserByLogin(String login){
         return roleUserDao.getRoleUserByLogin(login);
     }
+
+    public Long getRatingUserByLogin(String login){ return  roleUserDao.getRatingUserByLogin(login); }
 }
