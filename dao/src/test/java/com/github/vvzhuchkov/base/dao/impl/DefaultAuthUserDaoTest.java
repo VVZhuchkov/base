@@ -13,4 +13,11 @@ public class DefaultAuthUserDaoTest {
         AuthUserDao authUserDao2= DefaultAuthUserDao.getInstance();
         assertEquals(authUserDao,authUserDao2);
     }
+
+    @Test
+    public void getByLogin(String login){
+        AuthUserDao authUserDao = DefaultAuthUserDao.getInstance();
+        authUserDao.getByLogin("vzhuchkov");
+        String password = "5";
+    }
 }
