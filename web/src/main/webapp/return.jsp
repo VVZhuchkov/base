@@ -58,6 +58,7 @@
                                         <c:if test="${role=='admin'&&restitution.status=='Approved!'}">
                                         <td>${restitution.comment}</td>
                                         </c:if>
+                                        </form>
                         </tr>
                     </c:forEach>
                 </table>

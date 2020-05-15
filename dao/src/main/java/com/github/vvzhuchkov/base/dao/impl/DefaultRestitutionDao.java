@@ -112,10 +112,11 @@ public class DefaultRestitutionDao implements RestitutionDao {
 
     @Override
     public void updStatus(Long number, String status){
-        final String sql = "update base.restitution SET status=? where restitution.number = number";
+        final String sql = "update base.restitution SET status=? where restitution.number = ?";
         try (Connection connection = DataSource.getInstance().getConnection();
              PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, status);
+            ps.setLong(2, number);
             ps.executeUpdate();
             try (ResultSet keys = ps.getGeneratedKeys()) {
                 keys.next();
@@ -127,11 +128,12 @@ public class DefaultRestitutionDao implements RestitutionDao {
 
     @Override
     public void updStaComm(Long number, String status, String comment){
-        final String sql = "update base.restitution SET status=?, comment=? where restitution.number = number";
+        final String sql = "update base.restitution SET status=?, comment=? where restitution.number = ?";
         try (Connection connection = DataSource.getInstance().getConnection();
              PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, status);
             ps.setString(2, comment);
+            ps.setLong(3, number);
             ps.executeUpdate();
             try (ResultSet keys = ps.getGeneratedKeys()) {
                 keys.next();
