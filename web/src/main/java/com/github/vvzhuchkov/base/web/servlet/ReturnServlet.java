@@ -28,10 +28,10 @@ public class ReturnServlet extends HttpServlet {
         String role = roleUserService.getRoleUserByLogin(authUser.getLogin());
         request.setAttribute("role", role);
         String comment = "-";
-        List<Payment> listOfDeals = dealService.getAllDeals();
-        for (Payment payment : listOfDeals) {
-            if (restitutionService.getRestitutionByNumber(payment.getNumber()) == null) {
-                Restitution restitution = new Restitution(payment.getNumber(), payment.getLogin(), comment, roleUserService.getRatingUserByLogin(payment.getLogin()), "In operation");
+        List<Deal> listOfDeals = dealService.getAllDeals();
+        for (Deal deal : listOfDeals) {
+            if (restitutionService.getRestitutionByNumber(deal.getNumber()) == null) {
+                Restitution restitution = new Restitution(deal.getNumber(), deal.getLogin(), comment, roleUserService.getRatingUserByLogin(deal.getLogin()), "In operation");
                 restitutionService.saveReturn(restitution);
             }}
         List<Restitution> listOfRestitutions = new ArrayList<>();

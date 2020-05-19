@@ -5,4 +5,5 @@ public interface RoleUserDao {
     String getRoleUserByLogin(String login);
 
     Long getRatingUserByLogin(String login);
+
 }

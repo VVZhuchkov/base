@@ -1,6 +1,7 @@
 package com.github.vvzhuchkov.base.web.servlet;
 
 import com.github.vvzhuchkov.base.model.AuthUser;
+import com.github.vvzhuchkov.base.model.Deal;
 import com.github.vvzhuchkov.base.model.Payment;
 import com.github.vvzhuchkov.base.service.DealService;
 import com.github.vvzhuchkov.base.service.RoleUserService;
@@ -25,7 +26,7 @@ public class DealServlet extends HttpServlet {
         AuthUser authUser = (AuthUser) request.getSession().getAttribute("authUser");
         String role = roleUserService.getRoleUserByLogin(authUser.getLogin());
         request.setAttribute("role", role);
-        List<Payment> listOfDeals = new ArrayList<>();
+        List<Deal> listOfDeals = new ArrayList<>();
         if (role.equals("admin")) {
             listOfDeals = dealService.getAllDeals();}
             if (role.equals("user")) {

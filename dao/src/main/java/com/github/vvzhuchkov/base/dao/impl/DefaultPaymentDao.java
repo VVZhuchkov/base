@@ -1,15 +1,20 @@
 package com.github.vvzhuchkov.base.dao.impl;
 
-import com.github.vvzhuchkov.base.dao.DataSource;
+import com.github.vvzhuchkov.base.dao.HibernateUtil;
 import com.github.vvzhuchkov.base.dao.PaymentDao;
-import com.github.vvzhuchkov.base.model.ApprComm;
+import com.github.vvzhuchkov.base.dao.converter.PaymentConverter;
+import com.github.vvzhuchkov.base.dao.entity.PaymentEntity;
 import com.github.vvzhuchkov.base.model.Payment;
+import org.hibernate.Session;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.sql.*;
-import java.util.ArrayList;
+import javax.persistence.NoResultException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class DefaultPaymentDao implements PaymentDao {
+    private static final Logger logOut = LoggerFactory.getLogger(DefaultPaymentDao.class);
     public static volatile PaymentDao instance;
 
     public static PaymentDao getInstance() {
@@ -26,144 +31,62 @@ public class DefaultPaymentDao implements PaymentDao {
     }
 
     @Override
-    public List<Payment> getPaymentsByLogin(String login) {
-        try (Connection connection = DataSource.getInstance().getConnection();
-             PreparedStatement ps = connection.prepareStatement("select * from base.payment where login = ?")) {
-            ps.setString(1, login);
-            try (ResultSet rs = ps.executeQuery()) {
-                final ArrayList<Payment> listOfPaymentsByLogin = new ArrayList<>();
-                while (rs.next()) {
-                    final Payment payment = new Payment(
-                            rs.getLong("number"),
-                            rs.getString("login"),
-                            rs.getString("surname"),
-                            rs.getString("name"),
-                            rs.getString("passport"),
-                            rs.getLong("id"),
-                            rs.getDate("pickup").toLocalDate(),
-                            rs.getDate("dropoff").toLocalDate(),
-                            rs.getLong("total"),
-                            rs.getString("approval"),
-                            rs.getString("comment"));
-                    listOfPaymentsByLogin.add(payment);
-                }
-                return listOfPaymentsByLogin;
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+    public List<Payment> getPaymentsByLogin(String login){
+        final List<PaymentEntity> listOfPaymentsByLogin = HibernateUtil.getSession().createQuery("from PaymentEntity pe where pe.login=:login")
+                .list();
+        return listOfPaymentsByLogin.stream()
+                .map(PaymentConverter::fromEntity)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Payment getPaymentByNumber(Long number) {
-        try (Connection connection = DataSource.getInstance().getConnection();
-             PreparedStatement ps = connection.prepareStatement("select * from base.payment where number = ?")) {
-            ps.setLong(1, number);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    return new Payment(
-                            rs.getLong("number"),
-                            rs.getString("login"),
-                            rs.getString("surname"),
-                            rs.getString("name"),
-                            rs.getString("passport"),
-                            rs.getLong("id"),
-                            rs.getDate("pickup").toLocalDate(),
-                            rs.getDate("dropoff").toLocalDate(),
-                            rs.getLong("total"),
-                            rs.getString("approval"),
-                            rs.getString("comment"));
-                } else {
-                    return null;
-                }
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+    public Payment getPaymentByNumber(Long number){
+        PaymentEntity payment;
+        try {
+            payment = (PaymentEntity) HibernateUtil.getSession().createQuery("from PaymentEntity pe where pe.number = :number")
+                    .setParameter("number", number)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            logOut.info("Payment not found by number {}", number);
+            payment = null;
         }
+        return PaymentConverter.fromEntity(payment);
     }
 
     @Override
-    public List<Payment> getAllPayments() {
-        try (Connection connection = DataSource.getInstance().getConnection();
-             PreparedStatement ps = connection.prepareStatement("select * from base.payment")) {
-            try (ResultSet rs = ps.executeQuery()) {
-                final ArrayList<Payment> listOfPayments = new ArrayList();
-                while (rs.next()) {
-                    final Payment payment = new Payment(
-                            rs.getLong("number"),
-                            rs.getString("login"),
-                            rs.getString("surname"),
-                            rs.getString("name"),
-                            rs.getString("passport"),
-                            rs.getLong("id"),
-                            rs.getDate("pickup").toLocalDate(),
-                            rs.getDate("dropoff").toLocalDate(),
-                            rs.getLong("total"),
-                            rs.getString("approval"),
-                            rs.getString("comment"));
-                    listOfPayments.add(payment);
-                }
-                return listOfPayments;
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+    public List<Payment> getAllPayments(){
+        final List<PaymentEntity> listOfPayment = HibernateUtil.getSession().createQuery("from PaymentEntity")
+                .list();
+        return listOfPayment.stream()
+                .map(PaymentConverter::fromEntity)
+                .collect(Collectors.toList());
     }
 
     @Override
     public void saveContPayment(Payment payment) {
-        final String sql = "insert into base.payment(number, login, surname, name, passport, id, pickup, dropoff, total, approval, comment) values(?,?,?,?,?,?,?,?,?,?,?)";
-        try (Connection connection = DataSource.getInstance().getConnection();
-             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            ps.setLong(1, payment.getNumber());
-            ps.setString(2, payment.getLogin());
-            ps.setString(3, payment.getSurname());
-            ps.setString(4, payment.getName());
-            ps.setString(5, payment.getPassport());
-            ps.setLong(6, payment.getId());
-            ps.setDate(7, Date.valueOf(payment.getPickup()));
-            ps.setDate(8, Date.valueOf(payment.getDropoff()));
-            ps.setLong(9, payment.getTotal());
-            ps.setString(10, payment.getApproval());
-            ps.setString(11, payment.getComment());
-            ps.executeUpdate();
-            try (ResultSet keys = ps.getGeneratedKeys()) {
-                keys.next();
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        PaymentEntity paymentEntity = PaymentConverter.toEntity(payment);
+        final Session session = HibernateUtil.getSession();
+        session.beginTransaction();
+        session.save(paymentEntity);
+        session.getTransaction().commit();
     }
 
     @Override
-    public void deleteOrder(Long number) {
-        final String sql = "delete from base.payment where number=?";
-        try (Connection connection = DataSource.getInstance().getConnection();
-             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            ps.setLong(1, number);
-            ps.executeUpdate();
-            try (ResultSet keys = ps.getGeneratedKeys()) {
-                keys.next();
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+    public void deletePayment(Long number) {
+        HibernateUtil.getSession().createQuery("delete from PaymentEntity au where au.number = :number")
+                .setParameter("number", number)
+                .getSingleResult();
     }
 
-    @Override
-    public void updApprComm(ApprComm apprComm) {
-        final String sql = "update base.payment SET approval=?, comment=? where number = ?";
-        try (Connection connection = DataSource.getInstance().getConnection();
-             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            ps.setString(1, apprComm.getApproval());
-            ps.setString(2, apprComm.getComment());
-            ps.setLong(3, apprComm.getNumber());
-            ps.executeUpdate();
-            try (ResultSet keys = ps.getGeneratedKeys()) {
-                keys.next();
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        @Override
+        public void updApprComm (Long number, String approval, String comment) {
+            final Session session = HibernateUtil.getSession();
+            session.beginTransaction();
+            session.createQuery("update PaymentEntity set approval=:approval, comment=:comment where number = :number")
+                    .setParameter("approval", approval)
+                    .setParameter("comment", comment)
+                    .setParameter("number", number)
+                    .executeUpdate();
+            session.getTransaction().commit();
         }
     }
-}

@@ -3,9 +3,11 @@ package com.github.vvzhuchkov.base.service.impl;
 import com.github.vvzhuchkov.base.dao.DealDao;
 import com.github.vvzhuchkov.base.dao.OrderDao;
 import com.github.vvzhuchkov.base.dao.PaymentDao;
+import com.github.vvzhuchkov.base.dao.entity.DealEntity;
 import com.github.vvzhuchkov.base.dao.impl.DefaultDealDao;
 import com.github.vvzhuchkov.base.dao.impl.DefaultOrderDao;
 import com.github.vvzhuchkov.base.dao.impl.DefaultPaymentDao;
+import com.github.vvzhuchkov.base.model.Deal;
 import com.github.vvzhuchkov.base.model.Payment;
 import com.github.vvzhuchkov.base.service.DealService;
 
@@ -31,7 +33,7 @@ public class DefaultDealService implements DealService {
     }
 
     @Override
-    public List<Payment> getAllDeals() {
+    public List<Deal> getAllDeals() {
         return dealDao.getAllDeals();
     }
 
@@ -39,11 +41,11 @@ public class DefaultDealService implements DealService {
     public void saveAllApprovedPayments(Long payNumber) {
         Payment payment = paymentDao.getPaymentByNumber(payNumber);
             dealDao.saveDeal(payment);
-            paymentDao.deleteOrder(payment.getNumber());
+            paymentDao.deletePayment(payment.getNumber());
     }
 
     @Override
-    public List<Payment> getDealsByLogin (String login){
+    public List<Deal> getDealsByLogin (String login){
         return dealDao.getDealsByLogin(login);
     }
 }

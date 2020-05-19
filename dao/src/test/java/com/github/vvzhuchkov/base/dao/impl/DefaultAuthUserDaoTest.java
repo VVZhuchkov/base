@@ -1,9 +1,9 @@
 package com.github.vvzhuchkov.base.dao.impl;
 
 import com.github.vvzhuchkov.base.dao.AuthUserDao;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DefaultAuthUserDaoTest {
 
@@ -17,7 +17,7 @@ public class DefaultAuthUserDaoTest {
     @Test
     public void getByLogin(String login){
         AuthUserDao authUserDao = DefaultAuthUserDao.getInstance();
-        authUserDao.getByLogin("vzhuchkov");
         String password = "5";
+        assertEquals(authUserDao.getByLogin("vzhuchkov").getPassword(),password);
     }
 }

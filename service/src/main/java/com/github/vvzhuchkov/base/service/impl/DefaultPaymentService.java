@@ -60,13 +60,12 @@ public class DefaultPaymentService implements PaymentService {
 
     @Override
     public void deleteOrder(Long delNumber){
-        paymentDao.deleteOrder(delNumber);
+        paymentDao.deletePayment(delNumber);
     }
 
     @Override
     public void updApprComm(Long number, String approval, String comment){
-        ApprComm apprComm  = new ApprComm(number, approval, comment);
-        paymentDao.updApprComm(apprComm);
+        paymentDao.updApprComm(number, approval, comment);
    }
 
     @Override

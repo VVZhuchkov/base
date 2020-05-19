@@ -12,5 +12,5 @@ public interface AuthUserDao {
 
     void saveNewRegUser (AuthUser user);
 
-    void setNewUserRole(AuthUser user);
+    void setNewUserRole(String login);
 }

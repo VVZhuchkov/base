@@ -3,9 +3,9 @@ package com.github.vvzhuchkov.base.model;
 public class RoleUser {
     private String login;
     private String role;
-    private int rating;
+    private Long rating;
 
-    public RoleUser(String login, String role, int rating) {
+    public RoleUser(String login, String role, Long rating) {
         this.login = login;
         this.role = role;
         this.rating = rating;
@@ -19,5 +19,5 @@ public class RoleUser {
         return role;
     }
 
-    public int getRating() { return rating; }
+    public Long getRating() { return rating; }
 }

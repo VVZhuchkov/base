@@ -1,10 +1,9 @@
 package com.github.vvzhuchkov.base.service.impl;
 
-import com.github.vvzhuchkov.base.model.AuthUser;
 import com.github.vvzhuchkov.base.service.SecurityService;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DefaultSecurityServiceTest {
 

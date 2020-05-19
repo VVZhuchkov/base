@@ -1,12 +1,14 @@
 package com.github.vvzhuchkov.base.dao.impl;
 
-import com.github.vvzhuchkov.base.dao.DataSource;
 import com.github.vvzhuchkov.base.dao.DealDao;
+import com.github.vvzhuchkov.base.dao.HibernateUtil;
+import com.github.vvzhuchkov.base.dao.converter.DealConverter;
+import com.github.vvzhuchkov.base.dao.entity.DealEntity;
+import com.github.vvzhuchkov.base.model.Deal;
 import com.github.vvzhuchkov.base.model.Payment;
-
-import java.sql.*;
-import java.util.ArrayList;
+import org.hibernate.Session;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class DefaultDealDao implements DealDao {
     public static volatile DealDao instance;
@@ -25,84 +27,29 @@ public class DefaultDealDao implements DealDao {
     }
 
     @Override
-    public void saveDeal(Payment payment){
-        final String sql = "insert into base.deal(number, login, surname, name, passport, id, pickup, dropoff, total, approval, comment) values(?,?,?,?,?,?,?,?,?,?,?)";
-        try (Connection connection = DataSource.getInstance().getConnection();
-             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            ps.setLong(1, payment.getNumber());
-            ps.setString(2, payment.getLogin());
-            ps.setString(3, payment.getSurname());
-            ps.setString(4, payment.getName());
-            ps.setString(5, payment.getPassport());
-            ps.setLong(6, payment.getId());
-            ps.setDate(7, Date.valueOf(payment.getPickup()));
-            ps.setDate(8, Date.valueOf(payment.getDropoff()));
-            ps.setLong(9, payment.getTotal());
-            ps.setString(10, payment.getApproval());
-            ps.setString(11, payment.getComment());
-            ps.executeUpdate();
-            try (ResultSet keys = ps.getGeneratedKeys()) {
-                keys.next();
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+    public void saveDeal(Payment payment) {
+        DealEntity dealEntity = DealConverter.toEntity(payment);
+        final Session session = HibernateUtil.getSession();
+        session.beginTransaction();
+        session.save(dealEntity);
+        session.getTransaction().commit();
     }
 
     @Override
-    public List<Payment> getDealsByLogin(String login){
-        try (Connection connection = DataSource.getInstance().getConnection();
-             PreparedStatement ps = connection.prepareStatement("select * from base.deal where login=? order by base.deal.number desc ")) {
-            ps.setString(1, login);
-            try (ResultSet rs = ps.executeQuery()) {
-                final ArrayList listOfDealsByLogin = new ArrayList();
-                while (rs.next()) {
-                    final Payment payment = new Payment(
-                            rs.getLong("number"),
-                            rs.getString("login"),
-                            rs.getString("surname"),
-                            rs.getString("name"),
-                            rs.getString("passport"),
-                            rs.getLong("id"),
-                            rs.getDate("pickup").toLocalDate(),
-                            rs.getDate("dropoff").toLocalDate(),
-                            rs.getLong("total"),
-                            rs.getString("approval"),
-                            rs.getString("comment"));
-                    listOfDealsByLogin.add(payment);
-                }
-                return listOfDealsByLogin;
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+    public List<Deal> getDealsByLogin(String login){
+        final List<DealEntity> listOfDealsByLogin = HibernateUtil.getSession().createQuery("from DealEntity de where de.login=:login order by de.number desc")
+                .list();
+        return listOfDealsByLogin.stream()
+                .map(DealConverter::fromEntity)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public List<Payment> getAllDeals(){
-        try (Connection connection = DataSource.getInstance().getConnection();
-             PreparedStatement ps = connection.prepareStatement("select * from base.deal order by base.deal.number desc")) {
-            try (ResultSet rs = ps.executeQuery()) {
-                final ArrayList<Payment> listOfDeals = new ArrayList();
-                while (rs.next()) {
-                    final Payment payment = new Payment(
-                            rs.getLong("number"),
-                            rs.getString("login"),
-                            rs.getString("surname"),
-                            rs.getString("name"),
-                            rs.getString("passport"),
-                            rs.getLong("id"),
-                            rs.getDate("pickup").toLocalDate(),
-                            rs.getDate("dropoff").toLocalDate(),
-                            rs.getLong("total"),
-                            rs.getString("approval"),
-                            rs.getString("comment"));
-                    listOfDeals.add(payment);
-                }
-                return listOfDeals;
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+    public List<Deal> getAllDeals(){
+        final List<DealEntity> car = HibernateUtil.getSession().createQuery("from DealEntity")
+                .list();
+        return car.stream()
+                .map(DealConverter::fromEntity)
+                .collect(Collectors.toList());
     }
 }
