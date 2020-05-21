@@ -14,7 +14,7 @@
             <jsp:param name="role" value="${role}"/>
         </jsp:include>
         <c:choose>
-        <c:when test="${orders.size()!=0}">
+        <c:when test="${bookings.size()!=0}">
         <h3 align="center">Check your order:</h3>
             <jsp:include page="main_tabstl.jsp" />
             <table align="center">
@@ -27,19 +27,19 @@
                     <th>Pick-up<br>date</th>
                     <th>Drop-off<br>date</th>
                 </tr>
-                <c:forEach items="${orders}" var="order">
+                <c:forEach items="${bookings}" var="booking">
                 <form action="${pageContext.request.contextPath}/order"  method="get">
                     <tr>
-                        <td>${order.number}</td>
-                        <td> <img src="${order.photo}" height="202" width="300"></td>
-                        <td>${order.brand} ${order.model}<br><br>${order.engine}<br>${order.year}</td>
-                        <td>${order.location}</td>
-                        <td>${order.price}</td>
-                        <td>${order.pickup}</td>
-                        <td>${order.dropoff}</td>
+                        <td>${booking.number}</td>
+                        <td> <img src="${booking.photo}" height="202" width="300"></td>
+                        <td>${booking.brand} ${booking.model}<br><br>${booking.engine}<br>${booking.year}</td>
+                        <td>${booking.location}</td>
+                        <td>${booking.price}</td>
+                        <td>${booking.pickup}</td>
+                        <td>${booking.dropoff}</td>
                         <div class="buttons">
                             <div class="container">
-                                    <td><button id="btnRent" type="submit" name="delNumber" value="${order.number}">Delete!</button></td>
+                                    <td><button id="btnRent" type="submit" name="delNumber" value="${booking.number}">Delete!</button></td>
                             </div>
                         </div>
                     </tr>

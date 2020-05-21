@@ -5,6 +5,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "role")
 public class RoleUserEntity {
+    @Id
     private String login;
     private String role;
     private Long rating;
@@ -12,7 +13,6 @@ public class RoleUserEntity {
     public RoleUserEntity() {
     }
 
-    @Id
     public String getLogin() {
         return login;
     }

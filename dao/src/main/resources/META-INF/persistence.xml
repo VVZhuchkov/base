@@ -8,7 +8,7 @@
       <class>com.github.vvzhuchkov.base.dao.entity.AuthUserEntity</class>
       <class>com.github.vvzhuchkov.base.dao.entity.CarEntity</class>
       <class>com.github.vvzhuchkov.base.dao.entity.DealEntity</class>
-      <class>com.github.vvzhuchkov.base.dao.entity.OrderEntity</class>
+      <class>com.github.vvzhuchkov.base.dao.entity.BookingEntity</class>
       <class>com.github.vvzhuchkov.base.dao.entity.PaymentEntity</class>
       <class>com.github.vvzhuchkov.base.dao.entity.RestitutionEntity</class>
       <class>com.github.vvzhuchkov.base.dao.entity.RoleUserEntity</class>

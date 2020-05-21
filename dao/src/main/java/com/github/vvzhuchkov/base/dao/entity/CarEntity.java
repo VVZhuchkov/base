@@ -5,6 +5,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "car")
 public class CarEntity {
+    @Id
     private Long id;
     private String photo;
     private String brand;
@@ -15,10 +16,21 @@ public class CarEntity {
     private String location;
     private String availability;
 
+    @ManyToOne (fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "id", insertable = false, updatable = false)
+    private BookingEntity booking;
+
+    public BookingEntity getBooking() {
+        return booking;
+    }
+
+    public void setBooking(BookingEntity booking) {
+        this.booking = booking;
+    }
+
     public CarEntity() {
     }
 
-    @Id
     public Long getId() {
         return id;
     }

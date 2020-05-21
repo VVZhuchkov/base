@@ -10,7 +10,7 @@ public interface PaymentService {
 
    List<Payment> getPaymentsByLogin (String login);
 
-    void deleteOrder(Long delNumber);
+    void deleteBooking(Long delNumber);
 
     void updApprComm(Long number, String approval, String comment);
 

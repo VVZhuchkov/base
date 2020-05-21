@@ -2,6 +2,7 @@ package com.github.vvzhuchkov.base.dao.impl;
 
 import com.github.vvzhuchkov.base.dao.HibernateUtil;
 import com.github.vvzhuchkov.base.dao.RoleUserDao;
+import com.github.vvzhuchkov.base.dao.entity.RoleUserEntity;
 import com.github.vvzhuchkov.base.model.RoleUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,9 +27,9 @@ public class DefaultRoleUserDao implements RoleUserDao {
 
     @Override
     public String getRoleUserByLogin(String login) {
-        RoleUser roleUser;
+        RoleUserEntity roleUser;
         try {
-            roleUser = (RoleUser) HibernateUtil.getSession().createQuery("select ru.role from RoleUserEntity ru where ru.login = :login")
+            roleUser = (RoleUserEntity) HibernateUtil.getSession().createQuery("from RoleUserEntity ru where ru.login = :login")
                     .setParameter("login", login)
                     .getSingleResult();
         } catch (NoResultException e) {
@@ -40,9 +41,9 @@ public class DefaultRoleUserDao implements RoleUserDao {
 
     @Override
     public Long getRatingUserByLogin(String login){
-        RoleUser roleUser;
+        RoleUserEntity roleUser;
         try {
-            roleUser = (RoleUser) HibernateUtil.getSession().createQuery("select ru.rating from RoleUserEntity ru where ru.login = :login")
+            roleUser = (RoleUserEntity) HibernateUtil.getSession().createQuery("from RoleUserEntity ru where ru.login = :login")
                     .setParameter("login", login)
                     .getSingleResult();
         } catch (NoResultException e) {

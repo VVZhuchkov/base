@@ -2,7 +2,7 @@ package com.github.vvzhuchkov.base.model;
 
 import java.time.LocalDate;
 
-public class Order {
+public class Booking {
     private Long number;
     private String login;
     private Long id;
@@ -18,7 +18,7 @@ public class Order {
     private LocalDate dropoff;
     private Long days;
 
-    public Order(String login, Long id, LocalDate pickup, LocalDate dropoff, Long days) {
+    public Booking(String login, Long id, LocalDate pickup, LocalDate dropoff, Long days) {
         this.login = login;
         this.id = id;
         this.pickup = pickup;
@@ -26,7 +26,7 @@ public class Order {
         this.days = days;
     }
 
-    public Order(Long number, String login, Long id, LocalDate pickup, LocalDate dropoff, Long days) {
+    public Booking(Long number, String login, Long id, LocalDate pickup, LocalDate dropoff, Long days) {
         this.number = number;
         this.login = login;
         this.id = id;
@@ -35,7 +35,7 @@ public class Order {
         this.days = days;
     }
 
-    public Order(Long number, String login, Long id, String photo, String brand, String model, Long year, String engine, Long price, String location, String availability, LocalDate pickup, LocalDate dropoff, Long days) {
+    public Booking(Long number, String login, Long id, String photo, String brand, String model, Long year, String engine, Long price, String location, String availability, LocalDate pickup, LocalDate dropoff, Long days) {
         this.number = number;
         this.login = login;
         this.id = id;

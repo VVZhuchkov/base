@@ -1,11 +1,11 @@
 package com.github.vvzhuchkov.base.web.servlet;
 
 import com.github.vvzhuchkov.base.model.AuthUser;
-import com.github.vvzhuchkov.base.model.Order;
+import com.github.vvzhuchkov.base.model.Booking;
 import com.github.vvzhuchkov.base.model.Request;
-import com.github.vvzhuchkov.base.service.OrderService;
+import com.github.vvzhuchkov.base.service.BookingService;
 import com.github.vvzhuchkov.base.service.RoleUserService;
-import com.github.vvzhuchkov.base.service.impl.DefaultOrderService;
+import com.github.vvzhuchkov.base.service.impl.DefaultBookingService;
 import com.github.vvzhuchkov.base.service.impl.DefaultRoleUserService;
 import com.github.vvzhuchkov.base.web.WebUtils;
 
@@ -19,8 +19,8 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @WebServlet("/order")
-public class OrderServlet extends HttpServlet {
-    private OrderService orderService = DefaultOrderService.getInstance();
+public class BookingServlet extends HttpServlet {
+    private BookingService bookingService = DefaultBookingService.getInstance();
     private RoleUserService roleUserService = DefaultRoleUserService.getInstance();
 
 
@@ -29,9 +29,9 @@ public class OrderServlet extends HttpServlet {
         AuthUser authUser = (AuthUser) request.getSession().getAttribute("authUser");
         String role = roleUserService.getRoleUserByLogin(authUser.getLogin());
         request.setAttribute("role", role);
-        List<Order> listOfOrdersByLogin = orderService.getAllOrdersByLogin(authUser.getLogin());
-        request.setAttribute("orders", listOfOrdersByLogin);
-        if (listOfOrdersByLogin.size() == 0) {
+        List<Booking> listOfBookingsByLogin = bookingService.getAllBookingsByLogin(authUser.getLogin());
+        request.setAttribute("bookings", listOfBookingsByLogin);
+        if (listOfBookingsByLogin.size() == 0) {
             request.setAttribute("orderError", "You haven't done any order yet!");
         }
         String delNumber = request.getParameter("delNumber");
@@ -39,7 +39,7 @@ public class OrderServlet extends HttpServlet {
             WebUtils.forward("order", request, response);
             return;
         } else {
-            orderService.deleteOrder(Long.parseLong(delNumber));
+            bookingService.deleteBooking(Long.parseLong(delNumber));
             WebUtils.redirect("/order", request, response);
         }
     }
@@ -52,8 +52,8 @@ public class OrderServlet extends HttpServlet {
         LocalDate pickup = Date.valueOf(mainReq.getPickup()).toLocalDate();
         LocalDate dropoff = Date.valueOf(mainReq.getDropoff()).toLocalDate();
         long days = ChronoUnit.DAYS.between(pickup, dropoff) + 1L;
-        Order order = new Order(authUser.getLogin(), Long.parseLong(id), mainReq.getPickup(), mainReq.getDropoff(), days);
-        orderService.saveOrder(order);
+        Booking booking = new Booking(authUser.getLogin(), Long.parseLong(id), mainReq.getPickup(), mainReq.getDropoff(), days);
+        bookingService.saveBooking(booking);
         WebUtils.redirect("/order", request, response);
     }
 }

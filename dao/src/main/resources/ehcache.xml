@@ -23,7 +23,7 @@
            timeToLiveSeconds="600">
         <persistence strategy="localTempSwap"/>
     </cache>
-    <cache name="com.github.vvzhuchkov.base.dao.entity.OrderEntity"
+    <cache name="com.github.vvzhuchkov.base.dao.entity.BookingEntity"
            maxEntriesLocalHeap="20"
            eternal="false"
            timeToIdleSeconds="300"

@@ -1,11 +1,10 @@
 package com.github.vvzhuchkov.base.service.impl;
 
 import com.github.vvzhuchkov.base.dao.DealDao;
-import com.github.vvzhuchkov.base.dao.OrderDao;
+import com.github.vvzhuchkov.base.dao.BookingDao;
 import com.github.vvzhuchkov.base.dao.PaymentDao;
-import com.github.vvzhuchkov.base.dao.entity.DealEntity;
 import com.github.vvzhuchkov.base.dao.impl.DefaultDealDao;
-import com.github.vvzhuchkov.base.dao.impl.DefaultOrderDao;
+import com.github.vvzhuchkov.base.dao.impl.DefaultBookingDao;
 import com.github.vvzhuchkov.base.dao.impl.DefaultPaymentDao;
 import com.github.vvzhuchkov.base.model.Deal;
 import com.github.vvzhuchkov.base.model.Payment;
@@ -16,7 +15,7 @@ import java.util.List;
 public class DefaultDealService implements DealService {
     private DealDao dealDao = DefaultDealDao.getInstance();
     private PaymentDao paymentDao = DefaultPaymentDao.getInstance();
-    private OrderDao orderDao = DefaultOrderDao.getInstance();
+    private BookingDao bookingDao = DefaultBookingDao.getInstance();
     private static volatile DealService instance;
 
     public static DealService getInstance() {

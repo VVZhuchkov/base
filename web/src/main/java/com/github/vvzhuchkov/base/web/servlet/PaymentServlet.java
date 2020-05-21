@@ -1,14 +1,14 @@
 package com.github.vvzhuchkov.base.web.servlet;
 
 import com.github.vvzhuchkov.base.model.AuthUser;
-import com.github.vvzhuchkov.base.model.Order;
+import com.github.vvzhuchkov.base.model.Booking;
 import com.github.vvzhuchkov.base.model.Payment;
 import com.github.vvzhuchkov.base.service.DealService;
-import com.github.vvzhuchkov.base.service.OrderService;
+import com.github.vvzhuchkov.base.service.BookingService;
 import com.github.vvzhuchkov.base.service.PaymentService;
 import com.github.vvzhuchkov.base.service.RoleUserService;
 import com.github.vvzhuchkov.base.service.impl.DefaultDealService;
-import com.github.vvzhuchkov.base.service.impl.DefaultOrderService;
+import com.github.vvzhuchkov.base.service.impl.DefaultBookingService;
 import com.github.vvzhuchkov.base.service.impl.DefaultPaymentService;
 import com.github.vvzhuchkov.base.service.impl.DefaultRoleUserService;
 import com.github.vvzhuchkov.base.web.WebUtils;
@@ -23,7 +23,7 @@ import java.util.List;
 @WebServlet("/payment")
 public class PaymentServlet extends HttpServlet {
     private PaymentService paymentService = DefaultPaymentService.getInstance();
-    private OrderService orderService = DefaultOrderService.getInstance();
+    private BookingService bookingService = DefaultBookingService.getInstance();
     private RoleUserService roleUserService = DefaultRoleUserService.getInstance();
     private DealService dealService = DefaultDealService.getInstance();
 
@@ -36,13 +36,13 @@ public class PaymentServlet extends HttpServlet {
         String surname = request.getParameter("surname");
         String passport = request.getParameter("passport");
         if (name != null && surname != null && passport != null) {
-            List<Order> listOfOrdersByLogin = orderService.getAllOrdersByLogin(authUser.getLogin());
-            for (Order order : listOfOrdersByLogin) {
-                if (paymentService.getPaymentByNumber(order.getNumber()) == null) {
-                    Long price = order.getDays() * order.getPrice();
-                    Payment payment = new Payment(order.getNumber(), authUser.getLogin(), surname.toUpperCase(), name.toUpperCase(), passport, order.getId(), order.getPickup(), order.getDropoff(), price, "-", "Waiting for approval...");
+            List<Booking> listOfBookingsByLogin = bookingService.getAllBookingsByLogin(authUser.getLogin());
+            for (Booking booking : listOfBookingsByLogin) {
+                if (paymentService.getPaymentByNumber(booking.getNumber()) == null) {
+                    Long price = booking.getDays() * booking.getPrice();
+                    Payment payment = new Payment(booking.getNumber(), authUser.getLogin(), surname.toUpperCase(), name.toUpperCase(), passport, booking.getId(), booking.getPickup(), booking.getDropoff(), price, "-", "Waiting for approval...");
                     paymentService.saveContPayment(payment);
-                    orderService.deleteOrder(payment.getNumber());
+                    bookingService.deleteBooking(payment.getNumber());
                 }
             }
         }
@@ -81,7 +81,7 @@ public class PaymentServlet extends HttpServlet {
             paymentService.updApprComm(Long.parseLong(number), approval, comment);
         }
         if (delNumber != null) {
-            paymentService.deleteOrder(Long.parseLong(delNumber));
+            paymentService.deleteBooking(Long.parseLong(delNumber));
         }
         if (payNumber != null) {
             dealService.saveAllApprovedPayments(Long.parseLong(payNumber));

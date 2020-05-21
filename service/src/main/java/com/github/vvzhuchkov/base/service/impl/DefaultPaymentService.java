@@ -4,8 +4,7 @@ import com.github.vvzhuchkov.base.dao.PaymentDao;
 import com.github.vvzhuchkov.base.dao.RoleUserDao;
 import com.github.vvzhuchkov.base.dao.impl.DefaultPaymentDao;
 import com.github.vvzhuchkov.base.dao.impl.DefaultRoleUserDao;
-import com.github.vvzhuchkov.base.model.ApprComm;
-import com.github.vvzhuchkov.base.model.Order;
+import com.github.vvzhuchkov.base.model.Booking;
 import com.github.vvzhuchkov.base.model.Payment;
 import com.github.vvzhuchkov.base.service.PaymentService;
 
@@ -59,7 +58,7 @@ public class DefaultPaymentService implements PaymentService {
     }
 
     @Override
-    public void deleteOrder(Long delNumber){
+    public void deleteBooking(Long delNumber){
         paymentDao.deletePayment(delNumber);
     }
 
