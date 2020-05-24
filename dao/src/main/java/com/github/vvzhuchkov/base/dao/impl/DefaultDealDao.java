@@ -37,7 +37,9 @@ public class DefaultDealDao implements DealDao {
 
     @Override
     public List<Deal> getDealsByLogin(String login){
-        final List<DealEntity> listOfDealsByLogin = HibernateUtil.getSession().createQuery("from DealEntity de where de.login=:login order by de.number desc")
+        final List<DealEntity> listOfDealsByLogin = HibernateUtil.getSession().
+                createQuery("from DealEntity de where de.login=:login order by de.number desc").
+                setParameter("login", login)
                 .list();
         return listOfDealsByLogin.stream()
                 .map(DealConverter::fromEntity)

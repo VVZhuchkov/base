@@ -6,17 +6,10 @@ public class Booking {
     private Long number;
     private String login;
     private Long id;
-    private String photo;
-    private String brand;
-    private String model;
-    private Long year;
-    private String engine;
-    private Long price;
-    private String location;
-    private String availability;
     private LocalDate pickup;
     private LocalDate dropoff;
     private Long days;
+    private Car car;
 
     public Booking(String login, Long id, LocalDate pickup, LocalDate dropoff, Long days) {
         this.login = login;
@@ -26,30 +19,14 @@ public class Booking {
         this.days = days;
     }
 
-    public Booking(Long number, String login, Long id, LocalDate pickup, LocalDate dropoff, Long days) {
+    public Booking(Long number, String login, Long id, LocalDate pickup, LocalDate dropoff, Long days, Car car) {
         this.number = number;
         this.login = login;
         this.id = id;
         this.pickup = pickup;
         this.dropoff = dropoff;
         this.days = days;
-    }
-
-    public Booking(Long number, String login, Long id, String photo, String brand, String model, Long year, String engine, Long price, String location, String availability, LocalDate pickup, LocalDate dropoff, Long days) {
-        this.number = number;
-        this.login = login;
-        this.id = id;
-        this.photo = photo;
-        this.brand = brand;
-        this.model = model;
-        this.year = year;
-        this.engine = engine;
-        this.price = price;
-        this.location = location;
-        this.availability = availability;
-        this.pickup = pickup;
-        this.dropoff = dropoff;
-        this.days = days;
+        this.car = car;
     }
 
     public Long getNumber() { return number; }
@@ -61,39 +38,7 @@ public class Booking {
     public Long getId() {
         return id;
     }
-
-    public String getPhoto() {
-        return photo;
-    }
-
-    public String getBrand() {
-        return brand;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    public Long getYear() {
-        return year;
-    }
-
-    public String getEngine() {
-        return engine;
-    }
-
-    public Long getPrice() {
-        return price;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public String getAvailability() {
-        return availability;
-    }
-
+    
     public LocalDate getPickup() {
         return pickup;
     }
@@ -103,5 +48,9 @@ public class Booking {
     }
 
     public Long getDays() { return days;
+    }
+
+    public Car getCar() {
+        return car;
     }
 }

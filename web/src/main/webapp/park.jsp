@@ -29,8 +29,7 @@
                 </tr>
                 <c:forEach items="${allCars}" var="car">
                     <tr>
-                        <td><a name="${car.id}"
-                               href="${pageContext.request.contextPath}/payment#${car.id}">${car.id}</a></td>
+                        <td>${car.id}</td>
                         <td> <img src="${car.photo}" height="152" width="225"></td>
                         <td>${car.brand}</td>
                         <td>${car.model}</td>

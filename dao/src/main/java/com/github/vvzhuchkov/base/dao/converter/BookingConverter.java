@@ -14,7 +14,8 @@ public class BookingConverter {
                 booking.getId(),
                 booking.getPickup(),
                 booking.getDropoff(),
-                booking.getDays());
+                booking.getDays(),
+                CarConverter.fromEntity(booking.getCar()));
     }
 
     public static BookingEntity toEntity(Booking booking) {
@@ -28,6 +29,8 @@ public class BookingConverter {
         bookingEntity.setPickup(booking.getPickup());
         bookingEntity.setDropoff(booking.getDropoff());
         bookingEntity.setDays(booking.getDays());
+        bookingEntity.setCar(CarConverter.toEntity(booking.getCar()));
+
         return bookingEntity;
     }
 }

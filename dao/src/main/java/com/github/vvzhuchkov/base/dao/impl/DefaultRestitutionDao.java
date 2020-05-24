@@ -54,7 +54,8 @@ public class DefaultRestitutionDao implements RestitutionDao {
 
     @Override
     public List<Restitution> getRestitutionsByLogin(String login) {
-        final List<RestitutionEntity> listOfRestitutionsByLogin = HibernateUtil.getSession().createQuery("from RestitutionEntity re where re.login=:login")
+        final List<RestitutionEntity> listOfRestitutionsByLogin = HibernateUtil.getSession().createQuery("from RestitutionEntity re where re.login=:login").
+                setParameter("login", login)
                 .list();
         return listOfRestitutionsByLogin.stream()
                 .map(RestitutionConverter::fromEntity)

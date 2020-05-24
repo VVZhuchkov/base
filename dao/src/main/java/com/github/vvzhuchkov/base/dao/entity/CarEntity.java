@@ -6,6 +6,7 @@ import javax.persistence.*;
 @Table(name = "car")
 public class CarEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String photo;
     private String brand;
@@ -15,18 +16,6 @@ public class CarEntity {
     private Long price;
     private String location;
     private String availability;
-
-    @ManyToOne (fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "id", insertable = false, updatable = false)
-    private BookingEntity booking;
-
-    public BookingEntity getBooking() {
-        return booking;
-    }
-
-    public void setBooking(BookingEntity booking) {
-        this.booking = booking;
-    }
 
     public CarEntity() {
     }

@@ -39,7 +39,7 @@ public class PaymentServlet extends HttpServlet {
             List<Booking> listOfBookingsByLogin = bookingService.getAllBookingsByLogin(authUser.getLogin());
             for (Booking booking : listOfBookingsByLogin) {
                 if (paymentService.getPaymentByNumber(booking.getNumber()) == null) {
-                    Long price = booking.getDays() * booking.getPrice();
+                    Long price = booking.getDays() * booking.getCar().getPrice();
                     Payment payment = new Payment(booking.getNumber(), authUser.getLogin(), surname.toUpperCase(), name.toUpperCase(), passport, booking.getId(), booking.getPickup(), booking.getDropoff(), price, "-", "Waiting for approval...");
                     paymentService.saveContPayment(payment);
                     bookingService.deleteBooking(payment.getNumber());

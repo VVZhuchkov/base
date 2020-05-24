@@ -32,7 +32,8 @@ public class DefaultPaymentDao implements PaymentDao {
 
     @Override
     public List<Payment> getPaymentsByLogin(String login){
-        final List<PaymentEntity> listOfPaymentsByLogin = HibernateUtil.getSession().createQuery("from PaymentEntity pe where pe.login=:login")
+        final List<PaymentEntity> listOfPaymentsByLogin = HibernateUtil.getSession().createQuery("from PaymentEntity where login=:login")
+                .setParameter("login", login)
                 .list();
         return listOfPaymentsByLogin.stream()
                 .map(PaymentConverter::fromEntity)
@@ -73,9 +74,12 @@ public class DefaultPaymentDao implements PaymentDao {
 
     @Override
     public void deletePayment(Long number) {
-        HibernateUtil.getSession().createQuery("delete from PaymentEntity au where au.number = :number")
+        final Session session = HibernateUtil.getSession();
+        session.beginTransaction();
+        session.createQuery("delete PaymentEntity au where au.number = :number")
                 .setParameter("number", number)
-                .getSingleResult();
+                .executeUpdate();
+        session.getTransaction().commit();
     }
 
         @Override

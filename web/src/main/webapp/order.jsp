@@ -31,10 +31,10 @@
                 <form action="${pageContext.request.contextPath}/order"  method="get">
                     <tr>
                         <td>${booking.number}</td>
-                        <td> <img src="${booking.photo}" height="202" width="300"></td>
-                        <td>${booking.brand} ${booking.model}<br><br>${booking.engine}<br>${booking.year}</td>
-                        <td>${booking.location}</td>
-                        <td>${booking.price}</td>
+                        <td> <img src="${booking.car.photo}" height="202" width="300"></td>
+                        <td>${booking.car.brand} ${booking.car.model}<br><br>${booking.car.engine}<br>${booking.car.year}</td>
+                        <td>${booking.car.location}</td>
+                        <td>${booking.car.price}</td>
                         <td>${booking.pickup}</td>
                         <td>${booking.dropoff}</td>
                         <div class="buttons">

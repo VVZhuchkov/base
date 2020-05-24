@@ -18,19 +18,19 @@ public class BookingEntity {
     private LocalDate pickup;
     private LocalDate dropoff;
     private Long days;
+    @ManyToOne (fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "id", insertable = false, updatable = false)
+    private CarEntity car;
 
     public BookingEntity() {
     }
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "booking")
-    private Set<CarEntity> cars;
-
-    public Set<CarEntity> getCars() {
-        return cars;
+    public CarEntity getCar() {
+        return car;
     }
 
-    public void setCars(Set<CarEntity> cars) {
-        this.cars = cars;
+    public void setCar(CarEntity car) {
+        this.car = car;
     }
 
     public Long getNumber() {

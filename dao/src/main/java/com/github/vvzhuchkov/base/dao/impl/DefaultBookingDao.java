@@ -40,15 +40,18 @@ public class DefaultBookingDao implements BookingDao {
 
     @Override
     public void deleteBooking(Long number) {
-       HibernateUtil.getSession().createQuery("delete from BookingEntity au where au.number = :number")
+        final Session session = HibernateUtil.getSession();
+        session.beginTransaction();
+        session.createQuery("delete BookingEntity au where au.number = :number")
                     .setParameter("number", number)
-                    .getSingleResult();
+                    .executeUpdate();
+        session.getTransaction().commit();
     }
 
     @Override
     public List<Booking> getAllBookings(){
-        final List<BookingEntity> listOfBookings = (List<BookingEntity>) HibernateUtil.getSession().createQuery("from BookingEntity, CarEntity")
-                .list();
+        final List<BookingEntity> listOfBookings = (List<BookingEntity>) HibernateUtil.getSession().createQuery("from BookingEntity")
+        .list();
         return listOfBookings.stream()
                 .map(BookingConverter::fromEntity)
                 .collect(Collectors.toList());
@@ -56,10 +59,10 @@ public class DefaultBookingDao implements BookingDao {
 
     @Override
     public List<Booking> getBookingsByLogin(String login) {
-        List<BookingEntity> bookings= (List<BookingEntity>)HibernateUtil.getSession().
-                createQuery("from BookingEntity where login=:login").
-                setParameter("login", login).
-                list();
+        List<BookingEntity> bookings= (List<BookingEntity>)HibernateUtil.getSession()
+                .createQuery("from BookingEntity where login=:login")
+                .setParameter("login", login)
+                .list();
     return bookings.stream().map(BookingConverter::fromEntity).collect(Collectors.toList());
     }
 
