@@ -2,10 +2,12 @@ package com.github.vvzhuchkov.base.dao.impl;
 
 import com.github.vvzhuchkov.base.dao.HibernateUtil;
 import com.github.vvzhuchkov.base.dao.BookingDao;
+import com.github.vvzhuchkov.base.dao.PaginationResult;
 import com.github.vvzhuchkov.base.dao.converter.BookingConverter;
 import com.github.vvzhuchkov.base.dao.entity.BookingEntity;
 import com.github.vvzhuchkov.base.model.Booking;
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import javax.persistence.NoResultException;
@@ -36,6 +38,7 @@ public class DefaultBookingDao implements BookingDao {
         session.beginTransaction();
         session.save(bookingEntity);
         session.getTransaction().commit();
+        session.close();
     }
 
     @Override
@@ -46,24 +49,20 @@ public class DefaultBookingDao implements BookingDao {
                     .setParameter("number", number)
                     .executeUpdate();
         session.getTransaction().commit();
+        session.close();
     }
 
     @Override
-    public List<Booking> getAllBookings(){
-        final List<BookingEntity> listOfBookings = (List<BookingEntity>) HibernateUtil.getSession().createQuery("from BookingEntity")
-        .list();
-        return listOfBookings.stream()
-                .map(BookingConverter::fromEntity)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<Booking> getBookingsByLogin(String login) {
-        List<BookingEntity> bookings= (List<BookingEntity>)HibernateUtil.getSession()
-                .createQuery("from BookingEntity where login=:login")
-                .setParameter("login", login)
-                .list();
-    return bookings.stream().map(BookingConverter::fromEntity).collect(Collectors.toList());
+    public PaginationResult<BookingEntity> getBookingsByLogin(String login, Integer page) {
+        Session session = HibernateUtil.getSession();
+        String sql = "from BookingEntity where login=:login";
+        Query<BookingEntity> query = session.createQuery(sql, BookingEntity.class);
+        query.setParameter("login", login);
+        int maxResult = 2;
+        int maxNavigationResult = 5;
+        PaginationResult<BookingEntity> result = new PaginationResult<BookingEntity>(query, page, maxResult, maxNavigationResult);
+        session.close();
+        return result;
     }
 
     @Override

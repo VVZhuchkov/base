@@ -1,5 +1,7 @@
 package com.github.vvzhuchkov.base.service;
 
+import com.github.vvzhuchkov.base.dao.PaginationResult;
+import com.github.vvzhuchkov.base.dao.entity.BookingEntity;
 import com.github.vvzhuchkov.base.model.Booking;
 
 import java.util.List;
@@ -10,5 +12,5 @@ public interface BookingService {
 
     void deleteBooking(Long delNumber);
 
-    List<Booking> getAllBookingsByLogin(String login);
+    PaginationResult<BookingEntity> getAllBookingsByLogin(String login, Integer page);
 }

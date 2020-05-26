@@ -76,6 +76,18 @@
                 </script>
                    </c:otherwise>
         </c:choose>
+        <c:if test="${totalPages > 1}">
+        <div class="page-navigator">
+            <c:forEach items="${navigationPages}" var = "page">
+                <c:if test="${page != -1 }">
+                    <a href="order?page=${page}" class="nav-item">${page}</a>
+                </c:if>
+                <c:if test="${page == -1 }">
+                    <span class="nav-item"> ... </span>
+                </c:if>
+            </c:forEach>
+        </div>
+    </c:if>
     </div>
 </div>
 </body>

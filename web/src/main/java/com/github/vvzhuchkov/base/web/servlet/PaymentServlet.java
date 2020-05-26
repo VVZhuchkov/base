@@ -1,5 +1,6 @@
 package com.github.vvzhuchkov.base.web.servlet;
 
+import com.github.vvzhuchkov.base.dao.converter.BookingConverter;
 import com.github.vvzhuchkov.base.model.AuthUser;
 import com.github.vvzhuchkov.base.model.Booking;
 import com.github.vvzhuchkov.base.model.Payment;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @WebServlet("/payment")
 public class PaymentServlet extends HttpServlet {
@@ -36,7 +38,7 @@ public class PaymentServlet extends HttpServlet {
         String surname = request.getParameter("surname");
         String passport = request.getParameter("passport");
         if (name != null && surname != null && passport != null) {
-            List<Booking> listOfBookingsByLogin = bookingService.getAllBookingsByLogin(authUser.getLogin());
+            List<Booking> listOfBookingsByLogin = bookingService.getAllBookingsByLogin(authUser.getLogin(), 1).getList().stream().map(BookingConverter::fromEntity).collect(Collectors.toList());
             for (Booking booking : listOfBookingsByLogin) {
                 if (paymentService.getPaymentByNumber(booking.getNumber()) == null) {
                     Long price = booking.getDays() * booking.getCar().getPrice();

@@ -1,5 +1,8 @@
 package com.github.vvzhuchkov.base.web.servlet;
 
+import com.github.vvzhuchkov.base.dao.PaginationResult;
+import com.github.vvzhuchkov.base.dao.converter.BookingConverter;
+import com.github.vvzhuchkov.base.dao.entity.BookingEntity;
 import com.github.vvzhuchkov.base.model.AuthUser;
 import com.github.vvzhuchkov.base.model.Booking;
 import com.github.vvzhuchkov.base.model.Request;
@@ -13,10 +16,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.awt.print.Book;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @WebServlet("/order")
 public class BookingServlet extends HttpServlet {
@@ -29,7 +35,19 @@ public class BookingServlet extends HttpServlet {
         AuthUser authUser = (AuthUser) request.getSession().getAttribute("authUser");
         String role = roleUserService.getRoleUserByLogin(authUser.getLogin());
         request.setAttribute("role", role);
-        List<Booking> listOfBookingsByLogin = bookingService.getAllBookingsByLogin(authUser.getLogin());
+        int page=0;
+        try{
+        page = Integer.parseInt(request.getParameter("page"));}
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        PaginationResult<BookingEntity> paginationResult = bookingService.getAllBookingsByLogin(authUser.getLogin(), page);
+        List<BookingEntity> listOfBookingsByLogin = paginationResult.getList();
+        int totalPages = paginationResult.getTotalPages();
+        request.setAttribute("totalPages", totalPages);
+        // 1 2 3 4 5 ... 11 12 13
+        List<Integer> navigationPages = paginationResult.getNavigationPages();
+        request.setAttribute("navigationPages", navigationPages);
         request.setAttribute("bookings", listOfBookingsByLogin);
         if (listOfBookingsByLogin.size() == 0) {
             request.setAttribute("orderError", "You haven't done any order yet!");

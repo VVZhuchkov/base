@@ -1,5 +1,6 @@
 package com.github.vvzhuchkov.base.dao;
 
+import com.github.vvzhuchkov.base.dao.entity.BookingEntity;
 import com.github.vvzhuchkov.base.model.Booking;
 
 import java.util.List;
@@ -10,9 +11,7 @@ public interface BookingDao {
 
     void deleteBooking(Long delNumber);
 
-    List<Booking> getAllBookings();
-
-    List<Booking> getBookingsByLogin(String login);
+    PaginationResult<BookingEntity> getBookingsByLogin(String login, Integer page);
 
     Booking getBookingByNumber(Long number);
 }

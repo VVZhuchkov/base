@@ -1,12 +1,16 @@
 package com.github.vvzhuchkov.base.service.impl;
 
 import com.github.vvzhuchkov.base.dao.BookingDao;
+import com.github.vvzhuchkov.base.dao.PaginationResult;
+import com.github.vvzhuchkov.base.dao.converter.BookingConverter;
+import com.github.vvzhuchkov.base.dao.entity.BookingEntity;
 import com.github.vvzhuchkov.base.dao.impl.DefaultBookingDao;
 import com.github.vvzhuchkov.base.model.Booking;
 import com.github.vvzhuchkov.base.service.BookingService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class DefaultBookingService implements BookingService {
 
@@ -29,7 +33,7 @@ public class DefaultBookingService implements BookingService {
 
     @Override
     public void saveBooking(Booking booking) {
-        List<Booking> listBookingsByLogin = bookingDao.getBookingsByLogin(booking.getLogin());
+        List<Booking> listBookingsByLogin = bookingDao.getBookingsByLogin(booking.getLogin(), 1).getList().stream().map(BookingConverter::fromEntity).collect(Collectors.toList());
         List<Long> listOfIdsByLogin = new ArrayList<>();
         boolean isFlag = true;
         for (Booking existBooking : listBookingsByLogin) {
@@ -56,8 +60,7 @@ public class DefaultBookingService implements BookingService {
     }
 
     @Override
-    public List<Booking> getAllBookingsByLogin(String login) {
-        return bookingDao.getBookingsByLogin(login);
+    public PaginationResult<BookingEntity> getAllBookingsByLogin(String login, Integer page) {
+        return bookingDao.getBookingsByLogin(login, page);
     }
-
 }
