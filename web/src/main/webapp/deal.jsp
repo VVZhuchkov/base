@@ -33,7 +33,7 @@
                         <tr>
                             <td><a name="${deal.number}"
                                    href="${pageContext.request.contextPath}/return#${deal.number}">${deal.number}</a></td>
-                            <td>${deal.surname}<br>${deal.name}<br>${deal.passport}</td>
+                            <td>${deal.contact.surname}<br>${deal.contact.name}<br>${deal.contact.passport}</td>
                             <td><a name="${deal.id}"
                                    href="${pageContext.request.contextPath}/park#${deal.id}">${deal.id}</a></td>
                             <td>${deal.pickup}</td>

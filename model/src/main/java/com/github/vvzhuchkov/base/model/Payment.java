@@ -5,29 +5,17 @@ import java.time.LocalDate;
 public class Payment {
     private Long number;
     private String login;
-    private String surname;
-    private String name;
-    private String passport;
     private Long id;
     private LocalDate pickup;
     private LocalDate dropoff;
     private Long total;
     private String approval;
     private String comment;
+    private Contact contact;
 
-    public Payment(String login, String surname, String name, String passport) {
-        this.login = login;
-        this.surname = surname;
-        this.name = name;
-        this.passport = passport;
-    }
-
-    public Payment(Long number, String login, String surname, String name, String passport, Long id, LocalDate pickup, LocalDate dropoff, Long total, String approval, String comment) {
+    public Payment(Long number, String login, Long id, LocalDate pickup, LocalDate dropoff, Long total, String approval, String comment) {
         this.number = number;
         this.login = login;
-        this.surname = surname;
-        this.name = name;
-        this.passport = passport;
         this.id = id;
         this.pickup = pickup;
         this.dropoff = dropoff;
@@ -36,24 +24,24 @@ public class Payment {
         this.comment = comment;
     }
 
+    public Payment(Long number, String login, Long id, LocalDate pickup, LocalDate dropoff, Long total, String approval, String comment, Contact contact) {
+        this.number = number;
+        this.login = login;
+        this.id = id;
+        this.pickup = pickup;
+        this.dropoff = dropoff;
+        this.total = total;
+        this.approval = approval;
+        this.comment = comment;
+        this.contact = contact;
+    }
+
     public Long getNumber() {
         return number;
     }
 
     public String getLogin() {
         return login;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getPassport() {
-        return passport;
     }
 
     public Long getId() {
@@ -78,5 +66,9 @@ public class Payment {
 
     public String getComment() {
         return comment;
+    }
+
+    public Contact getContact() {
+        return contact;
     }
 }

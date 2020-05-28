@@ -32,7 +32,7 @@
                     <c:forEach items="${payments}" var="payment">
                         <tr>
                             <td>${payment.number}</td>
-                            <td>${payment.surname}<br>${payment.name}<br>${payment.passport}</td>
+                            <td>${payment.contact.surname}<br>${payment.contact.name}<br>${payment.contact.passport}</td>
                             <td><a name="${payment.id}"
                                    href="${pageContext.request.contextPath}/park#${payment.id}">${payment.id}</a></td>
                             <td>${payment.pickup}</td>
@@ -46,22 +46,22 @@
                                         <form action="${pageContext.request.contextPath}/payment"
                                               style="margin-block-end: 0px" method="post">
                                             <c:if test="${role=='user'}">
-                                                <c:if test="${payment.approval=='Approved!'}">
+                                                <c:if test="${payment.approval=='Approved'}">
                                                     <button id="btnPayment" type="submit" name="payNumber"
-                                                            value="${payment.number}">Payment!
+                                                            value="${payment.number}">Payment
                                                     </button>
                                                 </c:if>
                                                 <button id="btnDelete" type="submit" name="delNumber"
-                                                        value="${payment.number}">Delete!
+                                                        value="${payment.number}">Delete
                                                 </button>
                                             </c:if>
                                             <c:if test="${role=='admin'}">
                                                 <c:if test="${payment.approval=='-'}">
                                                     <button id="btnPayment" type="submit" name="accept"
-                                                            value="${payment.number}">Accept!
+                                                            value="${payment.number}">Accept
                                                     </button>
                                                     <button id="btnDelete" type="submit" name="decline"
-                                                            value="${payment.number}">Decline!
+                                                            value="${payment.number}">Decline
                                                     </button>
                                                     <br>
                                                     <textarea style="height: 75px;width: 100px" id="commentAccept"
@@ -69,17 +69,17 @@
                                                     <textarea style="height: 75px;width: 100px" id="commentDecline"
                                                               name="commentDecline"></textarea>
                                                 </c:if>
-                                                <c:if test="${payment.approval=='Approved!'}">
+                                                <c:if test="${payment.approval=='Approved'}">
                                                     <button id="btnPayment" type="submit" name="payNumber"
-                                                            value="${payment.number}">Payment!
+                                                            value="${payment.number}">Payment
                                                     </button>
                                                     <button id="btnDelete" type="submit" name="delNumber"
-                                                            value="${payment.number}">Delete!
+                                                            value="${payment.number}">Delete
                                                     </button>
                                                 </c:if>
-                                                <c:if test="${payment.approval=='Rejected!'}">
+                                                <c:if test="${payment.approval=='Rejected'}">
                                                     <button id="btnDelete" type="submit" name="delNumber"
-                                                            value="${payment.number}">Delete!
+                                                            value="${payment.number}">Delete
                                                     </button>
                                                 </c:if>
                                             </c:if>

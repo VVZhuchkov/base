@@ -3,15 +3,10 @@ package com.github.vvzhuchkov.base.web.servlet;
 import com.github.vvzhuchkov.base.dao.converter.BookingConverter;
 import com.github.vvzhuchkov.base.model.AuthUser;
 import com.github.vvzhuchkov.base.model.Booking;
+import com.github.vvzhuchkov.base.model.Contact;
 import com.github.vvzhuchkov.base.model.Payment;
-import com.github.vvzhuchkov.base.service.DealService;
-import com.github.vvzhuchkov.base.service.BookingService;
-import com.github.vvzhuchkov.base.service.PaymentService;
-import com.github.vvzhuchkov.base.service.RoleUserService;
-import com.github.vvzhuchkov.base.service.impl.DefaultDealService;
-import com.github.vvzhuchkov.base.service.impl.DefaultBookingService;
-import com.github.vvzhuchkov.base.service.impl.DefaultPaymentService;
-import com.github.vvzhuchkov.base.service.impl.DefaultRoleUserService;
+import com.github.vvzhuchkov.base.service.*;
+import com.github.vvzhuchkov.base.service.impl.*;
 import com.github.vvzhuchkov.base.web.WebUtils;
 
 import javax.servlet.annotation.WebServlet;
@@ -28,26 +23,13 @@ public class PaymentServlet extends HttpServlet {
     private BookingService bookingService = DefaultBookingService.getInstance();
     private RoleUserService roleUserService = DefaultRoleUserService.getInstance();
     private DealService dealService = DefaultDealService.getInstance();
+    private ContactService contactService = DefaultContactService.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
         AuthUser authUser = (AuthUser) request.getSession().getAttribute("authUser");
         String role = roleUserService.getRoleUserByLogin(authUser.getLogin());
         request.setAttribute("role", role);
-        String name = request.getParameter("name");
-        String surname = request.getParameter("surname");
-        String passport = request.getParameter("passport");
-        if (name != null && surname != null && passport != null) {
-            List<Booking> listOfBookingsByLogin = bookingService.getAllBookingsByLogin(authUser.getLogin(), 1).getList().stream().map(BookingConverter::fromEntity).collect(Collectors.toList());
-            for (Booking booking : listOfBookingsByLogin) {
-                if (paymentService.getPaymentByNumber(booking.getNumber()) == null) {
-                    Long price = booking.getDays() * booking.getCar().getPrice();
-                    Payment payment = new Payment(booking.getNumber(), authUser.getLogin(), surname.toUpperCase(), name.toUpperCase(), passport, booking.getId(), booking.getPickup(), booking.getDropoff(), price, "-", "Waiting for approval...");
-                    paymentService.saveContPayment(payment);
-                    bookingService.deleteBooking(payment.getNumber());
-                }
-            }
-        }
         List<Payment> listOfAllPayments = new ArrayList<>();
         if (role.equals("admin")) {
             listOfAllPayments = paymentService.getAllPaymentsForApproval();
@@ -72,13 +54,13 @@ public class PaymentServlet extends HttpServlet {
 
         if (decline != null) {
             String number = request.getParameter("decline");
-            String approval = "Rejected!";
+            String approval = "Rejected";
             String comment = request.getParameter("commentDecline");
             paymentService.updApprComm(Long.parseLong(number), approval, comment);
         }
         if (accept != null) {
             String number = request.getParameter("accept");
-            String approval = "Approved!";
+            String approval = "Approved";
             String comment = request.getParameter("commentAccept");
             paymentService.updApprComm(Long.parseLong(number), approval, comment);
         }

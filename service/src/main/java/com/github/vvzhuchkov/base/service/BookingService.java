@@ -13,4 +13,6 @@ public interface BookingService {
     void deleteBooking(Long delNumber);
 
     PaginationResult<BookingEntity> getAllBookingsByLogin(String login, Integer page);
+
+    Booking getBookingByNumber(Long number);
 }

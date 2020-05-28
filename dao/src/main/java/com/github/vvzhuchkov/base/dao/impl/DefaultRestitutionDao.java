@@ -8,6 +8,7 @@ import com.github.vvzhuchkov.base.model.Restitution;
 import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import javax.persistence.NoResultException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,6 +37,7 @@ public class DefaultRestitutionDao implements RestitutionDao {
         session.beginTransaction();
         session.save(restitutionEntity);
         session.getTransaction().commit();
+        session.close();
     }
 
     @Override
@@ -80,6 +82,7 @@ public class DefaultRestitutionDao implements RestitutionDao {
                 .setParameter("number", number)
                 .executeUpdate();
         session.getTransaction().commit();
+        session.close();
     }
 
     @Override
@@ -92,5 +95,6 @@ public class DefaultRestitutionDao implements RestitutionDao {
                 .setParameter("number", number)
                 .executeUpdate();
         session.getTransaction().commit();
+        session.close();
     }
 }

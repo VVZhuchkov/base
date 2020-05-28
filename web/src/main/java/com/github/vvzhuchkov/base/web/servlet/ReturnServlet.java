@@ -62,7 +62,7 @@ public class ReturnServlet extends HttpServlet {
         }
         if (accept != null) {
             String number = request.getParameter("accept");
-            String status = "Approved!";
+            String status = "Approved";
             String comment = request.getParameter("commentReturn");
             restitutionService.updStaComm(Long.parseLong(number), status, comment);
         }

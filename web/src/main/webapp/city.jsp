@@ -38,7 +38,7 @@
                         <div class="buttons">
                             <div class="container">
                                 <form action="${pageContext.request.contextPath}/order"  method="post">
-                                    <td><button id="btnRent" type="submit" name="id" value="${car.id}">Rent!</button></td>
+                                    <td><button id="btnRent" type="submit" name="id" value="${car.id}">Rent</button></td>
                                 </form>
                             </div>
                         </div>

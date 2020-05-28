@@ -70,6 +70,7 @@ public class DefaultPaymentDao implements PaymentDao {
         session.beginTransaction();
         session.save(paymentEntity);
         session.getTransaction().commit();
+        session.close();
     }
 
     @Override
@@ -80,6 +81,7 @@ public class DefaultPaymentDao implements PaymentDao {
                 .setParameter("number", number)
                 .executeUpdate();
         session.getTransaction().commit();
+        session.close();
     }
 
         @Override
@@ -92,5 +94,6 @@ public class DefaultPaymentDao implements PaymentDao {
                     .setParameter("number", number)
                     .executeUpdate();
             session.getTransaction().commit();
+            session.close();
         }
     }

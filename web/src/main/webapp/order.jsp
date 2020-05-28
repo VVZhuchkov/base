@@ -39,27 +39,14 @@
                         <td>${booking.dropoff}</td>
                         <div class="buttons">
                             <div class="container">
-                                    <td><button id="btnRent" type="submit" name="delNumber" value="${booking.number}">Delete!</button></td>
+                                <td><button id="btnAccept" type="submit" name="bookingNumber" value="${booking.number}">Confirm</button>
+                                    <button id="btnRent" type="submit" name="delNumber" value="${booking.number}">Delete</button></td>
                             </div>
                         </div>
                     </tr>
                 </form>
                 </c:forEach>
             </table>
-            <br>
-            <form action="${pageContext.request.contextPath}/payment" method="get">
-            <div style="text-align: center">
-                <input type="text" name="name" placeholder="Name" style="text-transform: uppercase" pattern="[A-Za-z]{2,30}" required>
-                <input type="text" name="surname" placeholder="Surname" style="text-transform: uppercase" pattern="[A-Za-z]{2,30}" required>
-                <input type="text" name="passport" placeholder="Passport ID" required>
-            </div>
-                <br><br>
-                <div class="buttons">
-            <div class="container">
-                    <button id="btnPayment" type="submit">Confirm</button>
-            </div>
-        </div>
-            </form>
         </c:when>
             <c:otherwise>
                 <p style="color: #ff0000" align="center">${orderError}</p>

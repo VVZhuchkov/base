@@ -60,5 +60,6 @@ public class DefaultCarDao implements CarDao {
         session.beginTransaction();
         session.save(carEntity);
         session.getTransaction().commit();
+        session.close();
     }
 }

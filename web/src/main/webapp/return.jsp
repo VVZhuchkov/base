@@ -41,21 +41,21 @@
                                     <div class="container">
                                         <td>
                                             <button id="btnReturn" type="submit" name="return"
-                                                    value="${restitution.number}">Restitute!
+                                                    value="${restitution.number}">Restitute
                                             </button>
                                         </td>
                                         </c:if>
                                         </c:if>
-                                        <c:if test="${role=='admin'&&restitution.status!='Approved!'}">
+                                        <c:if test="${role=='admin'&&restitution.status!='Approved'}">
                                         <td><textarea style="height: 75px;width: 300px" id="commentReturn"
                                                       name="commentReturn"></textarea></td>
                                         <td>
                                             <button id="btnAccept" type="submit" name="accept"
-                                                    value="${restitution.number}">Accept!
+                                                    value="${restitution.number}">Accept
                                             </button>
                                         </td>
                                         </c:if>
-                                        <c:if test="${role=='admin'&&restitution.status=='Approved!'}">
+                                        <c:if test="${role=='admin'&&restitution.status=='Approved'}">
                                         <td>${restitution.comment}</td>
                                         </c:if>
                                         </form>

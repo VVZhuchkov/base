@@ -63,4 +63,9 @@ public class DefaultBookingService implements BookingService {
     public PaginationResult<BookingEntity> getAllBookingsByLogin(String login, Integer page) {
         return bookingDao.getBookingsByLogin(login, page);
     }
+
+    @Override
+    public Booking getBookingByNumber(Long number){
+        return bookingDao.getBookingByNumber(number);
+    }
 }

@@ -5,10 +5,13 @@ import com.github.vvzhuchkov.base.dao.converter.BookingConverter;
 import com.github.vvzhuchkov.base.dao.entity.BookingEntity;
 import com.github.vvzhuchkov.base.model.AuthUser;
 import com.github.vvzhuchkov.base.model.Booking;
+import com.github.vvzhuchkov.base.model.Payment;
 import com.github.vvzhuchkov.base.model.Request;
 import com.github.vvzhuchkov.base.service.BookingService;
+import com.github.vvzhuchkov.base.service.PaymentService;
 import com.github.vvzhuchkov.base.service.RoleUserService;
 import com.github.vvzhuchkov.base.service.impl.DefaultBookingService;
+import com.github.vvzhuchkov.base.service.impl.DefaultPaymentService;
 import com.github.vvzhuchkov.base.service.impl.DefaultRoleUserService;
 import com.github.vvzhuchkov.base.web.WebUtils;
 
@@ -28,7 +31,7 @@ import java.util.stream.Collectors;
 public class BookingServlet extends HttpServlet {
     private BookingService bookingService = DefaultBookingService.getInstance();
     private RoleUserService roleUserService = DefaultRoleUserService.getInstance();
-
+    private PaymentService paymentService = DefaultPaymentService.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
@@ -53,13 +56,25 @@ public class BookingServlet extends HttpServlet {
             request.setAttribute("orderError", "You haven't done any order yet!");
         }
         String delNumber = request.getParameter("delNumber");
-        if (delNumber == null) {
+        String bookingNumber = request.getParameter("bookingNumber");
+        if (delNumber == null && bookingNumber==null) {
             WebUtils.forward("order", request, response);
-            return;
-        } else {
-            bookingService.deleteBooking(Long.parseLong(delNumber));
-            WebUtils.redirect("/order", request, response);
+            return;}
+        else {
+            if (delNumber != null) {
+                bookingService.deleteBooking(Long.parseLong(delNumber));
+            }
+            if (bookingNumber != null) {
+                if (paymentService.getPaymentByNumber(Long.parseLong(bookingNumber)) == null) {
+                    Booking booking = bookingService.getBookingByNumber(Long.parseLong(bookingNumber));
+                    Long price = booking.getDays() * booking.getCar().getPrice();
+                    Payment payment = new Payment(booking.getNumber(), authUser.getLogin(), booking.getId(), booking.getPickup(), booking.getDropoff(), price, "-", "Waiting for approval...");
+                    paymentService.saveContPayment(payment);
+                    bookingService.deleteBooking(Long.parseLong(bookingNumber));
+                }
+            }
         }
+        WebUtils.redirect("/order", request, response);
     }
 
     @Override

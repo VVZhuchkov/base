@@ -12,15 +12,13 @@ public class DealConverter {
         return new Deal(
                 deal.getNumber(),
                 deal.getLogin(),
-                deal.getSurname(),
-                deal.getName(),
-                deal.getPassport(),
                 deal.getId(),
                 deal.getPickup(),
                 deal.getDropoff(),
                 deal.getTotal(),
                 deal.getApproval(),
-                deal.getComment());
+                deal.getComment(),
+                ContactConverter.fromEntity(deal.getContact()));
     }
 
     public static DealEntity toEntity(Payment deal) {
@@ -30,16 +28,13 @@ public class DealConverter {
         final DealEntity dealEntity = new DealEntity();
         dealEntity.setNumber(deal.getNumber());
         dealEntity.setLogin(deal.getLogin());
-        dealEntity.setSurname(deal.getSurname());
-        dealEntity.setName(deal.getName());
-        dealEntity.setPassport(deal.getPassport());
         dealEntity.setId(deal.getId());
         dealEntity.setPickup(deal.getPickup());
         dealEntity.setDropoff(deal.getDropoff());
         dealEntity.setTotal(deal.getTotal());
         dealEntity.setApproval(deal.getApproval());
         dealEntity.setComment(deal.getComment());
-
+        dealEntity.setContact(ContactConverter.toEntity(deal.getContact()));
         return dealEntity;
     }
 }

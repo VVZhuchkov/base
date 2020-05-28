@@ -7,6 +7,7 @@
       <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
       <class>com.github.vvzhuchkov.base.dao.entity.AuthUserEntity</class>
       <class>com.github.vvzhuchkov.base.dao.entity.CarEntity</class>
+      <class>com.github.vvzhuchkov.base.dao.entity.ContactEntity</class>
       <class>com.github.vvzhuchkov.base.dao.entity.DealEntity</class>
       <class>com.github.vvzhuchkov.base.dao.entity.BookingEntity</class>
       <class>com.github.vvzhuchkov.base.dao.entity.PaymentEntity</class>
@@ -22,7 +23,7 @@
           <property name="hibernate.hbm2ddl.auto" value="validate"/>
           <property name="hibernate.use_sql_comments" value="false"/>
           <property name="hibernate.show_sql" value="false"/>
-          <property name="hibernate.connection.pool_size" value="10"/>
+          <property name="hibernate.connection.pool_size" value="100"/>
           <property name="hibernate.connection.isolation" value="2"/>
           <property name="hibernate.cache.region.factory_class"
                     value="org.hibernate.cache.ehcache.EhCacheRegionFactory"/>

@@ -33,6 +33,7 @@ public class DefaultDealDao implements DealDao {
         session.beginTransaction();
         session.save(dealEntity);
         session.getTransaction().commit();
+        session.close();
     }
 
     @Override

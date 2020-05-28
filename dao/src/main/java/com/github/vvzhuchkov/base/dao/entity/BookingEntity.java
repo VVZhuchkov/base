@@ -1,11 +1,7 @@
 package com.github.vvzhuchkov.base.dao.entity;
 
-import com.github.vvzhuchkov.base.model.Car;
-
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "booking")

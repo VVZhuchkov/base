@@ -1,27 +1,30 @@
 package com.github.vvzhuchkov.base.dao.entity;
 
+import com.github.vvzhuchkov.base.model.Contact;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "payment")
 public class PaymentEntity {
+    @Id
     private Long number;
     private String login;
-    private String surname;
-    private String name;
-    private String passport;
     private Long id;
     private LocalDate pickup;
     private LocalDate dropoff;
     private Long total;
     private String approval;
     private String comment;
+    @OneToOne (fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "login", insertable = false, updatable = false)
+    private ContactEntity contact;
 
     public PaymentEntity() {
     }
 
-    @Id
+
     public Long getNumber() {
         return number;
     }
@@ -36,30 +39,6 @@ public class PaymentEntity {
 
     public void setLogin(String login) {
         this.login = login;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPassport() {
-        return passport;
-    }
-
-    public void setPassport(String passport) {
-        this.passport = passport;
     }
 
     public Long getId() {
@@ -108,5 +87,13 @@ public class PaymentEntity {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public ContactEntity getContact() {
+        return contact;
+    }
+
+    public void setContact(ContactEntity contact) {
+        this.contact = contact;
     }
 }

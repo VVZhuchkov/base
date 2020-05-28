@@ -26,9 +26,9 @@ public class MainServlet extends HttpServlet {
         LocalDateTime timeNow = LocalDateTime.now();
         request.setAttribute("timeNow", dtf.format(timeNow));
         if (role.equals("admin")) {
-            WebUtils.forward("car", request, response);
+            WebUtils.redirect("/car", request, response);
             return;
         }
-        WebUtils.forward("request", request, response);
+        WebUtils.redirect("/request", request, response);
     }
 }

@@ -59,6 +59,7 @@ public class DefaultAuthUserDao implements AuthUserDao {
         session.beginTransaction();
         session.save(authUserEntity);
         session.getTransaction().commit();
+        session.close();
     }
 
     @Override
@@ -69,5 +70,6 @@ public class DefaultAuthUserDao implements AuthUserDao {
         session.beginTransaction();
         session.save(roleUserEntity);
         session.getTransaction().commit();
+        session.close();
     }
 }
