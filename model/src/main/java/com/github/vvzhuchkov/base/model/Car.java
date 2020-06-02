@@ -1,5 +1,8 @@
 package com.github.vvzhuchkov.base.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Car {
     private Long id;
     private String photo;

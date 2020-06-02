@@ -2,8 +2,12 @@ package com.github.vvzhuchkov.base.service.impl;
 
 import com.github.vvzhuchkov.base.dao.ContactDao;
 import com.github.vvzhuchkov.base.dao.impl.DefaultContactDao;
+import com.github.vvzhuchkov.base.model.Car;
 import com.github.vvzhuchkov.base.model.Contact;
 import com.github.vvzhuchkov.base.service.ContactService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DefaultContactService implements ContactService {
     private ContactDao contactDao = DefaultContactDao.getInstance();
@@ -31,4 +35,9 @@ public class DefaultContactService implements ContactService {
     public  Contact getContactByLogin(String login){
         return contactDao.getContactByLogin(login);
    }
+
+    @Override
+    public List<Contact> getAllContacts(){
+        return contactDao.getAllContacts();
+    }
 }

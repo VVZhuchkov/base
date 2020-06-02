@@ -3,8 +3,10 @@ package com.github.vvzhuchkov.base.web.servlet;
 import com.github.vvzhuchkov.base.model.AuthUser;
 import com.github.vvzhuchkov.base.model.Contact;
 import com.github.vvzhuchkov.base.model.Request;
+import com.github.vvzhuchkov.base.service.CarService;
 import com.github.vvzhuchkov.base.service.ContactService;
 import com.github.vvzhuchkov.base.service.RoleUserService;
+import com.github.vvzhuchkov.base.service.impl.DefaultCarService;
 import com.github.vvzhuchkov.base.service.impl.DefaultContactService;
 import com.github.vvzhuchkov.base.service.impl.DefaultRoleUserService;
 import com.github.vvzhuchkov.base.web.WebUtils;
@@ -23,6 +25,7 @@ import java.time.format.DateTimeFormatter;
 public class RequestServlet extends HttpServlet {
     private RoleUserService roleUserService = DefaultRoleUserService.getInstance();
     private ContactService contactService = DefaultContactService.getInstance();
+    private CarService carService = DefaultCarService.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {

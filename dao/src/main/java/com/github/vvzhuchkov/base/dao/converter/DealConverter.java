@@ -2,26 +2,28 @@ package com.github.vvzhuchkov.base.dao.converter;
 
 import com.github.vvzhuchkov.base.dao.entity.DealEntity;
 import com.github.vvzhuchkov.base.model.Deal;
-import com.github.vvzhuchkov.base.model.Payment;
+
+import java.util.stream.Collectors;
 
 public class DealConverter {
-    public static Deal fromEntity(DealEntity deal) {
-        if (deal == null) {
+    public static Deal fromEntity(DealEntity dealEntity) {
+        if (dealEntity == null) {
             return null;
         }
         return new Deal(
-                deal.getNumber(),
-                deal.getLogin(),
-                deal.getId(),
-                deal.getPickup(),
-                deal.getDropoff(),
-                deal.getTotal(),
-                deal.getApproval(),
-                deal.getComment(),
-                ContactConverter.fromEntity(deal.getContact()));
+                dealEntity.getNumber(),
+                dealEntity.getLogin(),
+                dealEntity.getId(),
+                dealEntity.getPickup(),
+                dealEntity.getDropoff(),
+                dealEntity.getTotal(),
+                dealEntity.getApproval(),
+                dealEntity.getComment(),
+                ContactConverter.fromEntity(dealEntity.getContact()),
+                dealEntity.getContactEntityList().stream().map(ContactConverter::fromEntity).collect(Collectors.toList()));
     }
 
-    public static DealEntity toEntity(Payment deal) {
+    public static DealEntity toEntity(Deal deal) {
         if (deal == null) {
             return null;
         }
@@ -35,6 +37,7 @@ public class DealConverter {
         dealEntity.setApproval(deal.getApproval());
         dealEntity.setComment(deal.getComment());
         dealEntity.setContact(ContactConverter.toEntity(deal.getContact()));
+        dealEntity.setContactEntityList(deal.getContactList().stream().map(ContactConverter::toEntity).collect(Collectors.toList()));
         return dealEntity;
     }
 }

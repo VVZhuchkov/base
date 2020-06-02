@@ -8,6 +8,8 @@ import com.github.vvzhuchkov.base.model.Contact;
 import org.hibernate.Session;
 
 import javax.persistence.NoResultException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class DefaultContactDao implements ContactDao{
     public static volatile ContactDao instance;
@@ -46,5 +48,15 @@ public class DefaultContactDao implements ContactDao{
             contact = null;
         }
         return ContactConverter.fromEntity(contact);
+    }
+
+    @Override
+    public List<Contact> getAllContacts() {
+        final List<ContactEntity> contactEntityList = HibernateUtil.getSession().createQuery("from ContactEntity")
+                .list();
+        System.out.println(contactEntityList.size());
+        return contactEntityList.stream()
+                .map(ContactConverter::fromEntity)
+                .collect(Collectors.toList());
     }
 }

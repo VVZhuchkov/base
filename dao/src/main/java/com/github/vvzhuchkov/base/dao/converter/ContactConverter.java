@@ -1,18 +1,25 @@
 package com.github.vvzhuchkov.base.dao.converter;
 
+import com.github.vvzhuchkov.base.dao.entity.CarEntity;
 import com.github.vvzhuchkov.base.dao.entity.ContactEntity;
+import com.github.vvzhuchkov.base.model.Car;
 import com.github.vvzhuchkov.base.model.Contact;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class ContactConverter {
-    public static Contact fromEntity(ContactEntity contact) {
-        if (contact == null) {
+    public static Contact fromEntity(ContactEntity contactEntity) {
+        if (contactEntity == null) {
             return null;
         }
         return new Contact(
-                contact.getLogin(),
-                contact.getSurname(),
-                contact.getName(),
-                contact.getPassport());
+                contactEntity.getLogin(),
+                contactEntity.getSurname(),
+                contactEntity.getName(),
+                contactEntity.getPassport(),
+                contactEntity.getDealEntityList().stream().map(DealConverter::fromEntity).collect(Collectors.toList()));
     }
 
     public static ContactEntity toEntity(Contact contact) {
@@ -24,7 +31,8 @@ public class ContactConverter {
         contactEntity.setSurname(contact.getSurname());
         contactEntity.setName(contact.getName());
         contactEntity.setPassport(contact.getPassport());
+        contactEntity.setDealEntityList(contact.getDealList().stream()
+                .map(DealConverter::toEntity).collect(Collectors.toList()));
         return contactEntity;
     }
 }
-

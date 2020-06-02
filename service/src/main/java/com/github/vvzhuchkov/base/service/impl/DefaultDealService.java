@@ -1,21 +1,25 @@
 package com.github.vvzhuchkov.base.service.impl;
 
+import com.github.vvzhuchkov.base.dao.ContactDao;
 import com.github.vvzhuchkov.base.dao.DealDao;
 import com.github.vvzhuchkov.base.dao.BookingDao;
 import com.github.vvzhuchkov.base.dao.PaymentDao;
+import com.github.vvzhuchkov.base.dao.impl.DefaultContactDao;
 import com.github.vvzhuchkov.base.dao.impl.DefaultDealDao;
 import com.github.vvzhuchkov.base.dao.impl.DefaultBookingDao;
 import com.github.vvzhuchkov.base.dao.impl.DefaultPaymentDao;
+import com.github.vvzhuchkov.base.model.Contact;
 import com.github.vvzhuchkov.base.model.Deal;
 import com.github.vvzhuchkov.base.model.Payment;
 import com.github.vvzhuchkov.base.service.DealService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DefaultDealService implements DealService {
     private DealDao dealDao = DefaultDealDao.getInstance();
     private PaymentDao paymentDao = DefaultPaymentDao.getInstance();
-    private BookingDao bookingDao = DefaultBookingDao.getInstance();
+    private ContactDao contactDao = DefaultContactDao.getInstance();
     private static volatile DealService instance;
 
     public static DealService getInstance() {
@@ -39,8 +43,10 @@ public class DefaultDealService implements DealService {
     @Override
     public void saveAllApprovedPayments(Long payNumber) {
         Payment payment = paymentDao.getPaymentByNumber(payNumber);
-            dealDao.saveDeal(payment);
-            paymentDao.deletePayment(payment.getNumber());
+        Deal deal = new Deal(payNumber, payment.getLogin(), payment.getId(), payment.getPickup(), payment.getDropoff(),
+                payment.getTotal(), payment.getApproval(), payment.getComment(), payment.getContact(), new ArrayList<>());
+        dealDao.saveDeal(deal);
+        paymentDao.deletePayment(payment.getNumber());
     }
 
     @Override

@@ -38,10 +38,10 @@ public class BookingServlet extends HttpServlet {
         AuthUser authUser = (AuthUser) request.getSession().getAttribute("authUser");
         String role = roleUserService.getRoleUserByLogin(authUser.getLogin());
         request.setAttribute("role", role);
-        int page=0;
-        try{
-        page = Integer.parseInt(request.getParameter("page"));}
-        catch (Exception e){
+        int page = 0;
+        try {
+            page = Integer.parseInt(request.getParameter("page"));
+        } catch (Exception e) {
             e.printStackTrace();
         }
         PaginationResult<BookingEntity> paginationResult = bookingService.getAllBookingsByLogin(authUser.getLogin(), page);
@@ -52,29 +52,31 @@ public class BookingServlet extends HttpServlet {
         List<Integer> navigationPages = paginationResult.getNavigationPages();
         request.setAttribute("navigationPages", navigationPages);
         request.setAttribute("bookings", listOfBookingsByLogin);
-        if (listOfBookingsByLogin.size() == 0) {
-            request.setAttribute("orderError", "You haven't done any order yet!");
-        }
+        request.setAttribute("orderError", "You haven't done any order yet!");
         String delNumber = request.getParameter("delNumber");
         String bookingNumber = request.getParameter("bookingNumber");
-        if (delNumber == null && bookingNumber==null) {
+        if(bookingNumber==null&&delNumber==null){
             WebUtils.forward("order", request, response);
-            return;}
-        else {
-            if (delNumber != null) {
-                bookingService.deleteBooking(Long.parseLong(delNumber));
-            }
-            if (bookingNumber != null) {
-                if (paymentService.getPaymentByNumber(Long.parseLong(bookingNumber)) == null) {
-                    Booking booking = bookingService.getBookingByNumber(Long.parseLong(bookingNumber));
-                    Long price = booking.getDays() * booking.getCar().getPrice();
-                    Payment payment = new Payment(booking.getNumber(), authUser.getLogin(), booking.getId(), booking.getPickup(), booking.getDropoff(), price, "-", "Waiting for approval...");
-                    paymentService.saveContPayment(payment);
-                    bookingService.deleteBooking(Long.parseLong(bookingNumber));
-                }
-            }
+            return;
         }
-        WebUtils.redirect("/order", request, response);
+        else if (delNumber != null) {
+            bookingService.deleteBooking(Long.parseLong(delNumber));
+            WebUtils.redirect("/order", request, response);
+            return;
+        } else if (bookingNumber != null) {
+            if (paymentService.getPaymentByNumber(Long.parseLong(bookingNumber)) == null) {
+                Booking booking = bookingService.getBookingByNumber(Long.parseLong(bookingNumber));
+                Long price = booking.getDays() * booking.getCar().getPrice();
+                Payment payment = new Payment(booking.getNumber(), authUser.getLogin(), booking.getId(), booking.getPickup(), booking.getDropoff(), price, "-", "Waiting for approval...");
+                paymentService.saveContPayment(payment);
+                bookingService.deleteBooking(Long.parseLong(bookingNumber));
+            }
+            WebUtils.redirect("/payment", request, response);
+            return;
+        } else if (listOfBookingsByLogin.size() == 0) {
+            WebUtils.forward("order", request, response);
+            return;
+        }
     }
 
     @Override

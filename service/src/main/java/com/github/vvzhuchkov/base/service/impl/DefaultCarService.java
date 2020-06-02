@@ -52,9 +52,8 @@ public class DefaultCarService implements CarService {
     }
 
     @Override
-    public List<Car> getAllCars(){
-        List<Car> listOfCars= carDao.getAllCars();
-        return listOfCars;
+    public List<Car> getAllCars() {
+        return carDao.getAllCars();
     }
 
 @Override

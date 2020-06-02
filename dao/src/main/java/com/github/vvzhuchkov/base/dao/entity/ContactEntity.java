@@ -1,8 +1,8 @@
 package com.github.vvzhuchkov.base.dao.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "contact")
@@ -12,6 +12,10 @@ public class ContactEntity {
     private String surname;
     private String name;
     private String passport;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "history", joinColumns = {@JoinColumn(name = "login")},
+            inverseJoinColumns = {@JoinColumn(name = "number")})
+    private List<DealEntity> dealEntityList = new ArrayList<>();
 
     public ContactEntity() {
     }
@@ -46,5 +50,13 @@ public class ContactEntity {
 
     public void setPassport(String passport) {
         this.passport = passport;
+    }
+
+    public List<DealEntity> getDealEntityList() {
+        return dealEntityList;
+    }
+
+    public void setDealEntityList(List<DealEntity> dealEntityList) {
+        this.dealEntityList = dealEntityList;
     }
 }

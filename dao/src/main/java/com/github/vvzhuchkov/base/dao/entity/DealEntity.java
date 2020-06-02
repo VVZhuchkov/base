@@ -2,6 +2,8 @@ package com.github.vvzhuchkov.base.dao.entity;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "deal")
@@ -18,10 +20,12 @@ public class DealEntity {
     @OneToOne (fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "login", insertable = false, updatable = false)
     private ContactEntity contact;
+    @ManyToMany(mappedBy = "dealEntityList", cascade = CascadeType.ALL)
+    private List<ContactEntity> contactEntityList = new ArrayList<>();
+
 
     public DealEntity() {
     }
-
 
     public Long getNumber() {
         return number;
@@ -93,5 +97,13 @@ public class DealEntity {
 
     public void setContact(ContactEntity contact) {
         this.contact = contact;
+    }
+
+    public List<ContactEntity> getContactEntityList() {
+        return contactEntityList;
+    }
+
+    public void setContactEntityList(List<ContactEntity> contactEntityList) {
+        this.contactEntityList = contactEntityList;
     }
 }

@@ -3,21 +3,23 @@ package com.github.vvzhuchkov.base.dao.converter;
 import com.github.vvzhuchkov.base.dao.entity.CarEntity;
 import com.github.vvzhuchkov.base.model.Car;
 
+import java.util.stream.Collectors;
+
 public class CarConverter {
-    public static Car fromEntity(CarEntity car) {
-        if (car == null) {
+    public static Car fromEntity(CarEntity carEntity) {
+        if (carEntity == null) {
             return null;
         }
         return new Car(
-                car.getId(),
-                car.getPhoto(),
-                car.getBrand(),
-                car.getModel(),
-                car.getYear(),
-                car.getEngine(),
-                car.getPrice(),
-                car.getLocation(),
-                car.getAvailability());
+                carEntity.getId(),
+                carEntity.getPhoto(),
+                carEntity.getBrand(),
+                carEntity.getModel(),
+                carEntity.getYear(),
+                carEntity.getEngine(),
+                carEntity.getPrice(),
+                carEntity.getLocation(),
+                carEntity.getAvailability());
     }
 
     public static CarEntity toEntity(Car car) {
@@ -34,7 +36,6 @@ public class CarConverter {
         carEntity.setPrice(car.getPrice());
         carEntity.setLocation(car.getLocation());
         carEntity.setAvailability(car.getAvailability());
-
         return carEntity;
     }
 }

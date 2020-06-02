@@ -51,25 +51,34 @@ public class PaymentServlet extends HttpServlet {
         String decline = request.getParameter("decline");
         String delNumber = request.getParameter("delNumber");
         String payNumber = request.getParameter("payNumber");
-
-        if (decline != null) {
+        if (accept==null&&decline==null&&delNumber==null&&payNumber==null){
+            WebUtils.forward("payment", request, response);
+            return;
+        }
+        else if (decline != null) {
             String number = request.getParameter("decline");
             String approval = "Rejected";
             String comment = request.getParameter("commentDecline");
             paymentService.updApprComm(Long.parseLong(number), approval, comment);
+            WebUtils.redirect("/payment", request, response);
+            return;
         }
-        if (accept != null) {
+        else if (accept != null) {
             String number = request.getParameter("accept");
             String approval = "Approved";
             String comment = request.getParameter("commentAccept");
             paymentService.updApprComm(Long.parseLong(number), approval, comment);
+            WebUtils.redirect("/payment", request, response);
+            return;
         }
-        if (delNumber != null) {
+        else if (delNumber != null) {
             paymentService.deleteBooking(Long.parseLong(delNumber));
+            WebUtils.redirect("/payment", request, response);
+            return;
         }
-        if (payNumber != null) {
+        else if (payNumber != null) {
             dealService.saveAllApprovedPayments(Long.parseLong(payNumber));
+            WebUtils.redirect("/deal", request, response);
         }
-        WebUtils.redirect("/payment", request, response);
     }
 }
