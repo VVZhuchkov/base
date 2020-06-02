@@ -48,7 +48,6 @@ public class DefaultBookingService implements BookingService {
                 }
             }
         }
-
         if (isFlag) {
             bookingDao.saveBooking(booking);
         }
@@ -65,7 +64,7 @@ public class DefaultBookingService implements BookingService {
     }
 
     @Override
-    public Booking getBookingByNumber(Long number){
+    public Booking getBookingByNumber(Long number) {
         return bookingDao.getBookingByNumber(number);
     }
 }

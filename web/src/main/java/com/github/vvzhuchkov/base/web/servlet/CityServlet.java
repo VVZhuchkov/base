@@ -13,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet("/city")
@@ -26,8 +27,8 @@ public class CityServlet extends HttpServlet {
         String role = roleUserService.getRoleUserByLogin(authUser.getLogin());
         request.setAttribute("role", role);
         Request mainReq = (Request) request.getSession().getAttribute("mainReq");
-        List<Car> cars = carService.getByLocation(mainReq.getLocation());
-        request.setAttribute("cars", cars);
+        List<Car> availableCars = carService.getAvailableCars(mainReq);
+        request.setAttribute("cars", availableCars);
         WebUtils.forward("city", request, response);
     }
 
