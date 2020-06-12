@@ -4,6 +4,7 @@ import com.github.vvzhuchkov.base.dao.PaymentDao;
 import com.github.vvzhuchkov.base.dao.RoleUserDao;
 import com.github.vvzhuchkov.base.dao.impl.DefaultPaymentDao;
 import com.github.vvzhuchkov.base.dao.impl.DefaultRoleUserDao;
+import com.github.vvzhuchkov.base.model.ApprComm;
 import com.github.vvzhuchkov.base.model.Booking;
 import com.github.vvzhuchkov.base.model.Payment;
 import com.github.vvzhuchkov.base.service.PaymentService;
@@ -31,7 +32,7 @@ public class DefaultPaymentService implements PaymentService {
     }
 
     @Override
-    public void saveContPayment(Payment payment) {
+    public Payment saveContPayment(Payment payment) {
         List<Payment> listOfPaymentsByLogin = paymentDao.getPaymentsByLogin(payment.getLogin());
         List<Long> listOfIdsByLogin = new ArrayList<>();
         boolean isFlag = true;
@@ -50,6 +51,7 @@ public class DefaultPaymentService implements PaymentService {
         if (isFlag) {
             paymentDao.saveContPayment(payment);
         }
+        return payment;
     }
 
     @Override
@@ -58,14 +60,15 @@ public class DefaultPaymentService implements PaymentService {
     }
 
     @Override
-    public void deleteBooking(Long delNumber){
-        paymentDao.deletePayment(delNumber);
-    }
+    public ApprComm updApprComm(Long number, String approval, String comment){
+        return paymentDao.updApprComm(number, approval, comment);
+   }
 
     @Override
-    public void updApprComm(Long number, String approval, String comment){
-        paymentDao.updApprComm(number, approval, comment);
-   }
+    public boolean deletePayment(Long delNumber){
+        paymentDao.deletePayment(delNumber);
+        return true;
+    }
 
     @Override
     public Payment getPaymentByNumber(Long number){

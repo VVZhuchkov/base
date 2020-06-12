@@ -1,5 +1,6 @@
 package com.github.vvzhuchkov.base.dao;
 
+import com.github.vvzhuchkov.base.dao.entity.CarEntity;
 import com.github.vvzhuchkov.base.model.Car;
 
 import java.util.List;
@@ -10,5 +11,7 @@ public interface CarDao {
 
     List<Car> getAllCars();
 
-    void saveNewCar(Car car);
+    Car saveNewCar(Car car);
+
+    boolean deleteCar(Long id);
 }

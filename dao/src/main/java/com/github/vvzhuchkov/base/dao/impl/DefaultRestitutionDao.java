@@ -1,6 +1,6 @@
 package com.github.vvzhuchkov.base.dao.impl;
 
-import com.github.vvzhuchkov.base.dao.HibernateUtil;
+import com.github.vvzhuchkov.base.dao.util.HibernateUtil;
 import com.github.vvzhuchkov.base.dao.RestitutionDao;
 import com.github.vvzhuchkov.base.dao.converter.RestitutionConverter;
 import com.github.vvzhuchkov.base.dao.entity.RestitutionEntity;
@@ -31,13 +31,14 @@ public class DefaultRestitutionDao implements RestitutionDao {
     }
 
     @Override
-    public void saveReturn(Restitution restitution) {
+    public Restitution saveReturn(Restitution restitution) {
         RestitutionEntity restitutionEntity = RestitutionConverter.toEntity(restitution);
         final Session session = HibernateUtil.getSession();
         session.beginTransaction();
         session.save(restitutionEntity);
         session.getTransaction().commit();
         session.close();
+        return RestitutionConverter.fromEntity(restitutionEntity);
     }
 
     @Override
@@ -66,7 +67,7 @@ public class DefaultRestitutionDao implements RestitutionDao {
 
     @Override
     public List<Restitution> getAllRestitutions() {
-        final List<RestitutionEntity> listOfAllRestitutions = HibernateUtil.getSession().createQuery("from RestitutionEntity")
+        final List<RestitutionEntity> listOfAllRestitutions = HibernateUtil.getSession().createQuery("from RestitutionEntity re order by re.number desc")
                 .list();
         return listOfAllRestitutions.stream()
                 .map(RestitutionConverter::fromEntity)
@@ -74,7 +75,7 @@ public class DefaultRestitutionDao implements RestitutionDao {
     }
 
     @Override
-    public void updStatus(Long number, String status) {
+    public boolean updStatus(Long number, String status) {
         final Session session = HibernateUtil.getSession();
         session.beginTransaction();
         session.createQuery("update RestitutionEntity set status=:status where number = :number")
@@ -83,15 +84,28 @@ public class DefaultRestitutionDao implements RestitutionDao {
                 .executeUpdate();
         session.getTransaction().commit();
         session.close();
+        return true;
     }
 
     @Override
-    public void updStaComm(Long number, String status, String comment) {
+    public boolean updStaComm(Long number, String status, String comment) {
         final Session session = HibernateUtil.getSession();
         session.beginTransaction();
         session.createQuery("update RestitutionEntity set status=:status, comment=:comment where number = :number")
                 .setParameter("status", status)
                 .setParameter("comment", comment)
+                .setParameter("number", number)
+                .executeUpdate();
+        session.getTransaction().commit();
+        session.close();
+        return true;
+    }
+
+    @Override
+    public void deleteRestitution(Long number){
+        final Session session = HibernateUtil.getSession();
+        session.beginTransaction();
+        session.createQuery("delete RestitutionEntity re where re.number = :number")
                 .setParameter("number", number)
                 .executeUpdate();
         session.getTransaction().commit();

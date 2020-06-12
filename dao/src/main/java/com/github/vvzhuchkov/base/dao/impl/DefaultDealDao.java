@@ -1,11 +1,10 @@
 package com.github.vvzhuchkov.base.dao.impl;
 
 import com.github.vvzhuchkov.base.dao.DealDao;
-import com.github.vvzhuchkov.base.dao.HibernateUtil;
+import com.github.vvzhuchkov.base.dao.util.HibernateUtil;
 import com.github.vvzhuchkov.base.dao.converter.DealConverter;
 import com.github.vvzhuchkov.base.dao.entity.DealEntity;
 import com.github.vvzhuchkov.base.model.Deal;
-import com.github.vvzhuchkov.base.model.Payment;
 import org.hibernate.Session;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -32,13 +31,14 @@ public class DefaultDealDao implements DealDao {
     }
 
     @Override
-    public void saveDeal(Deal deal) {
+    public Deal saveDeal(Deal deal) {
         DealEntity dealEntity = DealConverter.toEntity(deal);
         final Session session = HibernateUtil.getSession();
         session.beginTransaction();
         session.save(dealEntity);
         session.getTransaction().commit();
         session.close();
+        return DealConverter.fromEntity(dealEntity);
     }
 
     @Override
@@ -59,10 +59,22 @@ public class DefaultDealDao implements DealDao {
 
     @Override
     public List<Deal> getAllDeals() {
-        final List<DealEntity> car = HibernateUtil.getSession().createQuery("from DealEntity")
+        final List<DealEntity> car = HibernateUtil.getSession().createQuery("from DealEntity de order by de.number desc ")
                 .list();
         return car.stream()
                 .map(DealConverter::fromEntity)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean deleteDeal(Long number) {
+        final Session session = HibernateUtil.getSession();
+        session.beginTransaction();
+        session.createQuery("delete DealEntity de where de.number = :number")
+                .setParameter("number", number)
+                .executeUpdate();
+        session.getTransaction().commit();
+        session.close();
+        return true;
     }
 }

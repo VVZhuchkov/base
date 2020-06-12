@@ -1,4 +1,4 @@
-package com.github.vvzhuchkov.base.dao;
+package com.github.vvzhuchkov.base.dao.util;
 
 import org.hibernate.Session;
 

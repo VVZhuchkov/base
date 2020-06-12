@@ -1,12 +1,15 @@
 package com.github.vvzhuchkov.base.dao.entity;
 
-import com.github.vvzhuchkov.base.model.Contact;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "payment")
+@Cacheable
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class PaymentEntity {
     @Id
     private Long number;
@@ -17,7 +20,7 @@ public class PaymentEntity {
     private Long total;
     private String approval;
     private String comment;
-    @OneToOne (fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "login", insertable = false, updatable = false)
     private ContactEntity contact;
 

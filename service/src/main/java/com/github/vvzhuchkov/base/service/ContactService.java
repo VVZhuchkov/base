@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ContactService {
 
-    void saveNewContact(Contact contact);
+    Contact saveNewContact(Contact contact);
 
     Contact getContactByLogin(String login);
 

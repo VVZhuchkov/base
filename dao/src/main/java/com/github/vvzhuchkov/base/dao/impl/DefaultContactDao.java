@@ -1,7 +1,7 @@
 package com.github.vvzhuchkov.base.dao.impl;
 
 import com.github.vvzhuchkov.base.dao.ContactDao;
-import com.github.vvzhuchkov.base.dao.HibernateUtil;
+import com.github.vvzhuchkov.base.dao.util.HibernateUtil;
 import com.github.vvzhuchkov.base.dao.converter.ContactConverter;
 import com.github.vvzhuchkov.base.dao.entity.ContactEntity;
 import com.github.vvzhuchkov.base.model.Contact;
@@ -11,7 +11,7 @@ import javax.persistence.NoResultException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class DefaultContactDao implements ContactDao{
+public class DefaultContactDao implements ContactDao {
     public static volatile ContactDao instance;
 
     public static ContactDao getInstance() {
@@ -28,13 +28,14 @@ public class DefaultContactDao implements ContactDao{
     }
 
     @Override
-    public void saveNewContact(Contact contact) {
+    public Contact saveNewContact(Contact contact) {
         ContactEntity contactEntity = ContactConverter.toEntity(contact);
         final Session session = HibernateUtil.getSession();
         session.beginTransaction();
         session.save(contactEntity);
         session.getTransaction().commit();
         session.close();
+        return ContactConverter.fromEntity(contactEntity);
     }
 
     @Override
@@ -58,5 +59,16 @@ public class DefaultContactDao implements ContactDao{
         return contactEntityList.stream()
                 .map(ContactConverter::fromEntity)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void deleteContact(String login) {
+        final Session session = HibernateUtil.getSession();
+        session.beginTransaction();
+        session.createQuery("delete ContactEntity ce where ce.login = :login")
+                .setParameter("login", login)
+                .executeUpdate();
+        session.getTransaction().commit();
+        session.close();
     }
 }

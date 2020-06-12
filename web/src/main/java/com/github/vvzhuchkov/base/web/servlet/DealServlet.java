@@ -33,7 +33,7 @@ public class DealServlet extends HttpServlet {
                 listOfDeals = dealService.getDealsByLogin(authUser.getLogin());
             }
             if (listOfDeals.size() == 0) {
-                request.setAttribute("dealError", "You haven't had any deals yet");
+                request.setAttribute("dealError", "You haven't had any deals yet!");
             }
             request.setAttribute("deals", listOfDeals);
             WebUtils.forward("deal", request, response);

@@ -1,6 +1,7 @@
 package com.github.vvzhuchkov.base.dao;
 
 import com.github.vvzhuchkov.base.model.AuthUser;
+import com.github.vvzhuchkov.base.model.RoleUser;
 
 import java.util.List;
 
@@ -10,7 +11,9 @@ public interface AuthUserDao {
 
     List<String> getAllAuthEmails();
 
-    void saveNewRegUser (AuthUser user);
+    AuthUser saveNewRegUser(AuthUser user);
 
-    void setNewUserRole(String login);
+    RoleUser setNewUserRole(String login);
+
+    void deleteUser(String login);
 }

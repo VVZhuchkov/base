@@ -27,8 +27,8 @@ public class DefaultRestitutionService implements RestitutionService {
     }
 
     @Override
-    public void saveReturn(Restitution restitution) {
-        restitutionDao.saveReturn(restitution);
+    public Restitution saveReturn(Restitution restitution) {
+        return restitutionDao.saveReturn(restitution);
     }
 
     @Override
@@ -40,21 +40,23 @@ public class DefaultRestitutionService implements RestitutionService {
     @Override
     public List<Restitution> getRestitutionsByLogin(String login) {
         return restitutionDao.getRestitutionsByLogin(login);
-}
+    }
 
-@Override
-    public List<Restitution> getAllRestitutions(){
+    @Override
+    public List<Restitution> getAllRestitutions() {
         List<Restitution> listOfRestitutions = restitutionDao.getAllRestitutions();
         return listOfRestitutions;
-}
+    }
 
-        @Override
-        public void updStatus(Long number, String status){
+    @Override
+    public boolean updStatus(Long number, String status) {
         restitutionDao.updStatus(number, status);
-        }
+        return true;
+    }
 
-        @Override
-        public void updStaComm(Long number, String status, String comment){
+    @Override
+    public boolean updStaComm(Long number, String status, String comment) {
         restitutionDao.updStaComm(number, status, comment);
-        }
+        return true;
+    }
 }

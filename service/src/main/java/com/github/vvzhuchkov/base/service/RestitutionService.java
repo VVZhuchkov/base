@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface RestitutionService {
 
-    void saveReturn(Restitution restitution);
+    Restitution saveReturn(Restitution restitution);
 
     Restitution getRestitutionByNumber(Long number);
 
@@ -14,7 +14,7 @@ public interface RestitutionService {
 
     List<Restitution> getRestitutionsByLogin(String login);
 
-    void updStatus(Long number, String status);
+    boolean updStatus(Long number, String status);
 
-    void updStaComm(Long number, String status, String comment);
+    boolean updStaComm(Long number, String status, String comment);
 }

@@ -7,6 +7,6 @@ public interface SecurityService {
 
     AuthUser registration(String login, String password, String email);
 
-    void saveNewRegUser (AuthUser user);
+    AuthUser saveNewRegUser (AuthUser user);
 
 }

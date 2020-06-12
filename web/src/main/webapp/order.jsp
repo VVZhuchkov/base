@@ -64,7 +64,7 @@
                    </c:otherwise>
         </c:choose>
         <c:if test="${totalPages > 1}">
-        <div class="page-navigator">
+        <div class="page-navigator" style="text-align: center"><br>
             <c:forEach items="${navigationPages}" var = "page">
                 <c:if test="${page != -1 }">
                     <a href="order?page=${page}" class="nav-item">${page}</a>

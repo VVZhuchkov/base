@@ -27,10 +27,18 @@ public class CityServlet extends HttpServlet {
         String role = roleUserService.getRoleUserByLogin(authUser.getLogin());
         request.setAttribute("role", role);
         Request mainReq = (Request) request.getSession().getAttribute("mainReq");
-        List<Car> availableCars = carService.getAvailableCars(mainReq);
+        List<Car> carList = carService.getByLocation(mainReq.getLocation());
+        List<Car> availableCars = new ArrayList<>();
+        for(Car car : carList){
+            if (carService.getAvailableCars(car, mainReq)!=null)
+        availableCars.add(carService.getAvailableCars(car, mainReq));}
+        if (availableCars.size() == 0) {
+            request.setAttribute("cityError", "We don't have available cars for this period of time!");
+        }
         request.setAttribute("cars", availableCars);
         WebUtils.forward("city", request, response);
     }
+
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
         WebUtils.forward("/order", request, response);

@@ -8,9 +8,11 @@ import java.util.List;
 
 public interface DealDao {
 
-    void saveDeal(Deal deal);
+    Deal saveDeal(Deal deal);
 
     List<Deal> getDealsByLogin(String login);
 
     List<Deal> getAllDeals();
+
+    boolean deleteDeal(Long number);
 }

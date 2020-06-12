@@ -1,7 +1,7 @@
 package com.github.vvzhuchkov.base.service.impl;
 
 import com.github.vvzhuchkov.base.dao.BookingDao;
-import com.github.vvzhuchkov.base.dao.PaginationResult;
+import com.github.vvzhuchkov.base.dao.impl.PaginationResult;
 import com.github.vvzhuchkov.base.dao.converter.BookingConverter;
 import com.github.vvzhuchkov.base.dao.entity.BookingEntity;
 import com.github.vvzhuchkov.base.dao.impl.DefaultBookingDao;
@@ -32,8 +32,9 @@ public class DefaultBookingService implements BookingService {
     }
 
     @Override
-    public void saveBooking(Booking booking) {
-        List<Booking> listBookingsByLogin = bookingDao.getBookingsByLogin(booking.getLogin(), 1).getList().stream().map(BookingConverter::fromEntity).collect(Collectors.toList());
+    public boolean saveBooking(Booking booking) {
+        List<Booking> listBookingsByLogin = bookingDao.getBookingsByLogin(booking.getLogin(), 1).getList().
+                stream().map(BookingConverter::fromEntity).collect(Collectors.toList());
         List<Long> listOfIdsByLogin = new ArrayList<>();
         boolean isFlag = true;
         for (Booking existBooking : listBookingsByLogin) {
@@ -51,11 +52,12 @@ public class DefaultBookingService implements BookingService {
         if (isFlag) {
             bookingDao.saveBooking(booking);
         }
+        return true;
     }
 
     @Override
-    public void deleteBooking(Long delNumber) {
-        bookingDao.deleteBooking(delNumber);
+    public boolean deleteBooking(Long delNumber) {
+        return bookingDao.deleteBooking(delNumber);
     }
 
     @Override

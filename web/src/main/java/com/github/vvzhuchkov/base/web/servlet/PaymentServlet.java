@@ -72,7 +72,7 @@ public class PaymentServlet extends HttpServlet {
             return;
         }
         else if (delNumber != null) {
-            paymentService.deleteBooking(Long.parseLong(delNumber));
+            paymentService.deletePayment(Long.parseLong(delNumber));
             WebUtils.redirect("/payment", request, response);
             return;
         }

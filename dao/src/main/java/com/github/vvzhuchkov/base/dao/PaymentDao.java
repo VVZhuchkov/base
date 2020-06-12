@@ -1,5 +1,6 @@
 package com.github.vvzhuchkov.base.dao;
 
+import com.github.vvzhuchkov.base.model.ApprComm;
 import com.github.vvzhuchkov.base.model.Payment;
 
 import java.util.List;
@@ -12,9 +13,9 @@ public interface PaymentDao {
 
     Payment getPaymentByNumber(Long number);
 
-    void saveContPayment(Payment payment);
+    Payment saveContPayment(Payment payment);
 
-    void deletePayment(Long delNumber);
+    boolean deletePayment(Long delNumber);
 
-    void updApprComm(Long number, String approval, String comment);
+    ApprComm updApprComm(Long number, String approval, String comment);
 }

@@ -5,6 +5,7 @@ import com.github.vvzhuchkov.base.dao.converter.AuthUserConverter;
 import com.github.vvzhuchkov.base.dao.converter.RoleUserConverter;
 import com.github.vvzhuchkov.base.dao.entity.AuthUserEntity;
 import com.github.vvzhuchkov.base.dao.entity.RoleUserEntity;
+import com.github.vvzhuchkov.base.dao.util.HibernateUtil;
 import com.github.vvzhuchkov.base.model.*;
 import org.hibernate.Session;
 import org.slf4j.Logger;
@@ -52,7 +53,7 @@ public class DefaultAuthUserDao implements AuthUserDao {
     }
 
     @Override
-    public void saveNewRegUser(AuthUser user) {
+    public AuthUser saveNewRegUser(AuthUser user) {
         AuthUserEntity authUserEntity = AuthUserConverter.toEntity(user);
         setNewUserRole(user.getLogin());
         final Session session = HibernateUtil.getSession();
@@ -60,15 +61,28 @@ public class DefaultAuthUserDao implements AuthUserDao {
         session.save(authUserEntity);
         session.getTransaction().commit();
         session.close();
+        return AuthUserConverter.fromEntity(authUserEntity);
     }
 
     @Override
-    public void setNewUserRole(String login) {
+    public RoleUser setNewUserRole(String login) {
         RoleUser roleUser = new RoleUser(login, "user", 0L);
         RoleUserEntity roleUserEntity = RoleUserConverter.toEntity(roleUser);
         final Session session = HibernateUtil.getSession();
         session.beginTransaction();
         session.save(roleUserEntity);
+        session.getTransaction().commit();
+        session.close();
+        return RoleUserConverter.fromEntity(roleUserEntity);
+    }
+
+    @Override
+    public void deleteUser(String login) {
+        final Session session = HibernateUtil.getSession();
+        session.beginTransaction();
+        session.createQuery("delete from AuthUserEntity as aue where aue.login = :login")
+                .setParameter("login", login)
+                .executeUpdate();
         session.getTransaction().commit();
         session.close();
     }

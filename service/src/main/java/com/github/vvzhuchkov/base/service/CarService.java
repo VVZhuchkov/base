@@ -14,7 +14,7 @@ public interface CarService {
 
     List<Car> getAllCars();
 
-    void saveNewCar(Car car);
+    Car saveNewCar(Car car);
 
-    List<Car> getAvailableCars(Request mainReq);
+    Car getAvailableCars(Car car, Request mainReq);
 }

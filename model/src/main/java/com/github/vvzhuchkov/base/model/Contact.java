@@ -45,7 +45,17 @@ public class Contact {
         return dealList;
     }
 
-    public void setDealList(Deal deal) {
+    public void setDealList(List<Deal> createdList) {
+        if(this.dealList == null){
+            List<Deal> dealList = new ArrayList<>();
+            dealList.addAll(createdList);
+            this.dealList = dealList;
+        } else {
+            this.dealList.addAll(createdList);
+        }
+    }
+
+   /* public void setDealList(Deal deal) {
         if(this.dealList == null){
             List<Deal> dealList = new ArrayList<>();
             dealList.add(deal);
@@ -53,5 +63,5 @@ public class Contact {
         } else {
             this.dealList.add(deal);
         }
-    }
+    }*/
 }

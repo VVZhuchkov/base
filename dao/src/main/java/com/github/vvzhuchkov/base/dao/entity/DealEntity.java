@@ -1,5 +1,8 @@
 package com.github.vvzhuchkov.base.dao.entity;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -7,6 +10,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "deal")
+@Cacheable
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class DealEntity {
     @Id
     private Long number;
@@ -17,7 +22,7 @@ public class DealEntity {
     private Long total;
     private String approval;
     private String comment;
-    @OneToOne (fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "login", insertable = false, updatable = false)
     private ContactEntity contact;
     @ManyToMany(mappedBy = "dealEntityList", cascade = CascadeType.ALL)

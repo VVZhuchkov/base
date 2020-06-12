@@ -13,8 +13,9 @@
         <jsp:include page="main_menu.jsp">
             <jsp:param name="role" value="${role}"/>
         </jsp:include>
+<c:choose>
+    <c:when test="${cars.size()!=0}">
         <h3 align="center">Choose your rental car:</h3>
-        <c:if test="${cars != null}">
             <jsp:include page="main_tabstl.jsp" />
             <table align="center">
                 <tr>
@@ -45,7 +46,22 @@
                     </tr>
                 </c:forEach>
             </table>
-        </c:if>
+    </c:when>
+    <c:otherwise>
+        <p style="color: #ff0000" align="center">${cityError}</p>
+        <div style="color: #ff0000; font-size: 25px" align="center" id="counter">3</div>
+        <script>
+            setInterval(function() {
+                var div = document.querySelector("#counter");
+                var count = div.textContent * 1 - 1;
+                div.textContent = count;
+                if (count <= 0) {
+                    window.location.replace("${pageContext.request.contextPath}/request");
+                }
+            }, 1000);
+        </script>
+    </c:otherwise>
+</c:choose>
     </div>
 </div>
 </body>

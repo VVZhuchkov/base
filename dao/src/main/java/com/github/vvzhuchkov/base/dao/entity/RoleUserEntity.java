@@ -1,9 +1,14 @@
 package com.github.vvzhuchkov.base.dao.entity;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "role")
+@Cacheable
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class RoleUserEntity {
     @Id
     private String login;

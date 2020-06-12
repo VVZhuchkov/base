@@ -37,7 +37,7 @@ public class DefaultSecurityService implements SecurityService {
     }
 
     public AuthUser registration(String login, String password, String email) {
-        List<String> allAuthEmails = DefaultAuthUserDao.getInstance().getAllAuthEmails();
+        List<String> allAuthEmails = authUserDao.getAllAuthEmails();
         AuthUser user = authUserDao.getByLogin(login);
         if ((user == null) && (allAuthEmails.contains(email))) {
             return new AuthUser(login, password, null);
@@ -48,7 +48,7 @@ public class DefaultSecurityService implements SecurityService {
             return null;
         }
 
-    public void saveNewRegUser (AuthUser user){
-        authUserDao.saveNewRegUser(user);
+    public AuthUser saveNewRegUser (AuthUser user){
+        return authUserDao.saveNewRegUser(user);
     }
 }

@@ -1,8 +1,7 @@
 package com.github.vvzhuchkov.base.dao.impl;
 
-import com.github.vvzhuchkov.base.dao.HibernateUtil;
+import com.github.vvzhuchkov.base.dao.util.HibernateUtil;
 import com.github.vvzhuchkov.base.dao.BookingDao;
-import com.github.vvzhuchkov.base.dao.PaginationResult;
 import com.github.vvzhuchkov.base.dao.converter.BookingConverter;
 import com.github.vvzhuchkov.base.dao.entity.BookingEntity;
 import com.github.vvzhuchkov.base.model.Booking;
@@ -10,9 +9,8 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import javax.persistence.NoResultException;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class DefaultBookingDao implements BookingDao {
     private static final Logger logOut = LoggerFactory.getLogger(DefaultBookingDao.class);
@@ -32,24 +30,26 @@ public class DefaultBookingDao implements BookingDao {
     }
 
     @Override
-    public void saveBooking(Booking booking){
+    public Booking saveBooking(Booking booking) {
         BookingEntity bookingEntity = BookingConverter.toEntity(booking);
         final Session session = HibernateUtil.getSession();
         session.beginTransaction();
         session.save(bookingEntity);
         session.getTransaction().commit();
         session.close();
+        return BookingConverter.fromEntity(bookingEntity);
     }
 
     @Override
-    public void deleteBooking(Long number) {
+    public boolean deleteBooking(Long number) {
         final Session session = HibernateUtil.getSession();
         session.beginTransaction();
         session.createQuery("delete BookingEntity au where au.number = :number")
-                    .setParameter("number", number)
-                    .executeUpdate();
+                .setParameter("number", number)
+                .executeUpdate();
         session.getTransaction().commit();
         session.close();
+        return true;
     }
 
     @Override
@@ -60,7 +60,7 @@ public class DefaultBookingDao implements BookingDao {
         query.setParameter("login", login);
         int maxResult = 2;
         int maxNavigationResult = 5;
-        PaginationResult<BookingEntity> result = new PaginationResult<BookingEntity>(query, page, maxResult, maxNavigationResult);
+        PaginationResult<BookingEntity> result = new PaginationResult<>(query, page, maxResult, maxNavigationResult);
         session.close();
         return result;
     }

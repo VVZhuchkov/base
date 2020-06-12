@@ -1,19 +1,15 @@
 package com.github.vvzhuchkov.base.dao.impl;
 
 import com.github.vvzhuchkov.base.dao.CarDao;
-import com.github.vvzhuchkov.base.dao.HibernateUtil;
+import com.github.vvzhuchkov.base.dao.util.HibernateUtil;
 import com.github.vvzhuchkov.base.dao.converter.CarConverter;
-import com.github.vvzhuchkov.base.dao.converter.DealConverter;
 import com.github.vvzhuchkov.base.dao.entity.CarEntity;
-import com.github.vvzhuchkov.base.dao.entity.DealEntity;
 import com.github.vvzhuchkov.base.model.Car;
-import com.github.vvzhuchkov.base.model.Deal;
 import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.NoResultException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,7 +30,7 @@ public class DefaultCarDao implements CarDao {
         return localInstance;
     }
 
-     @Override
+    @Override
     public Car getById(Long id) {
         CarEntity car;
         try {
@@ -58,12 +54,25 @@ public class DefaultCarDao implements CarDao {
     }
 
     @Override
-    public void saveNewCar(Car car) {
+    public Car saveNewCar(Car car) {
         CarEntity carEntity = CarConverter.toEntity(car);
         final Session session = HibernateUtil.getSession();
         session.beginTransaction();
         session.save(carEntity);
         session.getTransaction().commit();
         session.close();
+        return CarConverter.fromEntity(carEntity);
+    }
+
+    @Override
+    public boolean deleteCar(Long id) {
+        final Session session = HibernateUtil.getSession();
+        session.beginTransaction();
+        session.createQuery("delete CarEntity ce where ce.id = :id")
+                .setParameter("id", id)
+                .executeUpdate();
+        session.getTransaction().commit();
+        session.close();
+        return true;
     }
 }

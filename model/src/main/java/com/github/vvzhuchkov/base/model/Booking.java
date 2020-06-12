@@ -11,7 +11,8 @@ public class Booking {
     private Long days;
     private Car car;
 
-    public Booking(String login, Long id, LocalDate pickup, LocalDate dropoff, Long days) {
+    public Booking(Long number, String login, Long id, LocalDate pickup, LocalDate dropoff, Long days) {
+        this.number = number;
         this.login = login;
         this.id = id;
         this.pickup = pickup;
@@ -29,7 +30,9 @@ public class Booking {
         this.car = car;
     }
 
-    public Long getNumber() { return number; }
+    public Long getNumber() {
+        return number;
+    }
 
     public String getLogin() {
         return login;
@@ -38,7 +41,7 @@ public class Booking {
     public Long getId() {
         return id;
     }
-    
+
     public LocalDate getPickup() {
         return pickup;
     }
@@ -47,7 +50,8 @@ public class Booking {
         return dropoff;
     }
 
-    public Long getDays() { return days;
+    public Long getDays() {
+        return days;
     }
 
     public Car getCar() {

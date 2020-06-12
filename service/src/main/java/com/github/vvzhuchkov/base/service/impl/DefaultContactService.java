@@ -27,8 +27,8 @@ public class DefaultContactService implements ContactService {
     }
 
     @Override
-    public void saveNewContact(Contact contact){
-        contactDao.saveNewContact(contact);
+    public Contact saveNewContact(Contact contact){
+       return contactDao.saveNewContact(contact);
     }
 
    @Override

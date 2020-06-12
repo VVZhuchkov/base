@@ -1,9 +1,10 @@
 package com.github.vvzhuchkov.base.dao.impl;
 
-import com.github.vvzhuchkov.base.dao.HibernateUtil;
+import com.github.vvzhuchkov.base.dao.util.HibernateUtil;
 import com.github.vvzhuchkov.base.dao.PaymentDao;
 import com.github.vvzhuchkov.base.dao.converter.PaymentConverter;
 import com.github.vvzhuchkov.base.dao.entity.PaymentEntity;
+import com.github.vvzhuchkov.base.model.ApprComm;
 import com.github.vvzhuchkov.base.model.Payment;
 import org.hibernate.Session;
 import org.slf4j.Logger;
@@ -31,7 +32,7 @@ public class DefaultPaymentDao implements PaymentDao {
     }
 
     @Override
-    public List<Payment> getPaymentsByLogin(String login){
+    public List<Payment> getPaymentsByLogin(String login) {
         final List<PaymentEntity> listOfPaymentsByLogin = HibernateUtil.getSession().createQuery("from PaymentEntity where login=:login")
                 .setParameter("login", login)
                 .list();
@@ -41,7 +42,7 @@ public class DefaultPaymentDao implements PaymentDao {
     }
 
     @Override
-    public Payment getPaymentByNumber(Long number){
+    public Payment getPaymentByNumber(Long number) {
         PaymentEntity payment;
         try {
             payment = (PaymentEntity) HibernateUtil.getSession().createQuery("from PaymentEntity pe where pe.number = :number")
@@ -55,7 +56,7 @@ public class DefaultPaymentDao implements PaymentDao {
     }
 
     @Override
-    public List<Payment> getAllPayments(){
+    public List<Payment> getAllPayments() {
         final List<PaymentEntity> listOfPayment = HibernateUtil.getSession().createQuery("from PaymentEntity")
                 .list();
         return listOfPayment.stream()
@@ -64,17 +65,18 @@ public class DefaultPaymentDao implements PaymentDao {
     }
 
     @Override
-    public void saveContPayment(Payment payment) {
+    public Payment saveContPayment(Payment payment) {
         PaymentEntity paymentEntity = PaymentConverter.toEntity(payment);
         final Session session = HibernateUtil.getSession();
         session.beginTransaction();
         session.save(paymentEntity);
         session.getTransaction().commit();
         session.close();
+        return payment;
     }
 
     @Override
-    public void deletePayment(Long number) {
+    public boolean deletePayment(Long number) {
         final Session session = HibernateUtil.getSession();
         session.beginTransaction();
         session.createQuery("delete PaymentEntity au where au.number = :number")
@@ -82,18 +84,20 @@ public class DefaultPaymentDao implements PaymentDao {
                 .executeUpdate();
         session.getTransaction().commit();
         session.close();
+        return true;
     }
 
-        @Override
-        public void updApprComm (Long number, String approval, String comment) {
-            final Session session = HibernateUtil.getSession();
-            session.beginTransaction();
-            session.createQuery("update PaymentEntity set approval=:approval, comment=:comment where number = :number")
-                    .setParameter("approval", approval)
-                    .setParameter("comment", comment)
-                    .setParameter("number", number)
-                    .executeUpdate();
-            session.getTransaction().commit();
-            session.close();
-        }
+    @Override
+    public ApprComm updApprComm(Long number, String approval, String comment) {
+        final Session session = HibernateUtil.getSession();
+        session.beginTransaction();
+        session.createQuery("update PaymentEntity set approval=:approval, comment=:comment where number = :number")
+                .setParameter("approval", approval)
+                .setParameter("comment", comment)
+                .setParameter("number", number)
+                .executeUpdate();
+        session.getTransaction().commit();
+        session.close();
+        return new ApprComm(number, approval,comment);
     }
+}

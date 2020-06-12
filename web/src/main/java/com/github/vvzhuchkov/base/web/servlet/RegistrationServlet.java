@@ -37,16 +37,18 @@ public class RegistrationServlet extends HttpServlet {
         String login = request.getParameter("login");
         String password = request.getParameter("password");
         String email = request.getParameter("email");
-        AuthUser user = securityService.registration(login, password,email);
+        AuthUser user = securityService.registration(login, password, email);
             if (user == null) {
             request.setAttribute("error", "This login has been already registered.");
-            WebUtils.forward("login", request, response);
-            logIn.info("User {} unsuccessfully attempted to register at {}", login, LocalDateTime.now());
+                logIn.info("User {} unsuccessfully attempted to register at {}", login, LocalDateTime.now());
+                WebUtils.forward("login", request, response);
+                return;
         }
             if (user.getEmail() == null) {
             request.setAttribute("error", "This email has been already registered.");
-            WebUtils.forward("login", request, response);
-            logIn.info("User {} unsuccessfully attempted to register at {}", login, LocalDateTime.now());
+                logIn.info("User {} unsuccessfully attempted to register at {}", login, LocalDateTime.now());
+                WebUtils.forward("login", request, response);
+                return;
         }
             securityService.saveNewRegUser(user);
         request.getSession().setAttribute("authUser", user);

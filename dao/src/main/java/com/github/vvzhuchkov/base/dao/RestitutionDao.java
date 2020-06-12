@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface RestitutionDao {
 
-    void saveReturn(Restitution restitution);
+    Restitution saveReturn(Restitution restitution);
 
     Restitution getRestitutionsByNumber(Long number);
 
@@ -14,7 +14,9 @@ public interface RestitutionDao {
 
     List<Restitution> getAllRestitutions();
 
-    void updStatus(Long number, String status);
+    boolean updStatus(Long number, String status);
 
-    void updStaComm(Long number, String status, String comment);
+    boolean updStaComm(Long number, String status, String comment);
+
+    void deleteRestitution(Long number);
 }

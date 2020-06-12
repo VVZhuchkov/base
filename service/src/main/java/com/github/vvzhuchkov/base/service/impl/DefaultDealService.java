@@ -19,7 +19,6 @@ import java.util.List;
 public class DefaultDealService implements DealService {
     private DealDao dealDao = DefaultDealDao.getInstance();
     private PaymentDao paymentDao = DefaultPaymentDao.getInstance();
-    private ContactDao contactDao = DefaultContactDao.getInstance();
     private static volatile DealService instance;
 
     public static DealService getInstance() {
@@ -41,12 +40,13 @@ public class DefaultDealService implements DealService {
     }
 
     @Override
-    public void saveAllApprovedPayments(Long payNumber) {
+    public Deal saveAllApprovedPayments(Long payNumber) {
         Payment payment = paymentDao.getPaymentByNumber(payNumber);
         Deal deal = new Deal(payNumber, payment.getLogin(), payment.getId(), payment.getPickup(), payment.getDropoff(),
                 payment.getTotal(), payment.getApproval(), payment.getComment(), payment.getContact(), new ArrayList<>());
         dealDao.saveDeal(deal);
         paymentDao.deletePayment(payment.getNumber());
+        return deal;
     }
 
     @Override

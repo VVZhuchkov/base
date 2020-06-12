@@ -8,7 +8,7 @@ import java.util.List;
 public interface DealService {
     List<Deal> getAllDeals();
 
-    void saveAllApprovedPayments(Long payNumber);
+    Deal saveAllApprovedPayments(Long payNumber);
 
     List<Deal> getDealsByLogin (String login);
 }

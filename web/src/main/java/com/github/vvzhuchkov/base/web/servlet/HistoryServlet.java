@@ -33,7 +33,7 @@ public class HistoryServlet extends HttpServlet {
         List<Contact> listOfHistory = contactService.getAllContacts();
         for (Contact contact : listOfHistory) {
             if (contact.getLogin().equals(authUser.getLogin())) {
-                contact.getDealList().addAll(dealList);
+                contact.setDealList(dealList);
             }
         }
         request.setAttribute("histories", listOfHistory);

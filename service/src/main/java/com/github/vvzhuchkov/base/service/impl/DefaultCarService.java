@@ -63,25 +63,29 @@ public class DefaultCarService implements CarService {
     }
 
     @Override
-    public void saveNewCar(Car car) {
-        carDao.saveNewCar(car);
+    public Car saveNewCar(Car car) {
+        return carDao.saveNewCar(car);
     }
 
     @Override
-    public List<Car> getAvailableCars(Request mainReq) {
-        List<Car> cars = getByLocation(mainReq.getLocation());
+    public Car getAvailableCars(Car car, Request mainReq) {
         List<Deal> deals = dealDao.getAllDeals();
-        List<Car> availableCars = new ArrayList<>();
-        for (Car car : cars) {
+        boolean isFlag = true;
+        if (deals.size() == 0) {
+            return car;
+        } else {
             for (Deal deal : deals) {
-                if ((car.getId() == deal.getId()) && (!(mainReq.getDropoff().isBefore(deal.getPickup()) ||
+                if (carDao.getById(deal.getId()).getId() == car.getId() && (!(mainReq.getDropoff().isBefore(deal.getPickup()) ||
                         mainReq.getPickup().isAfter(deal.getDropoff())))) {
-                    continue;
-                } else {
-                    availableCars.add(car);
+                    isFlag = false;
+                    break;
                 }
             }
         }
-        return availableCars;
+        if (isFlag) {
+            return car;
+        } else {
+            return null;
+        }
     }
 }
